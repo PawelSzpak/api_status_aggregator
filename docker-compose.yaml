@@ -2,11 +2,11 @@ services:
   web:
     build: .
     volumes:
-      - .:/app
+      - .:/api-status-aggregator
     ports:
       - "5000:5000"
     environment:
-      - FLASK_APP=api_status_aggregator/presentation/web/__init__.py
+      - FLASK_APP=api-status-aggregator/presentation/web/app.py
       - FLASK_ENV=development
       - FLASK_DEBUG=1
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/status_dashboard
@@ -15,7 +15,7 @@ services:
         condition: service_healthy
 
   db:
-    image: postgres:17-alpine
+    image: postgres:17.3
     environment:
       - POSTGRES_DB=status_dashboard
       - POSTGRES_USER=postgres
