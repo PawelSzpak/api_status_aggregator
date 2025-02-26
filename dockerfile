@@ -1,13 +1,17 @@
 FROM python:3.13-slim
 
-WORKDIR /api-status-aggregator
+WORKDIR /api_status_aggregator
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir hatchling
+
+COPY pyproject.toml setup.py ./
+RUN pip install -e .
 
 COPY . .
-RUN pip install -e .
-# Ensure Python can find our modules
-ENV PYTHONPATH=/api-status-aggregator
+
+
+ENV FLASK_APP=presentation.web.app:app
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
 
 CMD ["flask", "run", "--host=0.0.0.0"]
