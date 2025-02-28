@@ -5,7 +5,7 @@ from typing import Optional, TypeVar, Callable, Any
 import time
 import logging
 
-from ...domain import ServiceStatus, ProviderConfiguration, IncidentReport
+from domain import ServiceStatus, ProviderConfiguration, IncidentReport
 
 logger = logging.getLogger(__name__)
 
