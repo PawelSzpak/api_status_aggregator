@@ -1,0 +1,13 @@
+{
+  "page": {
+    "id": "d5zv7xbys5v3",
+    "name": "Stripe",
+    "url": "https://www.stripestatus.com",
+    "time_zone": "Etc/UTC",
+    "updated_at": "2025-02-28T20:46:35.175Z"
+  },
+  "status": {
+    "indicator": "none",
+    "description": "All Systems Operational"
+  }
+}

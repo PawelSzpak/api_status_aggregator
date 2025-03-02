@@ -1,0 +1,101 @@
+{
+  "page": {
+    "id": "d5zv7xbys5v3",
+    "name": "Stripe",
+    "url": "https://www.stripestatus.com",
+    "time_zone": "Etc/UTC",
+    "updated_at": "2025-02-28T20:46:35.175Z"
+  },
+  "components": [
+    {
+      "id": "2p0n66vlgnn2",
+      "name": "Stripe API",
+      "status": "operational",
+      "created_at": "2023-05-25T21:26:05.565Z",
+      "updated_at": "2024-10-10T20:43:09.802Z",
+      "position": 1,
+      "description": null,
+      "showcase": true,
+      "start_date": "2023-03-01",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "qcs5gg7rz4ps",
+      "name": "Global payments",
+      "status": "operational",
+      "created_at": "2023-05-25T21:26:58.953Z",
+      "updated_at": "2024-04-04T16:30:09.832Z",
+      "position": 2,
+      "description": "Checkout, Elements, Connect, Payment Links, Terminal, and more",
+      "showcase": false,
+      "start_date": "2023-05-25",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "xpbk3q21zzdb",
+      "name": "Revenue and finance automation",
+      "status": "operational",
+      "created_at": "2023-05-25T21:27:11.866Z",
+      "updated_at": "2023-08-17T21:17:58.744Z",
+      "position": 3,
+      "description": "Billing, Invoicing, Tax, Atlas, and more",
+      "showcase": false,
+      "start_date": "2023-05-25",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "51gsjcp6h48z",
+      "name": "Banking-as-a-service",
+      "status": "operational",
+      "created_at": "2023-05-25T21:27:40.139Z",
+      "updated_at": "2024-10-21T18:44:14.738Z",
+      "position": 4,
+      "description": "Capital, Issuing, and Treasury",
+      "showcase": false,
+      "start_date": "2023-05-25",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "mdklyd2ynjqv",
+      "name": "Stripe core components",
+      "status": "operational",
+      "created_at": "2023-05-25T21:27:58.262Z",
+      "updated_at": "2025-02-28T07:19:07.903Z",
+      "position": 5,
+      "description": "Dashboard, support, payouts, and webhooks",
+      "showcase": false,
+      "start_date": "2023-07-28",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "glvywj51z2g9",
+      "name": "Acquirers and payment methods",
+      "status": "operational",
+      "created_at": "2023-05-25T21:28:17.189Z",
+      "updated_at": "2025-02-04T13:25:26.035Z",
+      "position": 6,
+      "description": "Banks, card networks, and local payments",
+      "showcase": false,
+      "start_date": "2023-05-25",
+      "group_id": null,
+      "page_id": "d5zv7xbys5v3",
+      "group": false,
+      "only_show_if_degraded": false
+    }
+  ]
+}

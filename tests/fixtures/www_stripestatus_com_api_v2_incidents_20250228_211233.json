@@ -1,0 +1,4026 @@
+{
+  "page": {
+    "id": "d5zv7xbys5v3",
+    "name": "Stripe",
+    "url": "https://www.stripestatus.com",
+    "time_zone": "Etc/UTC",
+    "updated_at": "2025-02-28T20:46:35.175Z"
+  },
+  "incidents": [
+    {
+      "id": "bdj3y9t5sldv",
+      "name": "Stripe.com unavailable",
+      "status": "resolved",
+      "created_at": "2025-02-28T06:51:28.772Z",
+      "updated_at": "2025-02-28T07:19:07.973Z",
+      "monitoring_at": "2025-02-28T06:51:28.920Z",
+      "resolved_at": "2025-02-28T07:19:07.956Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/vh8d99xsgznl",
+      "started_at": "2025-02-28T06:51:28.764Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "686r37smmdk4",
+          "status": "resolved",
+          "body": "From 06:00\u201306:35 UTC, we saw Stripe.com failing to load for some users. This is now resolved.",
+          "incident_id": "bdj3y9t5sldv",
+          "created_at": "2025-02-28T07:19:07.956Z",
+          "updated_at": "2025-02-28T07:19:07.956Z",
+          "display_at": "2025-02-28T07:19:07.956Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "nzvdfthnb0zq",
+          "status": "monitoring",
+          "body": "As of 06:35 UTC, Stripe.com was failing to load for some users but has since recovered. We are continuing to validate that this issue is fully resolved, and we are working to prevent its recurrence.",
+          "incident_id": "bdj3y9t5sldv",
+          "created_at": "2025-02-28T06:51:28.920Z",
+          "updated_at": "2025-02-28T06:51:28.920Z",
+          "display_at": "2025-02-28T06:51:28.920Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "75fb63s2y4pk",
+      "name": "Potential delays with some Euro payouts",
+      "status": "resolved",
+      "created_at": "2025-02-27T13:58:03.555Z",
+      "updated_at": "2025-02-27T20:58:21.013Z",
+      "monitoring_at": null,
+      "resolved_at": "2025-02-27T20:58:21.000Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/ks2whtvd16dl",
+      "started_at": "2025-02-27T13:58:03.550Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "5sdzvhl8xqs7",
+          "status": "resolved",
+          "body": "From 10:50 to 19:00 UTC on February 27, 2025, an external technical issue resulted in partial delays for both inbound and outbound transfers via Target 2 EUR wires. This issue is now resolved.\n\nWe will continue monitoring and provide any further updates, if necessary.",
+          "incident_id": "75fb63s2y4pk",
+          "created_at": "2025-02-27T20:58:21.000Z",
+          "updated_at": "2025-02-27T20:58:21.000Z",
+          "display_at": "2025-02-27T20:58:21.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "4p8jc8l72wdp",
+          "status": "identified",
+          "body": "Since February 27, 2025, an external technical issue may cause a partial settlement delay for both inbound and outbound transfers via Target 2 EUR wires. Affected payouts and inbound bank transfers may be delayed, with the timeframe still unknown. The delay timeframe is unknown as the issue is ongoing. Our engineering and partnership teams are working with our banking partners. We will share updates as soon as more details are available.",
+          "incident_id": "75fb63s2y4pk",
+          "created_at": "2025-02-27T13:58:03.634Z",
+          "updated_at": "2025-02-27T13:58:03.634Z",
+          "display_at": "2025-02-27T13:58:03.634Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "c2mw7zjzhnlt",
+      "name": "Delays with GBP Debits, UK Bank Transfers and Top Ups",
+      "status": "resolved",
+      "created_at": "2025-01-31T19:17:38.489Z",
+      "updated_at": "2025-02-04T13:25:26.090Z",
+      "monitoring_at": "2025-02-03T15:42:10.006Z",
+      "resolved_at": "2025-02-04T13:25:26.071Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/3kl5fk50br6p",
+      "started_at": "2025-01-31T19:17:38.482Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "2cv9lrc6cvf7",
+          "status": "resolved",
+          "body": "The issues with GBP Debits payment processing, Top Ups, and UK Bank Transfers are now resolved.",
+          "incident_id": "c2mw7zjzhnlt",
+          "created_at": "2025-02-04T13:25:26.071Z",
+          "updated_at": "2025-02-04T13:25:26.071Z",
+          "display_at": "2025-02-04T13:25:26.071Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "0mzmflf5568f",
+          "status": "monitoring",
+          "body": "GBP Debits payment processing, UK Bank Transfers, and Top Ups are recovering. We are working closely with our banking partner to ensure that the issue is resolved as quickly as possible. No action is required on your part.",
+          "incident_id": "c2mw7zjzhnlt",
+          "created_at": "2025-02-03T15:42:10.006Z",
+          "updated_at": "2025-02-03T15:42:10.006Z",
+          "display_at": "2025-02-03T15:42:10.006Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "k16jwj2dv2vg",
+          "status": "investigating",
+          "body": "We are experiencing delays in GBP Debits payment processing, UK Bank Transfers and Top Ups as a result of a banking partner outage. We are working closely with them to resolve the issue as quickly as possible. No action is required on your part.",
+          "incident_id": "c2mw7zjzhnlt",
+          "created_at": "2025-01-31T19:17:38.533Z",
+          "updated_at": "2025-01-31T19:17:38.533Z",
+          "display_at": "2025-01-31T19:17:38.533Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "h86k2wx5tdwv",
+      "name": "Elevated Apple pay errors.",
+      "status": "resolved",
+      "created_at": "2025-01-29T03:54:36.777Z",
+      "updated_at": "2025-01-29T06:40:23.253Z",
+      "monitoring_at": null,
+      "resolved_at": "2025-01-29T04:57:04.000Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/c4q07sr8b9d6",
+      "started_at": "2025-01-29T04:57:04.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "ljwxywtjbllr",
+          "status": "resolved",
+          "body": "From 02:44-03:57 UTC, we saw an elevated rate of errors for Apple Pay payments due to an external issue. This is now resolved.",
+          "incident_id": "h86k2wx5tdwv",
+          "created_at": "2025-01-29T04:57:04.821Z",
+          "updated_at": "2025-01-29T06:40:23.202Z",
+          "display_at": "2025-01-29T04:57:04.000Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "rv2p2mfncp1z",
+          "status": "identified",
+          "body": "We are currently monitoring an elevated errors on Apple Pay payments. This is likely impacting a number of payment processors.",
+          "incident_id": "h86k2wx5tdwv",
+          "created_at": "2025-01-29T03:54:36.829Z",
+          "updated_at": "2025-01-29T03:54:36.829Z",
+          "display_at": "2025-01-29T03:54:36.829Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [],
+      "reminder_intervals": null
+    },
+    {
+      "id": "tx9pl633bq60",
+      "name": "Chat support for Link unavailable",
+      "status": "resolved",
+      "created_at": "2025-01-20T03:03:33.857Z",
+      "updated_at": "2025-01-20T04:17:15.507Z",
+      "monitoring_at": null,
+      "resolved_at": "2025-01-20T04:17:15.493Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/8bjmwjh4jfb3",
+      "started_at": "2025-01-20T03:03:33.852Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "bqgxtvgrb392",
+          "status": "resolved",
+          "body": "From 00:21\u201304:10 UTC, chat support for Link was unavailable. Requests to our other support channels were unaffected. This is now resolved.",
+          "incident_id": "tx9pl633bq60",
+          "created_at": "2025-01-20T04:17:15.493Z",
+          "updated_at": "2025-01-20T04:17:15.493Z",
+          "display_at": "2025-01-20T04:17:15.493Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "2h10v566v7m8",
+          "status": "investigating",
+          "body": "As of 00:21 UTC, the chat support channel is unavailable. Requests to our other support channels are unaffected. We\u2019ll post an update soon.",
+          "incident_id": "tx9pl633bq60",
+          "created_at": "2025-01-20T03:03:33.925Z",
+          "updated_at": "2025-01-20T03:03:33.925Z",
+          "display_at": "2025-01-20T03:03:33.925Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "nzmjj3xy8jhw",
+      "name": "Euro payouts scheduled for November 29th are delayed",
+      "status": "resolved",
+      "created_at": "2024-11-29T19:09:28.689Z",
+      "updated_at": "2024-12-02T11:57:38.140Z",
+      "monitoring_at": "2024-11-29T19:09:28.753Z",
+      "resolved_at": "2024-12-02T11:57:38.127Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/k5n7yf32n35y",
+      "started_at": "2024-11-29T19:09:28.684Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "p0m0rmwwwq2z",
+          "status": "resolved",
+          "body": "We have been working with our banking partner through the weekend to minimize payout delays for European users. We have confirmed that Euro payouts have been processed as of 10:30 UTC Monday, December 2nd. We expect all impacted payouts due on Friday, November 29th to become available in merchant bank accounts today.",
+          "incident_id": "nzmjj3xy8jhw",
+          "created_at": "2024-12-02T11:57:38.127Z",
+          "updated_at": "2024-12-02T11:57:38.127Z",
+          "display_at": "2024-12-02T11:57:38.127Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "0hq52ccncqyd",
+          "status": "monitoring",
+          "body": "We are investigating a delay for manual and automatic Euro payouts with a scheduled arrival date of Friday, November 29th. This delay is due to a technical issue with one of our banking partners and we are working closely with them to resolve the issue as quickly as possible. No action is required on your part. Future payouts remain unaffected by this issue.",
+          "incident_id": "nzmjj3xy8jhw",
+          "created_at": "2024-11-29T19:09:28.753Z",
+          "updated_at": "2024-11-29T19:09:28.753Z",
+          "display_at": "2024-11-29T19:09:28.753Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "08v22493tkk6",
+      "name": "Service Disruption for Issuers and Acquirers in Italy",
+      "status": "resolved",
+      "created_at": "2024-11-29T12:57:44.000Z",
+      "updated_at": "2024-11-29T20:39:41.857Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-11-29T20:39:41.843Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/3jq601cprbpv",
+      "started_at": "2024-11-29T12:57:44.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "cw026clypxrx",
+          "status": "resolved",
+          "body": "Between 10:24 UTC on November 28th and 17:10 UTC on November 29th, we saw service disruptions for Issuers and Acquirers in Italy.  This issue was caused by damage to the physical infrastructure used to provide internet service to Italy.  All repairs have been completed and transactions are now processing as expected.  This issue is considered resolved although we will continue to monitor.",
+          "incident_id": "08v22493tkk6",
+          "created_at": "2024-11-29T20:39:41.843Z",
+          "updated_at": "2024-11-29T20:39:41.843Z",
+          "display_at": "2024-11-29T20:39:41.843Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "c8k8t6d3st16",
+          "status": "identified",
+          "body": "We are continuing to monitor and will post updates as they become available. There are no issues with Stripe systems at this time.",
+          "incident_id": "08v22493tkk6",
+          "created_at": "2024-11-29T14:30:21.690Z",
+          "updated_at": "2024-11-29T14:45:33.207Z",
+          "display_at": "2024-11-29T14:30:21.000Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "057xr33jrhj3",
+          "status": "identified",
+          "body": "As of 10:24 UTC on November 28th, we have seen service disruption to Issuers and Acquirers in Italy. Stripe remains operational. The issue seems to be impacting multiple banks in the region. We are continuing to monitor and will post further updates as they become available.",
+          "incident_id": "08v22493tkk6",
+          "created_at": "2024-11-29T12:57:44.405Z",
+          "updated_at": "2024-11-29T14:53:35.531Z",
+          "display_at": "2024-11-29T12:57:44.000Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "qzxffw825sbb",
+      "name": "Elevated Affirm errors",
+      "status": "resolved",
+      "created_at": "2024-11-26T02:44:02.932Z",
+      "updated_at": "2024-11-26T04:48:54.806Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-11-26T04:48:54.787Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/swnq2126vgkr",
+      "started_at": "2024-11-26T02:44:02.927Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "bc4cvsrwg6ts",
+          "status": "resolved",
+          "body": "From 20:28 November 25th \u2013 03:28 November 26th UTC, we saw elevated errors on Affirm payments. This is now resolved.",
+          "incident_id": "qzxffw825sbb",
+          "created_at": "2024-11-26T04:48:54.787Z",
+          "updated_at": "2024-11-26T04:48:54.787Z",
+          "display_at": "2024-11-26T04:48:54.787Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "6bp5fw0tn133",
+          "status": "identified",
+          "body": "As of 20:28 UTC, we're seeing elevated errors on Affirm payments. We've identified this to be caused by Affirm, and are continuing to monitor the issue.",
+          "incident_id": "qzxffw825sbb",
+          "created_at": "2024-11-26T02:44:03.014Z",
+          "updated_at": "2024-11-26T02:44:03.014Z",
+          "display_at": "2024-11-26T02:44:03.014Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "zg1fl9lykjgx",
+      "name": "Elevated Paypal errors",
+      "status": "resolved",
+      "created_at": "2024-11-21T12:38:10.254Z",
+      "updated_at": "2024-11-21T13:17:32.201Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-11-21T13:16:10.601Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/0pgw8lzczynk",
+      "started_at": "2024-11-21T12:38:10.248Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "h0wgqz1g25h7",
+          "status": "resolved",
+          "body": "From 11:38 \u201313:00  UTC, we saw elevated errors on Paypal payments. This is now resolved.",
+          "incident_id": "zg1fl9lykjgx",
+          "created_at": "2024-11-21T13:16:10.601Z",
+          "updated_at": "2024-11-21T13:16:10.601Z",
+          "display_at": "2024-11-21T13:16:10.601Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "xscwmgyqv1xm",
+          "status": "identified",
+          "body": "As of 11:38 UTC, we\u2019re seeing elevated errors on Paypal payments. We\u2019ve identified this to be caused by Paypal, and are continuing to monitor the issue.",
+          "incident_id": "zg1fl9lykjgx",
+          "created_at": "2024-11-21T12:38:10.319Z",
+          "updated_at": "2024-11-21T12:38:10.319Z",
+          "display_at": "2024-11-21T12:38:10.319Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "ddpzyzllchv4",
+      "name": "Dashboard Charts Displaying Inconsistent Data",
+      "status": "resolved",
+      "created_at": "2024-10-23T19:06:44.558Z",
+      "updated_at": "2024-10-23T20:18:36.954Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-10-23T20:18:36.938Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/x4xnypp68hr7",
+      "started_at": "2024-10-23T19:06:44.552Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "fxqmk4yp4z8v",
+          "status": "resolved",
+          "body": "We've resolved the issue with the inconsistent Dashboard chart data and re-enabled the previously impacted charts.",
+          "incident_id": "ddpzyzllchv4",
+          "created_at": "2024-10-23T20:18:36.938Z",
+          "updated_at": "2024-10-23T20:18:36.938Z",
+          "display_at": "2024-10-23T20:18:36.938Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "29bz5sxtjb54",
+          "status": "investigating",
+          "body": "Some Dashboard charts are displaying inconsistent data across different sections. We've disabled the impacted charts. Our engineers are actively investigating the issue, and we will provide an update once more information is available.",
+          "incident_id": "ddpzyzllchv4",
+          "created_at": "2024-10-23T19:06:44.645Z",
+          "updated_at": "2024-10-23T19:06:44.645Z",
+          "display_at": "2024-10-23T19:06:44.645Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "lxsq5dnj1ss0",
+      "name": "Delayed reconciliation of Great British Pounds (GBP) top-ups",
+      "status": "resolved",
+      "created_at": "2024-10-21T15:26:18.207Z",
+      "updated_at": "2024-10-21T18:44:14.787Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-10-21T18:44:14.769Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/txltlg0qk31l",
+      "started_at": "2024-10-21T15:26:18.203Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "7lv988j69nj6",
+          "status": "resolved",
+          "body": "Balance top ups of Great British Pounds (GBP) were delayed . The issue has been resolved, and all top ups scheduled to arrive before 17:00 UTC on October 21st have successfully completed. We apologize for the inconvenience this issue has caused.",
+          "incident_id": "lxsq5dnj1ss0",
+          "created_at": "2024-10-21T18:44:14.769Z",
+          "updated_at": "2024-10-21T18:44:14.769Z",
+          "display_at": "2024-10-21T18:44:14.769Z",
+          "affected_components": [
+            {
+              "code": "51gsjcp6h48z",
+              "name": "Banking-as-a-service",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "hx5spr2f1gv9",
+          "status": "investigating",
+          "body": "We're currently investigating an issue delaying reconciliation of Great British Pounds (GBP) top-ups to Refunds and Disputes, Connect and Issuing balances.",
+          "incident_id": "lxsq5dnj1ss0",
+          "created_at": "2024-10-21T15:26:18.267Z",
+          "updated_at": "2024-10-21T15:26:18.267Z",
+          "display_at": "2024-10-21T15:26:18.267Z",
+          "affected_components": [
+            {
+              "code": "51gsjcp6h48z",
+              "name": "Banking-as-a-service",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "51gsjcp6h48z",
+          "name": "Banking-as-a-service",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:40.139Z",
+          "updated_at": "2024-10-21T18:44:14.738Z",
+          "position": 4,
+          "description": "Capital, Issuing, and Treasury",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "xprjs7djznsm",
+      "name": "Dashboard Reporting inaccessible for some merchants",
+      "status": "resolved",
+      "created_at": "2024-10-14T20:36:47.000Z",
+      "updated_at": "2024-10-14T21:06:03.912Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-10-14T21:06:03.899Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/11drwdff0ns2",
+      "started_at": "2024-10-14T20:36:47.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "jrzghx4sykgn",
+          "status": "resolved",
+          "body": "From 18:40\u201320:57 UTC, Dashboard Reporting was inaccessible for some users. This is now resolved.",
+          "incident_id": "xprjs7djznsm",
+          "created_at": "2024-10-14T21:06:03.899Z",
+          "updated_at": "2024-10-14T21:06:03.899Z",
+          "display_at": "2024-10-14T21:06:03.899Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "bs6qyytfd1h0",
+          "status": "identified",
+          "body": "We are continuing to work on a fix for this issue.",
+          "incident_id": "xprjs7djznsm",
+          "created_at": "2024-10-14T21:04:06.212Z",
+          "updated_at": "2024-10-14T21:04:06.212Z",
+          "display_at": "2024-10-14T21:04:06.212Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "c2mvdtn431cm",
+          "status": "identified",
+          "body": "We\u2019re currently seeing an issue resulting in Dashboard Reporting being inaccessible for some users beginning at 18:40 UTC. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "xprjs7djznsm",
+          "created_at": "2024-10-14T20:36:47.379Z",
+          "updated_at": "2024-10-14T20:44:05.946Z",
+          "display_at": "2024-10-14T20:36:47.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "nzdb2p904jnd",
+      "name": "API failures from Dashboard for subscriptions and retrieving invoices",
+      "status": "resolved",
+      "created_at": "2024-10-10T19:19:51.754Z",
+      "updated_at": "2024-10-10T20:43:09.854Z",
+      "monitoring_at": "2024-10-10T19:51:39.116Z",
+      "resolved_at": "2024-10-10T20:43:09.836Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/0bc5lypmmyzt",
+      "started_at": "2024-10-10T19:19:51.749Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "n70klty76m4j",
+          "status": "resolved",
+          "body": "Between 18:26 and 19:38 UTC UTC, we saw issues with making API calls to Stripe.  This primarily affected the retrieval of invoice, subscription, and customer methods.  Customers would notice a 4xx error code of anonymous_endpoint_with_api_key when trying to make these API requests. This is now resolved.",
+          "incident_id": "nzdb2p904jnd",
+          "created_at": "2024-10-10T20:43:09.836Z",
+          "updated_at": "2024-10-10T20:43:09.836Z",
+          "display_at": "2024-10-10T20:43:09.836Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "cvqdtrm21gt5",
+          "status": "monitoring",
+          "body": "As of 19:38 UTC, issues with making API calls to Stripe has been remediated . We\u2019re continuing to validate that this issue is fully resolved and will provide a final confirmation shortly.",
+          "incident_id": "nzdb2p904jnd",
+          "created_at": "2024-10-10T19:51:39.116Z",
+          "updated_at": "2024-10-10T19:51:39.116Z",
+          "display_at": "2024-10-10T19:51:39.116Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "59rsgpdqyv6p",
+          "status": "identified",
+          "body": "We\u2019re currently seeing API errors from the Stripe Dashboard which are impacting the retrieval of invoices and subscriptions. We\u2019ve identified the cause, and are working on a fix.  We will provide an update once more information is available.",
+          "incident_id": "nzdb2p904jnd",
+          "created_at": "2024-10-10T19:43:27.124Z",
+          "updated_at": "2024-10-10T19:43:27.124Z",
+          "display_at": "2024-10-10T19:43:27.124Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "w11jfnzhnslh",
+          "status": "investigating",
+          "body": "Starting at approximately 18:35 UTC we noticed API errors from the Stripe Dashboard.  This is currently impacting the ability to retrieve invoices and subscriptions.  Our engineers are actively investigating the issue, and we will provide an update once more information is available.",
+          "incident_id": "nzdb2p904jnd",
+          "created_at": "2024-10-10T19:19:51.819Z",
+          "updated_at": "2024-10-10T19:19:51.819Z",
+          "display_at": "2024-10-10T19:19:51.819Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "2mrw39q443zh",
+      "name": "Browser compatibility issues affecting Stripe dashboard access on iOS, iPadOS, and macOS",
+      "status": "resolved",
+      "created_at": "2024-10-07T10:29:10.893Z",
+      "updated_at": "2024-10-07T10:29:11.246Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-10-07T10:29:10.937Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/z2zc9myhvfr7",
+      "started_at": "2024-10-07T10:29:10.890Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "ttm2n21fljd4",
+          "status": "resolved",
+          "body": "From October 3rd, 19:33 UTC to October 7th, 08:43 UTC, users accessing the Stripe dashboard via iOS and iPadOS browsers (versions earlier than 16.4) or Safari on macOS (versions earlier than 16.4) may have encountered issues. The problem has since been resolved. For more information on supported browsers [0]\n[0] https://docs.stripe.com/dashboard/basics#browser-compatibility",
+          "incident_id": "2mrw39q443zh",
+          "created_at": "2024-10-07T10:29:10.937Z",
+          "updated_at": "2024-10-07T10:29:11.241Z",
+          "display_at": "2024-10-07T10:29:10.937Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1843237125657108724
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "whvnw81gncqk",
+      "name": "Elevated BLIK errors",
+      "status": "resolved",
+      "created_at": "2024-09-28T04:15:06.865Z",
+      "updated_at": "2024-09-28T08:12:11.729Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-09-28T08:12:11.714Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/8fwnxt2c6brt",
+      "started_at": "2024-09-28T04:15:06.860Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "d62515qcv1x6",
+          "status": "resolved",
+          "body": "From 00:40\u201308:04 UTC, we saw elevated errors on BLIK payments. This is now resolved.",
+          "incident_id": "whvnw81gncqk",
+          "created_at": "2024-09-28T08:12:11.714Z",
+          "updated_at": "2024-09-28T08:12:11.714Z",
+          "display_at": "2024-09-28T08:12:11.714Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "2bkdmv37mkyj",
+          "status": "identified",
+          "body": "We\u2019re currently seeing elevated errors on BLIK payments. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "whvnw81gncqk",
+          "created_at": "2024-09-28T07:08:11.262Z",
+          "updated_at": "2024-09-28T07:08:11.262Z",
+          "display_at": "2024-09-28T07:08:11.262Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "xdhkym3m7z87",
+          "status": "investigating",
+          "body": "Our engineers are continuing to investigate elevated errors on BLIK payments. We\u2019ll post another update soon.",
+          "incident_id": "whvnw81gncqk",
+          "created_at": "2024-09-28T06:21:42.988Z",
+          "updated_at": "2024-09-28T06:21:42.988Z",
+          "display_at": "2024-09-28T06:21:42.988Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "9m8ktwnkcbjm",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating elevated errors on BLIK payments. We\u2019ll post an update soon.",
+          "incident_id": "whvnw81gncqk",
+          "created_at": "2024-09-28T04:15:06.937Z",
+          "updated_at": "2024-09-28T04:15:06.937Z",
+          "display_at": "2024-09-28T04:15:06.937Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "zhpf8bbpmzm7",
+      "name": "Request-a-call and chat support unavailable",
+      "status": "resolved",
+      "created_at": "2024-09-26T04:45:31.193Z",
+      "updated_at": "2024-09-26T06:40:09.669Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-09-26T06:40:09.656Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/3sph7qj65441",
+      "started_at": "2024-09-26T04:45:31.187Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "188lrv5nx5mn",
+          "status": "resolved",
+          "body": "From 03:30\u201306:21 UTC, we saw issues responding to support requests via phone call and chat. Requests to our other support channels were unaffected. This is now resolved.",
+          "incident_id": "zhpf8bbpmzm7",
+          "created_at": "2024-09-26T06:40:09.656Z",
+          "updated_at": "2024-09-26T06:40:09.656Z",
+          "display_at": "2024-09-26T06:40:09.656Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "xssmyw214dkw",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating issues responding to support requests via phone call and chat. Requests to our other support channels are unaffected. We\u2019ll post an update soon.",
+          "incident_id": "zhpf8bbpmzm7",
+          "created_at": "2024-09-26T04:45:31.274Z",
+          "updated_at": "2024-09-26T04:45:31.274Z",
+          "display_at": "2024-09-26T04:45:31.274Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "hjhn2fjc5lrv",
+      "name": "Some GBP payouts failed incorrectly",
+      "status": "resolved",
+      "created_at": "2024-09-23T12:58:51.549Z",
+      "updated_at": "2024-09-23T20:11:20.374Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-09-23T20:11:20.362Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/hdyk78djy9z5",
+      "started_at": "2024-09-23T12:58:51.543Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "28y1lq686lwj",
+          "status": "resolved",
+          "body": "Some payouts scheduled from Stripe to United Kingdom bank accounts on September 23 between 10:00 UTC and 11:00 UTC failed. The issue has been resolved, and payouts scheduled to arrive after 11:00 UTC on September 23 have successfully completed. All customers impacted by this incident have been notified directly.",
+          "incident_id": "hjhn2fjc5lrv",
+          "created_at": "2024-09-23T20:11:20.362Z",
+          "updated_at": "2024-09-23T20:11:20.362Z",
+          "display_at": "2024-09-23T20:11:20.362Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "nmtlpvv8mhh6",
+          "status": "investigating",
+          "body": "Some GBP payouts scheduled to arrive on 2024-09-23 have been incorrectly marked as failed. Our engineers are actively investigating the issue, and we will provide an update once more information is available.",
+          "incident_id": "hjhn2fjc5lrv",
+          "created_at": "2024-09-23T12:58:51.625Z",
+          "updated_at": "2024-09-23T12:58:52.011Z",
+          "display_at": "2024-09-23T12:58:51.625Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1838201363593064643
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "422rz4wbtgxk",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2024-08-24T04:35:28.057Z",
+      "updated_at": "2024-08-26T17:14:31.392Z",
+      "monitoring_at": "2024-08-24T04:35:28.097Z",
+      "resolved_at": "2024-08-26T17:14:31.374Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/sjym6ptsf3qk",
+      "started_at": "2024-08-24T04:35:28.051Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "nvhyld07kf83",
+          "status": "resolved",
+          "body": "As of 16:30 UTC, Stripe has not observed any further network disruptions since the last update and can confirm that the issue has been resolved. We will continue working with our provider to prevent similar incidents in the future.",
+          "incident_id": "422rz4wbtgxk",
+          "created_at": "2024-08-26T17:14:31.374Z",
+          "updated_at": "2024-08-26T17:14:31.374Z",
+          "display_at": "2024-08-26T17:14:31.374Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "bnpdj2yyg8l3",
+          "status": "monitoring",
+          "body": "We continue to actively monitor the situation. No new network disruptions have been detected. We will provide further updates once we confirm that the issue is fully resolved.",
+          "incident_id": "422rz4wbtgxk",
+          "created_at": "2024-08-25T01:16:25.707Z",
+          "updated_at": "2024-08-25T01:16:25.707Z",
+          "display_at": "2024-08-25T01:16:25.707Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "1fldy517kn96",
+          "status": "monitoring",
+          "body": "Between 05:10 - 05:20 UTC, 05:25 - 05:27 UTC and 06:58 - 07:02 UTC, Stripe continued to experience minor network disruptions resulting in some users experiencing elevated error rates and response times with requests to the Stripe API. There was no impact to Stripe systems or applications. We believe that this is now mitigated. We are continuing to monitor the situation.",
+          "incident_id": "422rz4wbtgxk",
+          "created_at": "2024-08-24T09:49:11.212Z",
+          "updated_at": "2024-08-24T09:49:11.212Z",
+          "display_at": "2024-08-24T09:49:11.212Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "2v3prcf7yvzx",
+          "status": "monitoring",
+          "body": "Between 03:16 and 03:22 UTC , Stripe experienced a network disruption which resulted in elevated error rates and response times with requests to the Stripe API. Although there was no impact to Stripe systems or applications, users would have experienced errors when trying to make API calls during this impact time. We believe that this is now mitigated, though we will continue to monitor.",
+          "incident_id": "422rz4wbtgxk",
+          "created_at": "2024-08-24T04:35:28.097Z",
+          "updated_at": "2024-08-24T04:35:28.097Z",
+          "display_at": "2024-08-24T04:35:28.097Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "yltr74f0wn8m",
+      "name": "Elevated error rates and response times with Visa Issuing",
+      "status": "resolved",
+      "created_at": "2024-08-19T16:36:40.862Z",
+      "updated_at": "2024-08-19T16:59:17.122Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-08-19T16:52:43.306Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/fvnz0d08v29v",
+      "started_at": "2024-08-19T16:36:40.857Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "81ng5zbm6mq7",
+          "status": "resolved",
+          "body": "This incident has been resolved.",
+          "incident_id": "yltr74f0wn8m",
+          "created_at": "2024-08-19T16:52:43.306Z",
+          "updated_at": "2024-08-19T16:52:43.306Z",
+          "display_at": "2024-08-19T16:52:43.306Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "51gsjcp6h48z",
+              "name": "Banking-as-a-service",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "9mdbv0zyyp61",
+          "status": "investigating",
+          "body": "We are currently investigating this issue.",
+          "incident_id": "yltr74f0wn8m",
+          "created_at": "2024-08-19T16:36:40.893Z",
+          "updated_at": "2024-08-19T16:36:40.893Z",
+          "display_at": "2024-08-19T16:36:40.893Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "51gsjcp6h48z",
+              "name": "Banking-as-a-service",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "51gsjcp6h48z",
+          "name": "Banking-as-a-service",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:40.139Z",
+          "updated_at": "2024-10-21T18:44:14.738Z",
+          "position": 4,
+          "description": "Capital, Issuing, and Treasury",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "3nrxrjyfymp4",
+      "name": "Issuing bank outage",
+      "status": "resolved",
+      "created_at": "2024-08-12T14:50:35.570Z",
+      "updated_at": "2024-08-12T17:33:21.624Z",
+      "monitoring_at": "2024-08-12T16:51:24.217Z",
+      "resolved_at": "2024-08-12T17:33:21.256Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/7zr8c0kh9xcf",
+      "started_at": "2024-08-12T14:50:35.565Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "1h0dmnqhk99z",
+          "status": "resolved",
+          "body": "Between 12:59 to 16:01 UTC on August 12th, we saw elevated card authorization errors related to an issuing bank in the US which impacted some Visa transactions. Card authorization errors have subsided and there are no current disruptions to Visa transactions. Throughout this period, Stripe's systems remained healthy.  Visa has also confirmed resolution.",
+          "incident_id": "3nrxrjyfymp4",
+          "created_at": "2024-08-12T17:33:21.256Z",
+          "updated_at": "2024-08-12T17:33:21.619Z",
+          "display_at": "2024-08-12T17:33:21.256Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1823050151759630813
+        },
+        {
+          "id": "n9d8h6lp8p33",
+          "status": "monitoring",
+          "body": "Between 12:59 to 16:01 UTC on August 12th, we saw elevated card authorization errors related to an issuing bank in the US which impacted some Visa transactions. Card authorization errors have subsided and there are no current disruptions to Visa transactions. Throughout this period, Stripe's systems remained healthy.  We are continuing to monitor all transactions until a resolution notice is received from the provider.",
+          "incident_id": "3nrxrjyfymp4",
+          "created_at": "2024-08-12T16:51:24.217Z",
+          "updated_at": "2024-08-12T16:51:24.217Z",
+          "display_at": "2024-08-12T16:51:24.217Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "j6z9gzgq92kz",
+          "status": "identified",
+          "body": "We are still seeing elevated card authorization errors related to an issuing bank in the US which is impacting some Visa transactions. There are still no issues with Stripe systems at this time. We're continuing to monitor and will post an update as soon as the issue is resolved.",
+          "incident_id": "3nrxrjyfymp4",
+          "created_at": "2024-08-12T16:08:11.450Z",
+          "updated_at": "2024-08-12T16:08:11.836Z",
+          "display_at": "2024-08-12T16:08:11.450Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1823028719570891004
+        },
+        {
+          "id": "fy7843yzkpyq",
+          "status": "investigating",
+          "body": "As of 13:00 UTC, we've seen elevated card authorization errors related to an issuing bank in the US which is impacting some Visa transactions. There are no issues with Stripe systems at this time. We're continuing to investigate and will post further updates",
+          "incident_id": "3nrxrjyfymp4",
+          "created_at": "2024-08-12T14:50:35.644Z",
+          "updated_at": "2024-08-12T14:50:37.817Z",
+          "display_at": "2024-08-12T14:50:35.644Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1823009198680248461
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "fgjwdvdckk7p",
+      "name": "Elevated Bancontact errors",
+      "status": "resolved",
+      "created_at": "2024-07-25T06:30:00.000Z",
+      "updated_at": "2024-07-26T10:59:13.658Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-07-25T06:30:00.000Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/rgfbpfnwbp30",
+      "started_at": "2024-07-26T10:59:13.610Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "mmy2mw7pth6y",
+          "status": "resolved",
+          "body": "From 0730\u201321:03 UTC, we saw elevated errors on Bancontact payments. This is now resolved.",
+          "incident_id": "fgjwdvdckk7p",
+          "created_at": "2024-07-26T10:59:13.650Z",
+          "updated_at": "2024-07-26T10:59:13.650Z",
+          "display_at": "2024-07-25T06:30:00.000Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [],
+      "reminder_intervals": null
+    },
+    {
+      "id": "jmpm4z37l381",
+      "name": "Global IT incident affecting inflow of emails",
+      "status": "resolved",
+      "created_at": "2024-07-19T11:43:04.105Z",
+      "updated_at": "2024-07-23T10:00:22.721Z",
+      "monitoring_at": "2024-07-19T11:43:04.149Z",
+      "resolved_at": "2024-07-23T10:00:22.702Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/z4zk6by0dvd3",
+      "started_at": "2024-07-19T11:43:04.094Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "q1v9gzxxlyf7",
+          "status": "resolved",
+          "body": "The global IT incident impacting email communications since July 19 has been resolved. Stripe's services remained operational throughout. All support channels, including email, are operating as normal.",
+          "incident_id": "jmpm4z37l381",
+          "created_at": "2024-07-23T10:00:22.702Z",
+          "updated_at": "2024-07-23T10:00:22.702Z",
+          "display_at": "2024-07-23T10:00:22.702Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "373dg3tf077m",
+          "status": "monitoring",
+          "body": "Stripe is aware of the global IT incident starting on July 19th. Our services remain available and operational. Some users report difficulty reaching our email support channel. This issue is not caused by Stripe\u2019s systems. Our email, phone, and chat support remain accessible.",
+          "incident_id": "jmpm4z37l381",
+          "created_at": "2024-07-19T11:43:04.149Z",
+          "updated_at": "2024-07-19T11:43:04.487Z",
+          "display_at": "2024-07-19T11:43:04.149Z",
+          "affected_components": null,
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": 1814264690757038139
+        }
+      ],
+      "components": [],
+      "reminder_intervals": null
+    },
+    {
+      "id": "3v15shvxqcsg",
+      "name": "Elevated failures in SMS 2FA",
+      "status": "resolved",
+      "created_at": "2024-07-11T20:32:25.169Z",
+      "updated_at": "2024-07-11T20:54:34.784Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-07-11T20:54:34.769Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/kl21pyq0bjf4",
+      "started_at": "2024-07-11T20:32:25.163Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "55c12czl6j1s",
+          "status": "resolved",
+          "body": "From 20:07 - 20:30 UTC, we saw elevated errors related to 2-Factor authentication codes sent via SMS. This is now resolved.",
+          "incident_id": "3v15shvxqcsg",
+          "created_at": "2024-07-11T20:54:34.769Z",
+          "updated_at": "2024-07-11T20:54:34.769Z",
+          "display_at": "2024-07-11T20:54:34.769Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "n3gw0qwqt9p4",
+          "status": "investigating",
+          "body": "We're currently investigating an issue with 2-Factor authentication codes sent via SMS. We'll post an update soon.",
+          "incident_id": "3v15shvxqcsg",
+          "created_at": "2024-07-11T20:32:25.249Z",
+          "updated_at": "2024-07-11T20:32:25.249Z",
+          "display_at": "2024-07-11T20:32:25.249Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "q8w52cvgxj65",
+      "name": "Elevated Afterpay Errors",
+      "status": "resolved",
+      "created_at": "2024-07-10T10:20:30.929Z",
+      "updated_at": "2024-07-10T11:07:13.700Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-07-10T11:07:13.684Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/dwxrlxhkhz98",
+      "started_at": "2024-07-10T10:20:30.924Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "3ll8pz2wmyqf",
+          "status": "resolved",
+          "body": "From 09:00-10:30 UTC, we saw elevated errors on Afterpay payments. This is now resolved.",
+          "incident_id": "q8w52cvgxj65",
+          "created_at": "2024-07-10T11:07:13.684Z",
+          "updated_at": "2024-07-10T11:07:13.684Z",
+          "display_at": "2024-07-10T11:07:13.684Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "tl7lrwrf9gn7",
+          "status": "identified",
+          "body": "We\u2019re currently seeing elevated errors on Afterpay payments. We\u2019ve identified the cause, and are working with Afterpay on a fix.",
+          "incident_id": "q8w52cvgxj65",
+          "created_at": "2024-07-10T10:20:30.994Z",
+          "updated_at": "2024-07-10T10:20:30.994Z",
+          "display_at": "2024-07-10T10:20:30.994Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "z897knt56pz3",
+      "name": "Some EMEA and APAC payouts landing later than usual",
+      "status": "resolved",
+      "created_at": "2024-06-24T13:43:19.000Z",
+      "updated_at": "2024-06-24T20:08:58.834Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-06-24T20:08:58.816Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/4vbhps8w7pkx",
+      "started_at": "2024-06-24T13:43:19.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "k82yz8hdjzvx",
+          "status": "resolved",
+          "body": "On June 24, we determined that a subset of merchants in the EU and Singapore will receive payouts later than expected. For payouts anticipated to arrive on June 24th, we expect that these payouts will land by June 25 in the EU, and by June 26 in Singapore. A fix has been rolled out, and we are back to business as usual for payouts since 17:00 UTC.",
+          "incident_id": "z897knt56pz3",
+          "created_at": "2024-06-24T20:08:58.816Z",
+          "updated_at": "2024-06-24T20:08:58.816Z",
+          "display_at": "2024-06-24T20:08:58.816Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "td5wsrlr86nk",
+          "status": "identified",
+          "body": "EMEA and APAC currencies payouts scheduled for 2024-06-24 are landing later than usual. We\u2019ve identified the cause, and are continuing to work on a fix.",
+          "incident_id": "z897knt56pz3",
+          "created_at": "2024-06-24T16:13:00.526Z",
+          "updated_at": "2024-06-24T19:58:16.684Z",
+          "display_at": "2024-06-24T16:13:00.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "ylg0yfx26z7q",
+          "status": "identified",
+          "body": "EMEA and APAC currencies payouts scheduled for 2024-06-24 are landing later than usual. We\u2019ve identified the cause, and are working on a fix",
+          "incident_id": "z897knt56pz3",
+          "created_at": "2024-06-24T13:43:19.168Z",
+          "updated_at": "2024-06-24T20:04:35.499Z",
+          "display_at": "2024-06-24T13:43:19.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "g8x9snxzz71z",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2024-06-20T21:16:57.913Z",
+      "updated_at": "2024-06-20T21:45:42.852Z",
+      "monitoring_at": "2024-06-20T21:16:57.954Z",
+      "resolved_at": "2024-06-20T21:45:15.000Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/n5k5d8hrld87",
+      "started_at": "2024-06-20T21:16:57.908Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "4f44h1c5kl7h",
+          "status": "resolved",
+          "body": "From 20:38-20:40 UTC we observed elevated error rates and response times with the API. This is now resolved.",
+          "incident_id": "g8x9snxzz71z",
+          "created_at": "2024-06-20T21:45:15.385Z",
+          "updated_at": "2024-06-20T21:45:42.835Z",
+          "display_at": "2024-06-20T21:45:15.000Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "6wftq4swt98d",
+          "status": "monitoring",
+          "body": "From 20:38-20:40 UTC we observed elevated error rates and response times with the API. This is now resolved.",
+          "incident_id": "g8x9snxzz71z",
+          "created_at": "2024-06-20T21:44:47.228Z",
+          "updated_at": "2024-06-20T21:44:47.228Z",
+          "display_at": "2024-06-20T21:44:47.228Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "xxxs82x1pkbw",
+          "status": "monitoring",
+          "body": "From 20:38-20:40 UTC we observed elevated error rates and response times with the API. While impact has subsided, we are continuing to investigate and monitor. We will post an update as soon as possible.",
+          "incident_id": "g8x9snxzz71z",
+          "created_at": "2024-06-20T21:16:57.954Z",
+          "updated_at": "2024-06-20T21:16:57.954Z",
+          "display_at": "2024-06-20T21:16:57.954Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "klclwwgk9gjj",
+      "name": "Elevated EU local payment method errors",
+      "status": "resolved",
+      "created_at": "2024-05-31T08:43:04.221Z",
+      "updated_at": "2024-05-31T08:57:15.837Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-05-31T08:57:15.422Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/s4kp55qfdyxm",
+      "started_at": "2024-05-31T08:43:04.213Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "1s7r2c5yp9g3",
+          "status": "resolved",
+          "body": "From 07:55\u201308:37 UTC on May 31st, we saw elevated level of errors for EU local payment methods. This is now resolved.",
+          "incident_id": "klclwwgk9gjj",
+          "created_at": "2024-05-31T08:57:15.422Z",
+          "updated_at": "2024-05-31T08:57:15.832Z",
+          "display_at": "2024-05-31T08:57:15.422Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1796465957592035468
+        },
+        {
+          "id": "03myg63wr730",
+          "status": "investigating",
+          "body": "As of 07:55 UTC on May 31st, we\u2019ve seen elevated level of errors for EU local payment methods. We\u2019re continuing to investigate and will post further updates.",
+          "incident_id": "klclwwgk9gjj",
+          "created_at": "2024-05-31T08:43:04.310Z",
+          "updated_at": "2024-05-31T08:43:04.714Z",
+          "display_at": "2024-05-31T08:43:04.310Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1796462387736039573
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "5723d8hp684w",
+      "name": "Connectivity issues with Stripe.com",
+      "status": "resolved",
+      "created_at": "2024-05-24T06:25:14.853Z",
+      "updated_at": "2024-05-24T06:25:14.921Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-05-24T06:25:14.913Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/rf6415c6fpz4",
+      "started_at": "2024-05-24T06:25:14.850Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "qvs7b0l85c64",
+          "status": "resolved",
+          "body": "We observed connectivity issues to our website, https://stripe.com, from 05:43 to 05:59 UTC. The API and Dashboard were unaffected.",
+          "incident_id": "5723d8hp684w",
+          "created_at": "2024-05-24T06:25:14.913Z",
+          "updated_at": "2024-05-24T06:25:14.913Z",
+          "display_at": "2024-05-24T06:25:14.913Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "mw5qmb6fdd0y",
+      "name": "Financial connections - General availability",
+      "status": "resolved",
+      "created_at": "2024-05-10T23:25:35.208Z",
+      "updated_at": "2024-05-10T23:25:35.259Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-05-10T23:25:35.249Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/gmjjglp3mmhf",
+      "started_at": "2024-05-10T23:25:35.205Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "9lkdmlb5dt46",
+          "status": "resolved",
+          "body": "From 16:28 to 21:06 UTC, we saw availability issues with Financial Connections which blocked some users from being able to log into their financial institutions. This is now resolved.",
+          "incident_id": "mw5qmb6fdd0y",
+          "created_at": "2024-05-10T23:25:35.249Z",
+          "updated_at": "2024-05-10T23:25:35.249Z",
+          "display_at": "2024-05-10T23:25:35.249Z",
+          "affected_components": [
+            {
+              "code": "qcs5gg7rz4ps",
+              "name": "Global payments",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "qcs5gg7rz4ps",
+          "name": "Global payments",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:58.953Z",
+          "updated_at": "2024-04-04T16:30:09.832Z",
+          "position": 2,
+          "description": "Checkout, Elements, Connect, Payment Links, Terminal, and more",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "58xyqdmrf4hn",
+      "name": "Request-a-call support unavailable",
+      "status": "resolved",
+      "created_at": "2024-04-22T15:55:06.000Z",
+      "updated_at": "2024-04-22T19:15:48.046Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-04-22T19:15:48.032Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/d58bq7b38fsl",
+      "started_at": "2024-04-22T15:55:06.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "hwkv3crtng5r",
+          "status": "resolved",
+          "body": "From 15:01\u201318:05 UTC, we experienced issues responding to support requests via phone call. This is now resolved.",
+          "incident_id": "58xyqdmrf4hn",
+          "created_at": "2024-04-22T19:15:48.032Z",
+          "updated_at": "2024-04-22T19:15:48.032Z",
+          "display_at": "2024-04-22T19:15:48.032Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "d356qt3vtfn8",
+          "status": "investigating",
+          "body": "We\u2019re currently experiencing issues responding to support requests via phone call. Please use Chat or reference our self-help documentation[0] until the issue is resolved. We are working with our provider and will post an update soon.\n\n[0] https://docs.stripe.com/",
+          "incident_id": "58xyqdmrf4hn",
+          "created_at": "2024-04-22T15:55:06.420Z",
+          "updated_at": "2024-04-22T16:12:18.925Z",
+          "display_at": "2024-04-22T15:55:06.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "t1scw27dxfd8",
+      "name": "Connect page errors",
+      "status": "resolved",
+      "created_at": "2024-04-16T14:18:36.002Z",
+      "updated_at": "2024-04-16T20:49:07.555Z",
+      "monitoring_at": "2024-04-16T17:57:29.234Z",
+      "resolved_at": "2024-04-16T20:49:07.025Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/2x94grkqzmlw",
+      "started_at": "2024-04-16T14:18:35.997Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "f8bz64chb9lv",
+          "status": "resolved",
+          "body": "Between 23:10 4/15/24 - 16:29 4/16/24 UTC there was an issue wherein connected accounts were not visible on the Connect page in the Dashboard. Payment processing and other Dashboard pages were not impacted by this issue. This is now resolved.",
+          "incident_id": "t1scw27dxfd8",
+          "created_at": "2024-04-16T20:49:07.025Z",
+          "updated_at": "2024-04-16T20:49:07.552Z",
+          "display_at": "2024-04-16T20:49:07.025Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1780337649208770994
+        },
+        {
+          "id": "yhh731hwwmmz",
+          "status": "monitoring",
+          "body": "A fix has been implemented for an issue wherein connected accounts were not visible on the Connect page in the Dashboard. Payment processing and other Dashboard pages are not impacted by this issue. We are monitoring the result of the fix and will post an update soon.",
+          "incident_id": "t1scw27dxfd8",
+          "created_at": "2024-04-16T17:57:29.234Z",
+          "updated_at": "2024-04-16T17:57:29.586Z",
+          "display_at": "2024-04-16T17:57:29.234Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1780294456820015255
+        },
+        {
+          "id": "z28vmvyg72st",
+          "status": "identified",
+          "body": "We\u2019re currently seeing an issue wherein connected accounts are not visible on the Connect page in the Dashboard. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "t1scw27dxfd8",
+          "created_at": "2024-04-16T15:12:29.176Z",
+          "updated_at": "2024-04-16T15:12:29.176Z",
+          "display_at": "2024-04-16T15:12:29.176Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "0m4w9qnhklgl",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating an issue wherein connected accounts are not visible on the Connect page in the Dashboard. Payment processing and other Dashboard pages are not impacted by this issue. We\u2019ll post an update soon.",
+          "incident_id": "t1scw27dxfd8",
+          "created_at": "2024-04-16T14:18:36.062Z",
+          "updated_at": "2024-04-16T14:18:36.062Z",
+          "display_at": "2024-04-16T14:18:36.062Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "bvknnd2m6f37",
+      "name": "Some terminal devices appearing offline when they are actually online",
+      "status": "resolved",
+      "created_at": "2024-04-04T16:11:08.991Z",
+      "updated_at": "2024-04-04T16:30:09.870Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-04-04T16:30:09.857Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/yf4b33kfmmjq",
+      "started_at": "2024-04-04T16:11:08.986Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "bzb6qz3m8svh",
+          "status": "resolved",
+          "body": "From 21:29 UTC on April 3 through 16:15 UTC on April 4, we saw elevated rates of terminal devices showing as offline through the Stripe API and Dashboard, despite devices remaining online. This issue has been resolved.",
+          "incident_id": "bvknnd2m6f37",
+          "created_at": "2024-04-04T16:30:09.857Z",
+          "updated_at": "2024-04-04T16:30:09.857Z",
+          "display_at": "2024-04-04T16:30:09.857Z",
+          "affected_components": [
+            {
+              "code": "qcs5gg7rz4ps",
+              "name": "Global payments",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "4p9m1y006zmb",
+          "status": "identified",
+          "body": "We are currently aware of an issue causing some terminal devices to appear offline. We have identified the cause, and are working on a fix.",
+          "incident_id": "bvknnd2m6f37",
+          "created_at": "2024-04-04T16:11:09.053Z",
+          "updated_at": "2024-04-04T16:11:09.053Z",
+          "display_at": "2024-04-04T16:11:09.053Z",
+          "affected_components": [
+            {
+              "code": "qcs5gg7rz4ps",
+              "name": "Global payments",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "qcs5gg7rz4ps",
+          "name": "Global payments",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:58.953Z",
+          "updated_at": "2024-04-04T16:30:09.832Z",
+          "position": 2,
+          "description": "Checkout, Elements, Connect, Payment Links, Terminal, and more",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "1ysqzpjzh20n",
+      "name": "Dashboard loading errors for some users",
+      "status": "resolved",
+      "created_at": "2024-04-03T10:20:12.796Z",
+      "updated_at": "2024-04-03T10:51:45.914Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-04-03T10:40:53.000Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/n4sswwjk2dvx",
+      "started_at": "2024-04-03T10:20:12.791Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "942tfqfskt8q",
+          "status": "resolved",
+          "body": "From 08:23\u201310:40 UTC, we saw some users are getting an error message when trying to load the Dashboard. This is now resolved.",
+          "incident_id": "1ysqzpjzh20n",
+          "created_at": "2024-04-03T10:40:53.866Z",
+          "updated_at": "2024-04-03T10:51:45.897Z",
+          "display_at": "2024-04-03T10:40:53.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "4t97m2gh5f6j",
+          "status": "identified",
+          "body": "As of 08:23 UTC, we are seeing some users are getting an error message when trying to load the Dashboard. We have identified the cause, and are working on a fix.",
+          "incident_id": "1ysqzpjzh20n",
+          "created_at": "2024-04-03T10:20:12.865Z",
+          "updated_at": "2024-04-03T10:20:12.865Z",
+          "display_at": "2024-04-03T10:20:12.865Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "46ftfbl5bbjh",
+      "name": "Payment Links list view errors",
+      "status": "resolved",
+      "created_at": "2024-04-03T09:32:37.009Z",
+      "updated_at": "2024-04-03T09:44:23.447Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-04-03T09:44:23.434Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/d4mjvr7hy9rk",
+      "started_at": "2024-04-03T09:32:37.004Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "wcmd8lvrn7c6",
+          "status": "resolved",
+          "body": "From 6:49 UTC on March 28 - 9:30 UTC on April 3, we saw an issue wherein the \"Next\" button was not appearing on the payment link list view on the Dashboard.. This is now resolved.",
+          "incident_id": "46ftfbl5bbjh",
+          "created_at": "2024-04-03T09:44:23.434Z",
+          "updated_at": "2024-04-03T09:44:23.434Z",
+          "display_at": "2024-04-03T09:44:23.434Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "7736qjtmn77x",
+          "status": "identified",
+          "body": "We\u2019re currently seeing an issue wherein the \"Next\" button is not appearing on the payment link list view on the Dashboard. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "46ftfbl5bbjh",
+          "created_at": "2024-04-03T09:32:37.093Z",
+          "updated_at": "2024-04-03T09:32:37.093Z",
+          "display_at": "2024-04-03T09:32:37.093Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "jswv8xh2cys6",
+      "name": "Elevated Search API errors",
+      "status": "resolved",
+      "created_at": "2024-02-29T20:04:36.392Z",
+      "updated_at": "2024-02-29T20:24:52.912Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-02-29T20:24:52.897Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/xl3gxxd6cvp5",
+      "started_at": "2024-02-29T20:04:36.386Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "v3jr5l71mtmq",
+          "status": "resolved",
+          "body": "From 19:25\u201320:17 UTC, we saw elevated errors on Search APIs. Non-search APIs were not affected through this period. This is now resolved.",
+          "incident_id": "jswv8xh2cys6",
+          "created_at": "2024-02-29T20:24:52.897Z",
+          "updated_at": "2024-02-29T20:24:52.897Z",
+          "display_at": "2024-02-29T20:24:52.897Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "kmrtmwj9333n",
+          "status": "investigating",
+          "body": "As of 19:25 UTC, we\u2019ve seen elevated errors on Search API requests. Non-search APIs are not affected. We\u2019re continuing to investigate and will post further updates here.",
+          "incident_id": "jswv8xh2cys6",
+          "created_at": "2024-02-29T20:04:36.471Z",
+          "updated_at": "2024-02-29T20:04:36.471Z",
+          "display_at": "2024-02-29T20:04:36.471Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "k21p1k8lcb7z",
+      "name": "Request-a-call and Chat support are unavailable",
+      "status": "resolved",
+      "created_at": "2024-02-22T07:33:44.000Z",
+      "updated_at": "2024-02-22T07:56:08.534Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-02-22T07:56:08.518Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/jwzrssmvkggr",
+      "started_at": "2024-02-22T07:33:44.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "vd2fgscqnrt5",
+          "status": "resolved",
+          "body": "Request-a-call and chat support channels were unavailable from 06:23 to 07:26 UTC. This issue is now resolved.",
+          "incident_id": "k21p1k8lcb7z",
+          "created_at": "2024-02-22T07:56:08.518Z",
+          "updated_at": "2024-02-22T07:56:08.518Z",
+          "display_at": "2024-02-22T07:56:08.518Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "skmgrx02bjlw",
+          "status": "investigating",
+          "body": "As of 06:23 UTC, request-a-call and chat support channels are unavailable. Email support channel is still available. We're continuing to investigate and will post further updates at hourly cadence.",
+          "incident_id": "k21p1k8lcb7z",
+          "created_at": "2024-02-22T07:33:44.298Z",
+          "updated_at": "2024-02-22T07:47:31.605Z",
+          "display_at": "2024-02-22T07:33:44.000Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "cjbh0zg1lwg7",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2024-02-08T22:08:52.813Z",
+      "updated_at": "2024-02-08T22:08:53.502Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-02-08T22:08:52.870Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/fhhlkz19g980",
+      "started_at": "2024-02-08T22:08:52.808Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "2lzsgpxwmsld",
+          "status": "resolved",
+          "body": "From 21:46\u201321:52 UTC, we saw elevated error rates and response times with the API. This is now resolved.",
+          "incident_id": "cjbh0zg1lwg7",
+          "created_at": "2024-02-08T22:08:52.870Z",
+          "updated_at": "2024-02-08T22:08:53.500Z",
+          "display_at": "2024-02-08T22:08:52.870Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "qcs5gg7rz4ps",
+              "name": "Global payments",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1755715348547211498
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "qcs5gg7rz4ps",
+          "name": "Global payments",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:58.953Z",
+          "updated_at": "2024-04-04T16:30:09.832Z",
+          "position": 2,
+          "description": "Checkout, Elements, Connect, Payment Links, Terminal, and more",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "df6dgs4qw1tw",
+      "name": "Elevated Swish errors",
+      "status": "resolved",
+      "created_at": "2024-02-06T03:34:05.883Z",
+      "updated_at": "2024-02-06T04:00:04.405Z",
+      "monitoring_at": null,
+      "resolved_at": "2024-02-06T04:00:04.384Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/k6thn3fnx86x",
+      "started_at": "2024-02-06T03:34:05.878Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "61kdh678t6dp",
+          "status": "resolved",
+          "body": "From 02:22 UTC - 02:57 UTC, we experienced elevated errors with Swish due to planned maintenance (swish.nu/operating-info. This issue is now resolved.",
+          "incident_id": "df6dgs4qw1tw",
+          "created_at": "2024-02-06T04:00:04.384Z",
+          "updated_at": "2024-02-06T04:00:04.384Z",
+          "display_at": "2024-02-06T04:00:04.384Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "qqkctkk923j3",
+          "status": "identified",
+          "body": "We're experiencing elevated errors with Swish since 02:00 UTC on February 6th. This is identified to be related to planned maintenance at Swish (swish.nu/operating-info) and we are currently looking into the issue.",
+          "incident_id": "df6dgs4qw1tw",
+          "created_at": "2024-02-06T03:34:05.952Z",
+          "updated_at": "2024-02-06T03:34:05.952Z",
+          "display_at": "2024-02-06T03:34:05.952Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "3dsqhksst7th",
+      "name": "Elevated errors on Interac payments",
+      "status": "resolved",
+      "created_at": "2023-12-14T20:41:33.160Z",
+      "updated_at": "2023-12-14T20:41:33.210Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-12-14T20:41:33.200Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/16mbw7p8hc47",
+      "started_at": "2023-12-14T20:41:33.158Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "4qc39qtshkny",
+          "status": "resolved",
+          "body": "From 18:50-19:15 UTC, we saw elevated error rates and response times with card payments processed via Interac in CA. This outage was outside of Stripe's infrastructure. This is now resolved.",
+          "incident_id": "3dsqhksst7th",
+          "created_at": "2023-12-14T20:41:33.200Z",
+          "updated_at": "2023-12-14T20:41:33.200Z",
+          "display_at": "2023-12-14T20:41:33.200Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "ng9kxpt5jb6p",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2023-12-05T22:52:16.855Z",
+      "updated_at": "2023-12-05T23:47:02.376Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-12-05T23:47:02.361Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/rd6sf5mnzc1y",
+      "started_at": "2023-12-05T22:52:16.849Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "j7py3yv8qqnf",
+          "status": "resolved",
+          "body": "From 22:40\u201323:40 UTC, we saw elevated API errors primarily on requests related to Terminal. This is now resolved.",
+          "incident_id": "ng9kxpt5jb6p",
+          "created_at": "2023-12-05T23:47:02.361Z",
+          "updated_at": "2023-12-05T23:47:02.361Z",
+          "display_at": "2023-12-05T23:47:02.361Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "xchdy10mk32j",
+          "status": "identified",
+          "body": "As of 22:40 UTC, we\u2019ve seen elevated errors and response times on Terminal APIs. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "ng9kxpt5jb6p",
+          "created_at": "2023-12-05T23:06:31.103Z",
+          "updated_at": "2023-12-05T23:06:31.103Z",
+          "display_at": "2023-12-05T23:06:31.103Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "snt5l9h6rwhy",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating elevated error rates and response times with the API. We\u2019ll post an update soon.",
+          "incident_id": "ng9kxpt5jb6p",
+          "created_at": "2023-12-05T22:52:16.930Z",
+          "updated_at": "2023-12-05T22:52:16.930Z",
+          "display_at": "2023-12-05T22:52:16.930Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "rkz8vtxrhc0j",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2023-12-05T00:32:20.795Z",
+      "updated_at": "2023-12-05T00:32:20.892Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-12-05T00:32:20.875Z",
+      "impact": "none",
+      "shortlink": "https://stspg.io/656bkcf0t5ns",
+      "started_at": "2023-12-05T00:32:20.792Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "clkd5jvr7gy9",
+          "status": "resolved",
+          "body": "From 00:00\u201300:03 UTC, we saw elevated API errors. This is now resolved.",
+          "incident_id": "rkz8vtxrhc0j",
+          "created_at": "2023-12-05T00:32:20.875Z",
+          "updated_at": "2023-12-05T00:32:20.875Z",
+          "display_at": "2023-12-05T00:32:20.875Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "bzg3kdsprgwy",
+      "name": "Connected account edit page errors",
+      "status": "resolved",
+      "created_at": "2023-11-30T11:28:45.849Z",
+      "updated_at": "2023-11-30T12:08:58.449Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-11-30T12:08:58.436Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/hws1mlf4fm1b",
+      "started_at": "2023-11-30T11:28:45.844Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "2d7slyqpm4n8",
+          "status": "resolved",
+          "body": "From 10:41 - 12:02 UTC, we saw elevated errors on attempts to edit information related connected accounts via the dashboard. This is now resolved.",
+          "incident_id": "bzg3kdsprgwy",
+          "created_at": "2023-11-30T12:08:58.436Z",
+          "updated_at": "2023-11-30T12:08:58.436Z",
+          "display_at": "2023-11-30T12:08:58.436Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "jvwkprpd94lw",
+          "status": "investigating",
+          "body": "As of 10:41 UTC, we\u2019ve seen elevated errors on attempts to edit information related connected accounts via the dashboard.  We\u2019re continuing to investigate and will post further updates",
+          "incident_id": "bzg3kdsprgwy",
+          "created_at": "2023-11-30T11:28:45.906Z",
+          "updated_at": "2023-11-30T11:28:45.906Z",
+          "display_at": "2023-11-30T11:28:45.906Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "fbcfgj80m4l0",
+      "name": "Elevated errors with Swish",
+      "status": "resolved",
+      "created_at": "2023-11-27T15:32:58.318Z",
+      "updated_at": "2023-11-27T15:43:18.128Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-11-27T15:43:17.678Z",
+      "impact": "critical",
+      "shortlink": "https://stspg.io/zcbk1lt52vk8",
+      "started_at": "2023-11-27T15:32:58.313Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "vt0v8gnbg543",
+          "status": "resolved",
+          "body": "From 14:20 UTC - 15:35 UTC, we experienced elevated errors with Swish. This issue is now resolved.",
+          "incident_id": "fbcfgj80m4l0",
+          "created_at": "2023-11-27T15:43:17.678Z",
+          "updated_at": "2023-11-27T15:43:18.123Z",
+          "display_at": "2023-11-27T15:43:17.678Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1729163997482783220
+        },
+        {
+          "id": "8ymx9sshybnw",
+          "status": "identified",
+          "body": "We're experiencing elevated errors with Swish since 14:20 UTC on November 27th. This is identified to be related to outage at Swish (swish.nu/operating-info) and we are currently looking into the issue.",
+          "incident_id": "fbcfgj80m4l0",
+          "created_at": "2023-11-27T15:32:58.378Z",
+          "updated_at": "2023-11-27T15:32:58.857Z",
+          "display_at": "2023-11-27T15:32:58.378Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1729161400084480319
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "3bdf466ywrt6",
+      "name": "Elevated errors with Swish",
+      "status": "resolved",
+      "created_at": "2023-11-27T09:42:01.645Z",
+      "updated_at": "2023-11-27T10:05:29.510Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-11-27T10:05:28.749Z",
+      "impact": "critical",
+      "shortlink": "https://stspg.io/ynm9q8dhq1sl",
+      "started_at": "2023-11-27T09:42:01.639Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "wndmkl473qyt",
+          "status": "resolved",
+          "body": "From 08:12 UTC - 09:40 UTC, we experienced elevated errors with Swish. This issue is now resolved.",
+          "incident_id": "3bdf466ywrt6",
+          "created_at": "2023-11-27T10:05:28.749Z",
+          "updated_at": "2023-11-27T10:05:29.506Z",
+          "display_at": "2023-11-27T10:05:28.749Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1729078984603033876
+        },
+        {
+          "id": "sdvtxlsyrpys",
+          "status": "identified",
+          "body": "We're experiencing elevated errors with Swish since 08:12 UTC on November 27th. This is identified to be related to outage at Swish (swish.nu/operating-info) and we are currently looking into the issue.",
+          "incident_id": "3bdf466ywrt6",
+          "created_at": "2023-11-27T09:42:01.736Z",
+          "updated_at": "2023-11-27T09:42:03.211Z",
+          "display_at": "2023-11-27T09:42:01.736Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1729073085725458452
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "fdhns4bp8hxg",
+      "name": "Elevated declines on JPMorgan Chase-issued cards",
+      "status": "resolved",
+      "created_at": "2023-11-24T21:11:07.728Z",
+      "updated_at": "2023-11-24T23:08:44.596Z",
+      "monitoring_at": "2023-11-24T22:48:09.897Z",
+      "resolved_at": "2023-11-24T23:08:44.583Z",
+      "impact": "minor",
+      "shortlink": "https://stspg.io/qdyq4b9jv0cm",
+      "started_at": "2023-11-24T21:11:07.723Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "481tv85q4hzh",
+          "status": "resolved",
+          "body": "From 19:38\u201322:17 UTC, Stripe saw elevated latency and declines on transactions involving credit cards issued by JPMorgan Chase, as a result of a problem affecting the issuing bank and external to Stripe. This issue is now resolved.",
+          "incident_id": "fdhns4bp8hxg",
+          "created_at": "2023-11-24T23:08:44.583Z",
+          "updated_at": "2023-11-24T23:08:44.583Z",
+          "display_at": "2023-11-24T23:08:44.583Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "jkxnfr94qv0m",
+          "status": "monitoring",
+          "body": "From 19:38\u201322:17 UTC, Stripe saw elevated latency and declines on transactions involving credit cards issued by JPMorgan Chase, as a result of a problem affecting the issuing bank and external to Stripe. Latency and authorization rates have now returned to normal, and we are continuing to monitor.",
+          "incident_id": "fdhns4bp8hxg",
+          "created_at": "2023-11-24T22:48:09.897Z",
+          "updated_at": "2023-11-24T22:48:09.897Z",
+          "display_at": "2023-11-24T22:48:09.897Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "degraded_performance",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "w9nqf6txpm6j",
+          "status": "identified",
+          "body": "We are continuing to monitor an issue resulting in elevated latency and declines on transactions involving credit cards issued by JPMorgan Chase, as a result of an issue affecting the bank and external to Stripe. We are actively engaged with our partners to ensure this is resolved as quickly as possible. We will post further updates here.",
+          "incident_id": "fdhns4bp8hxg",
+          "created_at": "2023-11-24T22:28:39.957Z",
+          "updated_at": "2023-11-24T22:28:39.957Z",
+          "display_at": "2023-11-24T22:28:39.957Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "degraded_performance",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "9cvwf81tfd0j",
+          "status": "investigating",
+          "body": "Starting from 19:38 UTC, we have seen elevated latency and declines on transactions involving cards issued by JPMorgan Chase, as a result of an issue affecting the bank and external to Stripe. We are monitoring closely and will post further updates here.",
+          "incident_id": "fdhns4bp8hxg",
+          "created_at": "2023-11-24T21:11:07.797Z",
+          "updated_at": "2023-11-24T21:11:07.797Z",
+          "display_at": "2023-11-24T21:11:07.797Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "degraded_performance"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "rddflgkvwldl",
+      "name": "Dashboard export errors",
+      "status": "resolved",
+      "created_at": "2023-11-11T03:18:41.706Z",
+      "updated_at": "2023-11-11T04:30:08.422Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-11-11T04:30:08.404Z",
+      "impact": "critical",
+      "shortlink": "https://stspg.io/ldybgcrr7wtj",
+      "started_at": "2023-11-11T03:18:41.701Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "0pq8thmgzqfs",
+          "status": "resolved",
+          "body": "From 21:05 2023-11-10 to 04:02 UTC 2023-11-11, we saw some users were unable to create exports from the Dashboard. This is now resolved.",
+          "incident_id": "rddflgkvwldl",
+          "created_at": "2023-11-11T04:30:08.404Z",
+          "updated_at": "2023-11-11T04:30:08.404Z",
+          "display_at": "2023-11-11T04:30:08.404Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "82lhx8rhjr89",
+          "status": "identified",
+          "body": "We\u2019re currently seeing some users are unable to create exports from the dashboard. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "rddflgkvwldl",
+          "created_at": "2023-11-11T03:18:41.778Z",
+          "updated_at": "2023-11-11T03:18:41.778Z",
+          "display_at": "2023-11-11T03:18:41.778Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "qt96hmx07jgz",
+      "name": "Dashboard loading errors",
+      "status": "resolved",
+      "created_at": "2023-11-02T01:30:17.033Z",
+      "updated_at": "2023-11-02T02:04:28.195Z",
+      "monitoring_at": "2023-11-02T01:30:17.096Z",
+      "resolved_at": "2023-11-02T02:04:28.182Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/xgqy261t5kqp",
+      "started_at": "2023-11-02T01:30:17.029Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "f9y1gwx1w3p3",
+          "status": "resolved",
+          "body": "From 12:47 - 01:15 UTC, we saw intermittent failures with Dashboard login. This is now resolved.",
+          "incident_id": "qt96hmx07jgz",
+          "created_at": "2023-11-02T02:04:28.182Z",
+          "updated_at": "2023-11-02T02:04:28.182Z",
+          "display_at": "2023-11-02T02:04:28.182Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "g3hg737l6kfl",
+          "status": "monitoring",
+          "body": "From 12:47 - 01:15 UTC, we saw the Dashboard failing to load. This is now resolved.",
+          "incident_id": "qt96hmx07jgz",
+          "created_at": "2023-11-02T01:30:17.096Z",
+          "updated_at": "2023-11-02T01:30:17.096Z",
+          "display_at": "2023-11-02T01:30:17.096Z",
+          "affected_components": [
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "vvtqrq5wl1mz",
+      "name": "Elevated PayNow errors",
+      "status": "resolved",
+      "created_at": "2023-10-23T08:29:04.344Z",
+      "updated_at": "2023-10-23T10:47:43.660Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-10-23T10:47:43.646Z",
+      "impact": "major",
+      "shortlink": "https://stspg.io/d5n741h9xm5j",
+      "started_at": "2023-10-23T08:29:04.339Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "z001hqm7p1wx",
+          "status": "resolved",
+          "body": "From 2:35 - 7:42 UTC, we saw elevated errors on PayNow payments. This is now resolved.",
+          "incident_id": "vvtqrq5wl1mz",
+          "created_at": "2023-10-23T10:47:43.646Z",
+          "updated_at": "2023-10-23T10:47:43.646Z",
+          "display_at": "2023-10-23T10:47:43.646Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "9909wcgzpy4f",
+          "status": "identified",
+          "body": "We\u2019re currently seeing elevated errors on PayNow payments. We\u2019ve identified the cause, and are working on a fix.",
+          "incident_id": "vvtqrq5wl1mz",
+          "created_at": "2023-10-23T09:14:37.584Z",
+          "updated_at": "2023-10-23T09:14:37.584Z",
+          "display_at": "2023-10-23T09:14:37.584Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "yysk2r0cpykv",
+          "status": "investigating",
+          "body": "As of 2:35 UTC, we\u2019ve seen elevated errors on PayNow payments. We\u2019re continuing to investigate and will post further updates.",
+          "incident_id": "vvtqrq5wl1mz",
+          "created_at": "2023-10-23T08:29:04.425Z",
+          "updated_at": "2023-10-23T08:29:04.425Z",
+          "display_at": "2023-10-23T08:29:04.425Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    },
+    {
+      "id": "rmdczz6qw2bp",
+      "name": "Elevated API errors",
+      "status": "resolved",
+      "created_at": "2023-10-19T20:02:02.977Z",
+      "updated_at": "2023-10-19T21:27:48.379Z",
+      "monitoring_at": "2023-10-19T20:44:08.315Z",
+      "resolved_at": "2023-10-19T21:27:47.709Z",
+      "impact": "critical",
+      "shortlink": "https://stspg.io/2rbmgy6v07b8",
+      "started_at": "2023-10-19T20:02:02.970Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "g1ldrzc1jpqp",
+          "status": "resolved",
+          "body": "From 19:14\u201319:17, 19:27\u201320:00, and 20:28\u201320:38 UTC, we saw elevated error rates and response times with the API. This is now resolved.",
+          "incident_id": "rmdczz6qw2bp",
+          "created_at": "2023-10-19T21:27:47.709Z",
+          "updated_at": "2023-10-19T21:27:48.369Z",
+          "display_at": "2023-10-19T21:27:47.709Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            },
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1715117567994675222
+        },
+        {
+          "id": "y5h0cq4zf708",
+          "status": "monitoring",
+          "body": "As of 20:35 UTC, the elevated error rates have recovered. We're continuing to validate that this issue is fully resolved.",
+          "incident_id": "rmdczz6qw2bp",
+          "created_at": "2023-10-19T20:44:08.315Z",
+          "updated_at": "2023-10-19T20:44:09.321Z",
+          "display_at": "2023-10-19T20:44:08.315Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1715106582839890248
+        },
+        {
+          "id": "p6r2bshjfxd7",
+          "status": "investigating",
+          "body": "We are continuing to investigate this issue.",
+          "incident_id": "rmdczz6qw2bp",
+          "created_at": "2023-10-19T20:02:44.840Z",
+          "updated_at": "2023-10-19T20:02:44.840Z",
+          "display_at": "2023-10-19T20:02:44.840Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            },
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": false,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "qc18x7wcf96z",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating elevated error rates and response times with the API. We\u2019ll post an update soon.",
+          "incident_id": "rmdczz6qw2bp",
+          "created_at": "2023-10-19T20:02:03.034Z",
+          "updated_at": "2023-10-19T20:02:03.564Z",
+          "display_at": "2023-10-19T20:02:03.034Z",
+          "affected_components": [
+            {
+              "code": "2p0n66vlgnn2",
+              "name": "Stripe API",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "mdklyd2ynjqv",
+              "name": "Stripe core components",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1715095989143699735
+        }
+      ],
+      "components": [
+        {
+          "id": "2p0n66vlgnn2",
+          "name": "Stripe API",
+          "status": "operational",
+          "created_at": "2023-05-25T21:26:05.565Z",
+          "updated_at": "2024-10-10T20:43:09.802Z",
+          "position": 1,
+          "description": null,
+          "showcase": true,
+          "start_date": "2023-03-01",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "mdklyd2ynjqv",
+          "name": "Stripe core components",
+          "status": "operational",
+          "created_at": "2023-05-25T21:27:58.262Z",
+          "updated_at": "2025-02-28T07:19:07.903Z",
+          "position": 5,
+          "description": "Dashboard, support, payouts, and webhooks",
+          "showcase": false,
+          "start_date": "2023-07-28",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": null
+    },
+    {
+      "id": "11318rc2h0sz",
+      "name": "Elevated Apple Pay errors",
+      "status": "resolved",
+      "created_at": "2023-10-16T11:53:25.000Z",
+      "updated_at": "2023-10-16T13:23:21.054Z",
+      "monitoring_at": null,
+      "resolved_at": "2023-10-16T13:23:20.542Z",
+      "impact": "critical",
+      "shortlink": "https://stspg.io/nf1g5gcpv009",
+      "started_at": "2023-10-16T11:53:25.000Z",
+      "page_id": "d5zv7xbys5v3",
+      "incident_updates": [
+        {
+          "id": "r9zcrgz44495",
+          "status": "resolved",
+          "body": "From 11:30 - 13:09 UTC, we saw elevated errors on Apple Pay on the web payments. This is now resolved.",
+          "incident_id": "11318rc2h0sz",
+          "created_at": "2023-10-16T13:23:20.542Z",
+          "updated_at": "2023-10-16T13:23:21.050Z",
+          "display_at": "2023-10-16T13:23:20.542Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1713908487171010681
+        },
+        {
+          "id": "3lzdt4npl0jq",
+          "status": "identified",
+          "body": "We've identified the cause, and are working with Apple on a fix.",
+          "incident_id": "11318rc2h0sz",
+          "created_at": "2023-10-16T13:13:53.918Z",
+          "updated_at": "2023-10-16T13:13:54.327Z",
+          "display_at": "2023-10-16T13:13:53.918Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1713906110208569593
+        },
+        {
+          "id": "k12rr6bnyjs9",
+          "status": "investigating",
+          "body": "As of 11:30 UTC, we\u2019ve seen elevated errors on Apple Pay on the web payments. We\u2019re continuing to investigate and will post further updates.",
+          "incident_id": "11318rc2h0sz",
+          "created_at": "2023-10-16T12:28:09.553Z",
+          "updated_at": "2023-10-16T12:28:10.391Z",
+          "display_at": "2023-10-16T12:28:09.553Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": 1713894601290072120
+        },
+        {
+          "id": "sysx4hj7zwby",
+          "status": "investigating",
+          "body": "We\u2019re currently investigating elevated errors on Apple Pay on the web payments. We\u2019ll post an update soon.",
+          "incident_id": "11318rc2h0sz",
+          "created_at": "2023-10-16T11:53:25.397Z",
+          "updated_at": "2023-10-16T12:11:54.219Z",
+          "display_at": "2023-10-16T11:53:25.000Z",
+          "affected_components": [
+            {
+              "code": "glvywj51z2g9",
+              "name": "Acquirers and payment methods",
+              "old_status": "operational",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "glvywj51z2g9",
+          "name": "Acquirers and payment methods",
+          "status": "operational",
+          "created_at": "2023-05-25T21:28:17.189Z",
+          "updated_at": "2025-02-04T13:25:26.035Z",
+          "position": 6,
+          "description": "Banks, card networks, and local payments",
+          "showcase": false,
+          "start_date": "2023-05-25",
+          "group_id": null,
+          "page_id": "d5zv7xbys5v3",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ],
+      "reminder_intervals": "[]"
+    }
+  ]
+}
