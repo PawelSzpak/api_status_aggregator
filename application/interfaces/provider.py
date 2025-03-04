@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from typing import Optional, TypeVar, Callable, Any
 import time
@@ -19,14 +19,14 @@ def rate_limit(calls: int, period: int) -> Callable[[Callable[..., T]], Callable
         period: Time period in seconds
     """
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
-        last_reset = datetime.now(datetime.timezone.utc)
+        last_reset = datetime.now(timezone.utc)
         calls_made = 0
 
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
             nonlocal last_reset, calls_made
             
-            now = datetime.now(datetime.timezone.utc)
+            now = datetime.now(timezone.utc)
             if now - last_reset > timedelta(seconds=period):
                 calls_made = 0
                 last_reset = now
@@ -37,7 +37,7 @@ def rate_limit(calls: int, period: int) -> Callable[[Callable[..., T]], Callable
                     logger.warning(f"Rate limit reached, sleeping for {sleep_time:.2f}s")
                     time.sleep(sleep_time)
                 calls_made = 0
-                last_reset = datetime.now(datetime.timezone.utc)
+                last_reset = datetime.now(timezone.utc)
                 
             calls_made += 1
             return func(*args, **kwargs)

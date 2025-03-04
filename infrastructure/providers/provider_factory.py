@@ -3,8 +3,8 @@ import logging
 
 from application.interfaces import StatusProvider
 from infrastructure.providers.stripe_provider import StripeProvider
-from infrastructure.providers.auth0_provider import Auth0Provider
-from infrastructure.providers.aws_provider import AWSProvider
+#from infrastructure.providers.aut0_provider import Auth0Provider
+#rom infrastructure.providers.aws_provider import AWSProvider
 
 logger = logging.getLogger(__name__)
 

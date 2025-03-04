@@ -1,4 +1,4 @@
-from .enums import StatusLevel, ServiceCategory
+from .enums import StatusLevel, ServiceCategory, ServiceStatus
 from .models import ProviderConfiguration, IncidentReport, StatusHistory
 
 __all__ = [

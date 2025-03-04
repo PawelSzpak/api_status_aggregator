@@ -3,7 +3,7 @@ import json
 import time
 from typing import Dict, Iterator, Any
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 from application.services.category_manager import CategoryManager
 from infrastructure.providers.provider_factory import create_all_providers
@@ -64,7 +64,7 @@ def create_app() -> Flask:
     @app.route('/health')
     def health_check():
         """Health check endpoint."""
-        return {'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()}
+        return {'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()}
     
     def _get_dashboard_data() -> Dict[str, Any]:
         """
@@ -104,7 +104,7 @@ def create_app() -> Flask:
             logger.error(f"Error generating dashboard data: {str(e)}")
             return {
                 'error': 'Failed to retrieve status data',
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(timezone.utc).isoformat()
             }
     
     return app

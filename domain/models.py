@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, List
 from dataclasses import dataclass
 from .enums import StatusLevel, ServiceCategory
@@ -57,7 +57,7 @@ class StatusHistory:
         if not self.statuses:
             return 0.0
             
-        total_time = datetime.now(datetime.timezone.utc) - since
+        total_time = datetime.now(timezone.utc) - since
         problematic_duration = timedelta()
         
         for i in range(len(self.statuses) - 1):

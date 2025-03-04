@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 from collections import defaultdict
 
 from application.interfaces import StatusProvider
-from domain.enums import ServiceCategory, StatusLevel
-from domain.models import ServiceStatus, StatusHistory
+from domain.enums import ServiceCategory, StatusLevel, ServiceStatus
+from domain.models import StatusHistory
 
 logger = logging.getLogger(__name__)
 

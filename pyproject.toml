@@ -8,12 +8,23 @@ version = "0.1.0"
 description = "Centralized monitoring solution for third-party API statuses"
 requires-python = ">=3.13"
 dependencies = [
-    "flask",
-    "beautifulsoup4",
-    "requests",
-    "sqlalchemy",
-    "psycopg2-binary",
-    "apscheduler"
+    "flask==3.1.0",
+    "beautifulsoup4==4.13.3",
+    "requests==2.32.3",
+    "SQLAlchemy==2.0.38",
+    "psycopg[binary]==3.2.4",
+    "apscheduler==3.11.0",
+    "python-dotenv==1.0.1"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.5",
+    "pytest-cov",
+    "black==25.1.0",
+    "mypy==1.15.0",
+    "flake8==7.1.2",
+    "types-requests==2.32.0.20250301"
 ]
 
 [tool.hatch.build.targets.wheel]
