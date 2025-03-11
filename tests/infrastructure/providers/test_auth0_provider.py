@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timezone
 
 from domain import ProviderConfiguration, StatusLevel
-from infrastructure.providers.auth0 import Auth0StatusProvider
+from infrastructure.providers.auth0_provider import Auth0StatusProvider
 
 class TestAuth0StatusProvider(unittest.TestCase):
     """Test cases for the Auth0StatusProvider implementation."""
@@ -22,7 +22,7 @@ class TestAuth0StatusProvider(unittest.TestCase):
         self.provider = Auth0StatusProvider(self.config)
         
         # Load sample data from fixture
-        with open('tests/fixtures/auth0_status_data.json', 'r') as f:
+        with open('tests/fixtures/auth0_status_20250303_225720.json', 'r') as f:
             self.sample_data = json.load(f)
     
     @patch('infrastructure.providers.auth0.requests.get')
