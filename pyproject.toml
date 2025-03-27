@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "api-status-aggregator"
+name = "api_status_aggregator"
 version = "0.1.0"
 description = "Centralized monitoring solution for third-party API statuses"
 requires-python = ">=3.13"

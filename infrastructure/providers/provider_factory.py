@@ -5,7 +5,7 @@ from application.interfaces import StatusProvider
 from infrastructure.providers.stripe_provider import StripeProvider
 from infrastructure.providers.auth0_provider import Auth0StatusProvider
 from infrastructure.providers.okta_provider import OktaStatusProvider
-from infrastructure.providers.aws_provider import AWSStatusProvider
+from infrastructure.providers.aws_provider import AWSProvider
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ def create_all_providers() -> List[StatusProvider]:
 
     # Initialize cloud providers
     try:
-        providers.append(AWSStatusProvider())
+        providers.append(AWSProvider())
         # TODO: Add GCP and Azure providers
     except Exception as e:
         logger.error(f"Failed to initialize cloud providers: {str(e)}")

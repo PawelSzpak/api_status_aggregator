@@ -6,8 +6,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 from infrastructure.providers.square_provider import SquareProvider
-from domain.enums import StatusLevel
-from domain.models import ServiceStatus
+from domain.enums import StatusLevel, ServiceStatus
+
 
 #Concerned about the non operation HTML imports. Only the operational one exists, however further down it tries
 #to edit status by editing "operation" with "degrated" in a response. Are these 2 different tests, or is it not using the same thing 

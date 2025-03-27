@@ -1,55 +1,23 @@
-import pytest
-import json
-from unittest.mock import patch, Mock
-from datetime import datetime
+import unittest
+from unittest.mock import patch, MagicMock
 import requests
+import json
+from datetime import datetime
 
-from infrastructure.providers.aws import AWSProvider
-from domain.enums import StatusLevel
-from domain.models import ServiceStatus
+from infrastructure.providers.aws_provider import AWSProvider
+from domain.enums import StatusLevel, ServiceStatus
 
 
-class TestAWSProvider:
-    """Test suite for the AWS Status Provider implementation"""
 
-    @pytest.fixture
-    def provider(self):
-        """Create a fresh AWS provider instance for each test"""
-        return AWSProvider()
-
-    @patch('requests.get')
-    def test_all_services_operational(self, mock_get, provider):
-        """Test when all AWS services are operational"""
-        # Mock responses for both endpoints
-        mock_events_response = Mock()
-        mock_events_response.json.return_value = []
+class TestAWSProvider(unittest.TestCase):
+    def setUp(self):
+        """Set up fresh AWS provider instance for each test"""
+        self.provider = AWSProvider()
         
-        mock_announcement_response = Mock()
-        mock_announcement_response.json.return_value = {"description": None}
+        # Sample event responses for different scenarios
+        self.operational_events = []
         
-        # Configure the mock to return different responses for different URLs
-        mock_get.side_effect = lambda url, **kwargs: {
-            "https://health.aws.amazon.com/public/currentevents": mock_events_response,
-            "https://health.aws.amazon.com/public/announcement": mock_announcement_response
-        }.get(url)
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result
-        assert status.provider == "AWS"
-        assert status.category == "cloud"
-        assert status.status == StatusLevel.OPERATIONAL
-        assert "operating normally" in status.message
-        
-        # Verify both endpoints were called
-        assert mock_get.call_count == 2
-
-    @patch('requests.get')
-    def test_service_degradation(self, mock_get, provider):
-        """Test when AWS reports service degradation"""
-        # Create a sample event response with a service degradation
-        events_data = {
+        self.degraded_events = {
             "ec2-us-west-1": [
                 {
                     "status": "1",  # Active event
@@ -71,30 +39,7 @@ class TestAWSProvider:
             ]
         }
         
-        # Mock the events response
-        mock_events_response = Mock()
-        mock_events_response.json.return_value = events_data
-        
-        # We'll only need the events endpoint for this test
-        mock_get.return_value = mock_events_response
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.DEGRADED
-        assert "Amazon EC2" in status.message
-        assert "increased API error rates" in status.message
-        
-        # Verify only the events endpoint was called
-        assert mock_get.call_count == 1
-
-    @patch('requests.get')
-    def test_service_outage(self, mock_get, provider):
-        """Test when AWS reports a service outage"""
-        # Create a sample event response with a service outage
-        events_data = {
+        self.outage_events = {
             "s3-us-east-1": [
                 {
                     "status": "1",  # Active event
@@ -116,90 +61,7 @@ class TestAWSProvider:
             ]
         }
         
-        # Mock the events response
-        mock_events_response = Mock()
-        mock_events_response.json.return_value = events_data
-        
-        # We'll only need the events endpoint for this test
-        mock_get.return_value = mock_events_response
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.OUTAGE
-        assert "Amazon S3" in status.message
-        assert "outage" in status.message.lower()
-        
-        # Verify only the events endpoint was called
-        assert mock_get.call_count == 1
-
-    @patch('requests.get')
-    def test_announcement_only(self, mock_get, provider):
-        """Test when AWS has an announcement but no current events"""
-        # Mock responses for both endpoints
-        mock_events_response = Mock()
-        mock_events_response.json.return_value = []
-        
-        mock_announcement_response = Mock()
-        mock_announcement_response.json.return_value = {
-            "description": "We will be performing scheduled maintenance on EC2 instances tonight."
-        }
-        
-        # Configure the mock to return different responses for different URLs
-        mock_get.side_effect = lambda url, **kwargs: {
-            "https://health.aws.amazon.com/public/currentevents": mock_events_response,
-            "https://health.aws.amazon.com/public/announcement": mock_announcement_response
-        }.get(url)
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.DEGRADED
-        assert "scheduled maintenance" in status.message
-        
-        # Verify both endpoints were called
-        assert mock_get.call_count == 2
-
-    @patch('requests.get')
-    def test_connection_error(self, mock_get, provider):
-        """Test graceful degradation when connection fails"""
-        # Make requests.get raise an exception
-        mock_get.side_effect = requests.RequestException("Connection timeout")
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result shows unknown status with error message
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.UNKNOWN
-        assert "Unable to fetch" in status.message
-        assert "Connection timeout" in status.message
-
-    @patch('requests.get')
-    def test_json_parsing_error(self, mock_get, provider):
-        """Test handling of invalid JSON response"""
-        # Make the JSON parsing fail
-        mock_response = Mock()
-        mock_response.json.side_effect = ValueError("Invalid JSON")
-        mock_get.return_value = mock_response
-        
-        # Get the status
-        status = provider.get_status()
-        
-        # Verify the result shows unknown status with parsing error
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.UNKNOWN
-        assert "parsing AWS status response" in status.message
-
-    @patch('requests.get')
-    def test_multiple_affected_services(self, mock_get, provider):
-        """Test when multiple AWS services are affected"""
-        # Create a sample event response with multiple affected services
-        events_data = {
+        self.multi_service_events = {
             "us-east-1": [
                 {
                     "status": "1",  # Active event
@@ -231,19 +93,180 @@ class TestAWSProvider:
             ]
         }
         
-        # Mock the events response
-        mock_events_response = Mock()
-        mock_events_response.json.return_value = events_data
+        # Sample announcements
+        self.empty_announcement = {"description": None}
+        self.maintenance_announcement = {
+            "description": "We will be performing scheduled maintenance on EC2 instances tonight."
+        }
+
+    def test_init(self):
+        """Test initialization of the AWSProvider"""
+        self.assertEqual(self.provider.name, "AWS")
+        self.assertEqual(self.provider.category, "cloud")
+        self.assertEqual(self.provider.status_url, "https://health.aws.amazon.com/health/status")
+
+    @patch('requests.get')
+    def test_all_services_operational(self, mock_get):
+        """Test when all AWS services are operational"""
+        # Mock responses for both endpoints
+        events_response = MagicMock()
+        events_response.json.return_value = self.operational_events
         
-        # We'll only need the events endpoint for this test
-        mock_get.return_value = mock_events_response
+        announcement_response = MagicMock()
+        announcement_response.json.return_value = self.empty_announcement
+        
+        # Configure the mock to return different responses for different URLs
+        mock_get.side_effect = lambda url, **kwargs: {
+            "https://health.aws.amazon.com/public/currentevents": events_response,
+            "https://health.aws.amazon.com/public/announcement": announcement_response
+        }.get(url)
         
         # Get the status
-        status = provider.get_status()
+        status = self.provider.get_status()
         
-        # Verify all three services are mentioned in the message
-        assert status.provider == "AWS"
-        assert status.status == StatusLevel.DEGRADED
-        assert "Amazon EC2" in status.message
-        assert "Amazon RDS" in status.message
-        assert "Amazon S3" in status.message
+        # Assertions
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.category, "cloud")
+        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
+        self.assertIn("operating normally", status.message)
+        
+        # Verify both endpoints were called
+        self.assertEqual(mock_get.call_count, 2)
+
+    @patch('requests.get')
+    def test_service_degradation(self, mock_get):
+        """Test when AWS reports service degradation"""
+        # Mock the events response
+        events_response = MagicMock()
+        events_response.json.return_value = self.degraded_events
+        
+        # We'll only need the events endpoint for this test
+        mock_get.return_value = events_response
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertIn("Amazon EC2", status.message)
+        self.assertIn("increased API error rates", status.message)
+        
+        # Verify only the events endpoint was called
+        self.assertEqual(mock_get.call_count, 1)
+
+    @patch('requests.get')
+    def test_service_outage(self, mock_get):
+        """Test when AWS reports a service outage"""
+        # Mock the events response
+        events_response = MagicMock()
+        events_response.json.return_value = self.outage_events
+        
+        # We'll only need the events endpoint for this test
+        mock_get.return_value = events_response
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.OUTAGE)
+        self.assertIn("Amazon S3", status.message)
+        self.assertIn("outage", status.message.lower())
+        
+        # Verify only the events endpoint was called
+        self.assertEqual(mock_get.call_count, 1)
+
+    @patch('requests.get')
+    def test_announcement_only(self, mock_get):
+        """Test when AWS has an announcement but no current events"""
+        # Mock responses for both endpoints
+        events_response = MagicMock()
+        events_response.json.return_value = self.operational_events
+        
+        announcement_response = MagicMock()
+        announcement_response.json.return_value = self.maintenance_announcement
+        
+        # Configure the mock to return different responses for different URLs
+        mock_get.side_effect = lambda url, **kwargs: {
+            "https://health.aws.amazon.com/public/currentevents": events_response,
+            "https://health.aws.amazon.com/public/announcement": announcement_response
+        }.get(url)
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertIn("scheduled maintenance", status.message)
+        
+        # Verify both endpoints were called
+        self.assertEqual(mock_get.call_count, 2)
+
+    @patch('requests.get')
+    def test_connection_error(self, mock_get):
+        """Test graceful degradation when connection fails"""
+        # Mock a connection error
+        mock_get.side_effect = requests.RequestException("Connection timeout")
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions for error handling
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.UNKNOWN)
+        self.assertIn("Unable to fetch", status.message)
+        self.assertIn("Connection timeout", status.message)
+
+    @patch('requests.get')
+    def test_json_parsing_error(self, mock_get):
+        """Test handling of invalid JSON response"""
+        # Mock the JSON parsing failure
+        mock_response = MagicMock()
+        mock_response.json.side_effect = ValueError("Invalid JSON")
+        mock_get.return_value = mock_response
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions for parsing error handling
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.UNKNOWN)
+        self.assertIn("parsing AWS status response", status.message)
+
+    @patch('requests.get')
+    def test_multiple_affected_services(self, mock_get):
+        """Test when multiple AWS services are affected"""
+        # Mock the events response with multiple affected services
+        events_response = MagicMock()
+        events_response.json.return_value = self.multi_service_events
+        
+        # We'll only need the events endpoint for this test
+        mock_get.return_value = events_response
+        
+        # Get the status
+        status = self.provider.get_status()
+        
+        # Assertions for multiple services
+        self.assertEqual(status.provider, "AWS")
+        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertIn("Amazon EC2", status.message)
+        self.assertIn("Amazon RDS", status.message)
+        self.assertIn("Amazon S3", status.message)
+
+    def test_rate_limiting(self):
+        """Test that rate limiting is applied correctly"""
+        # Verify the rate_limit decorator is applied to get_status method
+        from inspect import getmembers, ismethod
+        
+        # Check if get_status method is decorated with rate_limit
+        for name, method in getmembers(self.provider, predicate=ismethod):
+            if name == 'get_status':
+                # Check if it has the wrapper attribute set by decorator
+                self.assertTrue(hasattr(method, '__wrapped__'), 
+                               "get_status method should be decorated with rate_limit")
+
+
+if __name__ == '__main__':
+    unittest.main()

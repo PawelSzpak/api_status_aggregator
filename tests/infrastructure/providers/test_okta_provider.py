@@ -4,8 +4,8 @@ import json
 from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 
-from domain.enums import StatusLevel, ServiceCategory
-from domain.models import ServiceStatus, IncidentReport
+from domain.enums import StatusLevel, ServiceCategory, ServiceStatus
+from domain.models import IncidentReport
 from infrastructure.providers.okta_provider import OktaStatusProvider
 
 class TestOktaStatusProvider(unittest.TestCase):

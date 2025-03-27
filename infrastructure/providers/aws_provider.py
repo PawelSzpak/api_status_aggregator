@@ -3,8 +3,8 @@ from typing import Dict, Any, List, Optional
 import requests
 
 from application.interfaces.provider import StatusProvider, rate_limit
-from domain.enums import StatusLevel
-from domain.models import ServiceStatus
+from domain.enums import StatusLevel, ServiceStatus
+
 
 class AWSProvider(StatusProvider):
     """AWS Status Provider implementation using their health API endpoints"""
