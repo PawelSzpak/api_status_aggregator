@@ -76,7 +76,7 @@ class StripeProvider(StatusProvider):
             logger.error(f"Failed to parse Stripe status response: {str(e)}")
             raise ValueError(f"Invalid response from Stripe status API: {str(e)}")
     
-    def fetch_current_status(self) -> ServiceStatus:
+    def _fetch_current_status(self) -> ServiceStatus:
         """
         Fetch and parse the current Stripe service status.
         
@@ -130,7 +130,7 @@ class StripeProvider(StatusProvider):
             message=description
         )
     
-    def fetch_active_incidents(self) -> List[IncidentReport]:
+    def _fetch_active_incidents(self) -> List[IncidentReport]:
         """
         Fetch active incidents from Stripe's status API.
         

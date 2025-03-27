@@ -51,9 +51,10 @@ class StatusProvider(ABC):
     def __init__(self, config: ProviderConfiguration) -> None:
         self.config = config
         self._last_status: Optional[ServiceStatus] = None
+        self._last_active_incidents: Optional[list[IncidentReport]] = None
         
     @abstractmethod
-    def fetch_current_status(self) -> ServiceStatus:
+    def _fetch_current_status(self) -> ServiceStatus:
         """Fetch and parse the current service status.
         
         Returns:
@@ -66,7 +67,7 @@ class StatusProvider(ABC):
         pass
         
     @abstractmethod
-    def fetch_active_incidents(self) -> list[IncidentReport]:
+    def _fetch_active_incidents(self) -> list[IncidentReport]:
         """Fetch any active incidents from the provider.
         
         Returns:
@@ -95,7 +96,7 @@ class StatusProvider(ABC):
             On errors, it returns the last known status if available.
         """
         try:
-            status = self.fetch_current_status()
+            status = self._fetch_current_status()
             self._last_status = status
             return status
         except Exception as e:
@@ -103,3 +104,26 @@ class StatusProvider(ABC):
             if self._last_status:
                 return self._last_status
             raise
+
+
+    @rate_limit(calls=12, period=60)
+    def get_incidents(self) -> list[IncidentReport]:
+        """Get the active incidents with rate limiting and error handling.
+        
+        Returns:
+            list[IncidentReport]: Currently active incidents
+            
+        Note:
+            This method implements rate limiting and will block if the limit is exceeded.
+            On errors, it returns the last known active incidents if available.
+        """
+        try:
+            active_incidents = self._fetch_active_incidents()
+            self._last_active_incidents = active_incidents
+            return active_incidents
+        except Exception as e:
+            logger.error(f"Error fetching active incidents for {self.config.name}: {str(e)}")
+            if self._last_active_incidents:
+                return self._last_active_incidents
+            raise
+            
