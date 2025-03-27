@@ -1,8 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 from typing import Dict, List, Optional, Tuple
 import logging
+
+from domain import ServiceStatus, StatusLevel, ProviderConfiguration, IncidentReport
+from application.interfaces.provider import StatusProvider, rate_limit
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +54,7 @@ class SquareProvider(StatusProvider):
                 provider=self.name,
                 category=self.category,
                 status=status_level,
-                last_updated=datetime.utcnow(),
+                last_updated=datetime.now(timezone.utc),
                 message=message
             )
             
@@ -67,7 +70,7 @@ class SquareProvider(StatusProvider):
                     provider=self._last_known_status.provider,
                     category=self._last_known_status.category,
                     status=self._last_known_status.status,
-                    last_updated=datetime.utcnow(),
+                    last_updated=datetime.now(timezone.utc),
                     message=f"{self._last_known_status.message} (from cached status)"
                 )
             
@@ -76,7 +79,7 @@ class SquareProvider(StatusProvider):
                 provider=self.name,
                 category=self.category,
                 status=StatusLevel.OPERATIONAL,
-                last_updated=datetime.utcnow(),
+                last_updated=datetime.now(timezone.utc),
                 message="Unable to determine current status, assuming operational"
             )
     
@@ -106,7 +109,7 @@ class SquareProvider(StatusProvider):
                     provider=f"Square {region_name}",
                     category=self.category,
                     status=status_level,
-                    last_updated=datetime.utcnow(),
+                    last_updated=datetime.now(timezone.utc),
                     message=f"Square {region_name}: {status_level.value}"
                 )
             

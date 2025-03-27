@@ -1,171 +1,139 @@
-from typing import List, Dict, Optional
+from datetime import datetime, timezone
+from typing import Dict, Any, List, Optional
 import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
 
+from application.interfaces.provider import StatusProvider, rate_limit
 from domain.enums import StatusLevel
 from domain.models import ServiceStatus
-from application.interfaces.provider import StatusProvider, rate_limit
 
-
-class AWSStatusProvider(StatusProvider):
-    """AWS Status provider with configurable service monitoring."""
+class AWSProvider(StatusProvider):
+    """AWS Status Provider implementation using their health API endpoints"""
     
-    def __init__(self, services_to_monitor: Optional[List[str]] = None):
-        """
-        Initialize AWS status provider with optional service filtering.
-        
-        Args:
-            services_to_monitor: List of AWS service names to monitor.
-                                If None, will monitor a default set of common services.
-        """
+    def __init__(self):
         super().__init__(
             name="AWS",
             category="cloud",
             status_url="https://health.aws.amazon.com/health/status"
         )
-        # Default to monitoring common services if none specified
-        self.services_to_monitor = services_to_monitor or [
-            "EC2", "S3", "RDS", "Lambda", "DynamoDB", 
-            "CloudFront", "Route 53", "SQS", "SNS"
-        ]
-    
-    @rate_limit(calls=1, period=300)  # Limit to 1 call per 5 minutes
-    def get_status(self) -> ServiceStatus:
-        """
-        Fetch AWS service status for configured services.
+        self._current_events_url = "https://health.aws.amazon.com/public/currentevents"
+        self._announcement_url = "https://health.aws.amazon.com/public/announcement"
         
-        Returns:
-            ServiceStatus: Aggregated status with worst status level across monitored services.
-        """
+    @rate_limit(calls=1, period=60)  # Respect AWS API by limiting to 1 call per minute
+    def get_status(self) -> ServiceStatus:
+        """Fetch AWS current service status"""
         try:
-            response = requests.get(self.status_url, timeout=10)
-            response.raise_for_status()
+            # Check current events first (active incidents)
+            events_response = requests.get(self._current_events_url, timeout=10)
+            events_response.raise_for_status()
             
-            soup = BeautifulSoup(response.text, 'html.parser')
-            service_statuses = self._parse_service_statuses(soup)
+            events = events_response.json()
             
-            # Filter to only include services we're monitoring
-            monitored_statuses = {
-                service: status 
-                for service, status in service_statuses.items()
-                if service in self.services_to_monitor
-            }
+            # If we have active events, parse them to determine status
+            if events and len(events) > 0:
+                return self._parse_events(events)
+                
+            # If no active events, check if there's an announcement
+            announcement_response = requests.get(self._announcement_url, timeout=10)
+            announcement_response.raise_for_status()
             
-            # Determine overall status (worst status of any monitored service)
-            overall_status = self._determine_overall_status(monitored_statuses)
+            announcement = announcement_response.json()
+            if announcement and announcement.get("description"):
+                return self._parse_announcement(announcement)
             
-            # Generate status message
-            message = self._generate_status_message(monitored_statuses)
-            
+            # No events or announcements means all systems operational
             return ServiceStatus(
                 provider=self.name,
                 category=self.category,
-                status=overall_status,
-                last_updated=datetime.utcnow(),
-                message=message,
-                details=monitored_statuses
+                status=StatusLevel.OPERATIONAL,
+                last_updated=datetime.now(timezone.utc),
+                message="All AWS services operating normally"
             )
             
-        except Exception as e:
-            # Log the error properly
-            import logging
-            logging.error(f"Error fetching AWS status: {str(e)}")
-            
-            # Return degraded status when we can't check
+        except requests.RequestException as e:
+            # Graceful degradation on connection errors
+            # In a real implementation, you'd want to log this error
             return ServiceStatus(
                 provider=self.name,
                 category=self.category,
                 status=StatusLevel.UNKNOWN,
-                last_updated=datetime.utcnow(),
+                last_updated=datetime.now(timezone.utc),
                 message=f"Unable to fetch AWS status: {str(e)}"
             )
+        except ValueError as e:
+            # Handle JSON parsing errors
+            return ServiceStatus(
+                provider=self.name,
+                category=self.category,
+                status=StatusLevel.UNKNOWN,
+                last_updated=datetime.now(timezone.utc),
+                message=f"Error parsing AWS status response: {str(e)}"
+            )
     
-    def _parse_service_statuses(self, soup: BeautifulSoup) -> Dict[str, StatusLevel]:
-        """
-        Parse the AWS status page to extract service statuses.
+    def _parse_events(self, events: List[Dict[str, Any]]) -> ServiceStatus:
+        """Parse AWS current events to determine service status"""
+        # Implementation would extract active regions, services, and status levels
+        # This is a simplified version - you'd want more robust parsing in production
         
-        Args:
-            soup: BeautifulSoup object of the AWS status page
-            
-        Returns:
-            Dict mapping service names to their StatusLevel
-        """
-        service_statuses = {}
+        status_level = StatusLevel.OPERATIONAL
+        affected_services = []
+        latest_message = ""
         
-        # This is a simplified example - actual implementation would need to
-        # navigate AWS's HTML structure to find service status indicators
-        service_rows = soup.select('.aws-service-row')  # Adjust selector based on actual page structure
+        # Iterate through events to find latest and most severe
+        for event_region, region_events in events.items():
+            for event in region_events:
+                # Check if event is active (status "1")
+                if event.get("status") == "1":
+                    status_level = StatusLevel.DEGRADED
+                    
+                    # Add affected services to our list
+                    for service_key, service_info in event.get("impacted_services", {}).items():
+                        affected_services.append(service_info.get("service_name", service_key))
+                    
+                    # Get the latest message
+                    if event.get("event_log") and len(event["event_log"]) > 0:
+                        latest_log = event["event_log"][0]  # Most recent log entry
+                        latest_message = latest_log.get("message", "")
         
-        for row in service_rows:
-            service_name_elem = row.select_one('.service-name')
-            status_elem = row.select_one('.service-status')
-            
-            if service_name_elem and status_elem:
-                service_name = service_name_elem.text.strip()
-                status_text = status_elem.text.strip().lower()
-                
-                # Map AWS status indicators to our status levels
-                status = StatusLevel.OPERATIONAL
-                if "degraded" in status_text or "performance" in status_text:
-                    status = StatusLevel.DEGRADED
-                elif "outage" in status_text or "unavailable" in status_text:
-                    status = StatusLevel.OUTAGE
-                
-                service_statuses[service_name] = status
+        # If any services are affected, return degraded status
+        if affected_services:
+            message = f"Degraded performance: {', '.join(affected_services)}. {latest_message}"
+            return ServiceStatus(
+                provider=self.name,
+                category=self.category,
+                status=status_level,
+                last_updated=datetime.now(timezone.utc),
+                message=message
+            )
         
-        return service_statuses
+        # Fallback if we can't determine status from events
+        return ServiceStatus(
+            provider=self.name,
+            category=self.category,
+            status=StatusLevel.OPERATIONAL,
+            last_updated=datetime.now(timezone.utc),
+            message="All services operational"
+        )
     
-    def _determine_overall_status(self, service_statuses: Dict[str, StatusLevel]) -> StatusLevel:
-        """
-        Determine overall status based on individual service statuses.
-        The overall status is the worst status of any monitored service.
+    def _parse_announcement(self, announcement: Dict[str, Any]) -> ServiceStatus:
+        """Parse AWS announcement to determine service status"""
+        # If there's an announcement but no events, consider it a minor degradation
+        # This would need to be adjusted based on actual announcement format
+        description = announcement.get("description", "")
         
-        Args:
-            service_statuses: Dict mapping service names to StatusLevel
-            
-        Returns:
-            StatusLevel representing overall status
-        """
-        if not service_statuses:
-            return StatusLevel.UNKNOWN
-            
-        # Status severity order: OPERATIONAL < DEGRADED < OUTAGE
-        if any(status == StatusLevel.OUTAGE for status in service_statuses.values()):
-            return StatusLevel.OUTAGE
-        elif any(status == StatusLevel.DEGRADED for status in service_statuses.values()):
-            return StatusLevel.DEGRADED
-        return StatusLevel.OPERATIONAL
-    
-    def _generate_status_message(self, service_statuses: Dict[str, StatusLevel]) -> str:
-        """
-        Generate a human-readable status message.
+        if description:
+            return ServiceStatus(
+                provider=self.name,
+                category=self.category,
+                status=StatusLevel.DEGRADED,
+                last_updated=datetime.now(timezone.utc),
+                message=f"Service announcement: {description}"
+            )
         
-        Args:
-            service_statuses: Dict mapping service names to StatusLevel
-            
-        Returns:
-            String message summarizing service statuses
-        """
-        if not service_statuses:
-            return "No monitored AWS services found"
-            
-        # Count services in each status
-        operational_count = sum(1 for status in service_statuses.values() 
-                               if status == StatusLevel.OPERATIONAL)
-        degraded_count = sum(1 for status in service_statuses.values() 
-                            if status == StatusLevel.DEGRADED)
-        outage_count = sum(1 for status in service_statuses.values() 
-                          if status == StatusLevel.OUTAGE)
-        
-        # Generate appropriate message
-        if outage_count > 0:
-            outage_services = [service for service, status in service_statuses.items() 
-                              if status == StatusLevel.OUTAGE]
-            return f"Outage detected in {', '.join(outage_services)}"
-        elif degraded_count > 0:
-            degraded_services = [service for service, status in service_statuses.items() 
-                                if status == StatusLevel.DEGRADED]
-            return f"Degraded performance in {', '.join(degraded_services)}"
-        else:
-            return f"All {len(service_statuses)} monitored AWS services operational"
+        # Fallback for empty announcement
+        return ServiceStatus(
+            provider=self.name,
+            category=self.category,
+            status=StatusLevel.OPERATIONAL,
+            last_updated=datetime.now(timezone.utc),
+            message="All services operational"
+        )
