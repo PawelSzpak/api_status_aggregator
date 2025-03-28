@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from domain import ServiceStatus, StatusLevel, ProviderConfiguration, IncidentReport, ServiceCategory
-from application.interfaces import StatusProvider, rate_limit
+from application.interfaces.provider import StatusProvider, rate_limit
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +94,7 @@ class OktaStatusProvider(StatusProvider):
             logger.error(f"Failed to parse Okta status page: {str(e)}")
             raise ValueError(f"Failed to parse Okta status data: {str(e)}")
     
-    def fetch_current_status(self) -> ServiceStatus:
+    def _fetch_current_status(self) -> ServiceStatus:
         """
         Fetch and parse the current Okta service status.
         
@@ -105,52 +105,43 @@ class OktaStatusProvider(StatusProvider):
             ConnectionError: If the Okta status page cannot be reached
             ValueError: If the status page structure is invalid
         """
-        try:
-            # Fetch status data (from cache if available)
-            status_data = self._fetch_status_data()
-            
-            # Get active incidents (unresolved)
-            active_incidents = [
-                incident for incident in status_data.get('incidents', [])
-                if incident.get('Status__c') != 'Resolved'
-            ]
-            
-            # Determine the status level based on active incidents
-            status_level = self._determine_status_level(active_incidents)
-            
-            # Create a meaningful status message
-            status_message = self._create_status_message(active_incidents)
-            
-            # Most recent uptime data
-            current_uptime = None
-            uptime_data = status_data.get('uptime', [])
-            if uptime_data:
-                # Sort by year to get the most recent
-                sorted_uptime = sorted(uptime_data, key=lambda x: x.get('year', 0), reverse=True)
-                if sorted_uptime:
-                    current_uptime = sorted_uptime[0].get('uptime')
-            
-            # Add uptime information to the message if available
-            if current_uptime is not None:
-                status_message = f"{status_message} Current uptime: {current_uptime}%"
-            
-            return ServiceStatus(
-                provider_name=self.config.name,
-                category=self.config.category,
-                status_level=status_level,
-                last_checked=datetime.now(timezone.utc),
-                message=status_message
-            )
-            
-        except (ConnectionError, ValueError) as e:
-            # If we have a last known status, return it on error
-            if self._last_status:
-                logger.warning(f"Returning last known status due to error: {str(e)}")
-                return self._last_status
-            # Otherwise, re-raise the exception
-            raise
+        # Fetch status data (from cache if available)
+        status_data = self._fetch_status_data()
+        
+        # Get active incidents (unresolved)
+        active_incidents = [
+            incident for incident in status_data.get('incidents', [])
+            if incident.get('Status__c') != 'Resolved'
+        ]
+        
+        # Determine the status level based on active incidents
+        status_level = self._determine_status_level(active_incidents)
+        
+        # Create a meaningful status message
+        status_message = self._create_status_message(active_incidents)
+        
+        # Most recent uptime data
+        current_uptime = None
+        uptime_data = status_data.get('uptime', [])
+        if uptime_data:
+            # Sort by year to get the most recent
+            sorted_uptime = sorted(uptime_data, key=lambda x: x.get('year', 0), reverse=True)
+            if sorted_uptime:
+                current_uptime = sorted_uptime[0].get('uptime')
+        
+        # Add uptime information to the message if available
+        if current_uptime is not None:
+            status_message = f"{status_message} Current uptime: {current_uptime}%"
+        
+        return ServiceStatus(
+            provider=self.config.name,
+            category=self.config.category,
+            status=status_level,
+            last_updated=datetime.now(timezone.utc),
+            message=status_message
+        )
     
-    def fetch_active_incidents(self) -> List[IncidentReport]:
+    def _fetch_active_incidents(self) -> List[IncidentReport]:
         """
         Fetch active incidents from Okta status page.
         
@@ -161,66 +152,61 @@ class OktaStatusProvider(StatusProvider):
             ConnectionError: If the Okta incidents page cannot be reached
             ValueError: If the incident page structure is invalid
         """
-        try:
-            # Fetch status data (from cache if available)
-            status_data = self._fetch_status_data()
-            
-            # Get active (and recently resolved) incidents for better coverage
-            incidents = []
-            for incident_data in status_data.get('incidents', []):
-                # Skip incidents older than 7 days
-                if incident_data.get('Status__c') == 'Resolved':
-                    # If there's an end date, check if it's within 7 days
-                    if not incident_data.get('End_Date__c'):
+        # Fetch status data (from cache if available)
+        status_data = self._fetch_status_data()
+        
+        # Get active (and recently resolved) incidents for better coverage
+        incidents = []
+        for incident_data in status_data.get('incidents', []):
+            # Skip incidents older than 7 days
+            if incident_data.get('Status__c') == 'Resolved':
+                # If there's an end date, check if it's within 7 days
+                if not incident_data.get('End_Date__c'):
+                    continue
+                
+                # Parse the date and check if it's recent
+                try:
+                    end_date_str = incident_data.get('End_Date__c', '')
+                    end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+                    days_ago = (datetime.now() - end_date).days
+                    if days_ago > 7:  # Skip if more than 7 days old
                         continue
-                    
-                    # Parse the date and check if it's recent
-                    try:
-                        end_date_str = incident_data.get('End_Date__c', '')
-                        end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                        days_ago = (datetime.now() - end_date).days
-                        if days_ago > 7:  # Skip if more than 7 days old
-                            continue
-                    except (ValueError, TypeError):
-                        continue
-                
-                # Map Okta incident status to our status level
-                status_level = self._map_incident_status(incident_data.get('Status__c', ''),
-                                                       incident_data.get('Category__c', ''))
-                
-                # Parse start/end dates
-                started_at = self._parse_datetime(incident_data.get('Start_Time__c'))
-                resolved_at = self._parse_datetime(incident_data.get('End_Time__c')) if incident_data.get('Status__c') == 'Resolved' else None
-                
-                # Extract updates if available
-                updates = []
-                incident_id = incident_data.get('Id')
-                if incident_id:
-                    for update in status_data.get('updates', []):
-                        if update.get('IncidentId__c') == incident_id:
-                            updates.append(update.get('UpdateLog__c', ''))
-                
-                # Create incident report
-                incident = IncidentReport(
-                    id=incident_data.get('Id', ''),
-                    provider_name=self.config.name,
-                    status_level=status_level,
-                    started_at=started_at if started_at else datetime.now(timezone.utc),
-                    resolved_at=resolved_at,
-                    title=incident_data.get('Incident_Title__c', 'Unnamed Incident'),
-                    description=incident_data.get('Log__c', ''),
-                    updates=updates
-                )
-                
-                incidents.append(incident)
+                except (ValueError, TypeError):
+                    continue
             
-            return incidents
+            # Map Okta incident status to our status level
+            status_level = self._map_incident_status(incident_data.get('Status__c', ''),
+                                                   incident_data.get('Category__c', ''))
             
-        except (ConnectionError, ValueError) as e:
-            logger.error(f"Error fetching incidents: {str(e)}")
-            # For incidents, we return an empty list on error rather than rethrowing
-            # This approach prevents incident fetch errors from affecting overall status
-            return []
+            # Parse start/end dates
+            started_at = self._parse_datetime(incident_data.get('Start_Time__c'))
+            resolved_at = self._parse_datetime(incident_data.get('End_Time__c')) if incident_data.get('Status__c') == 'Resolved' else None
+            
+            # Extract updates if available
+            updates = []
+            incident_id = incident_data.get('Id')
+            if incident_id:
+                for update in status_data.get('updates', []):
+                    if update.get('IncidentId__c') == incident_id:
+                        updates.append(update.get('UpdateLog__c', ''))
+            
+            # Create incident report
+            incident = IncidentReport(
+                id=incident_data.get('Id', ''),
+                provider=self.config.name,
+                title=incident_data.get('Incident_Title__c', 'Unnamed Incident'),
+                status=incident_data.get('Status__c', '').lower(),
+                impact=incident_data.get('Category__c', '').lower(),
+                created_at=started_at if started_at else datetime.now(timezone.utc),
+                updated_at=datetime.now(timezone.utc),
+                region="global",
+                affected_components=[],
+                message=incident_data.get('Log__c', '')
+            )
+            
+            incidents.append(incident)
+        
+        return incidents
     
     def _determine_status_level(self, active_incidents: List[Dict[str, Any]]) -> StatusLevel:
         """

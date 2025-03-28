@@ -3,9 +3,8 @@ import requests
 from typing import List, Optional, Dict, Any
 import logging
 
-from application.interfaces import StatusProvider, rate_limit
-from domain.enums import StatusLevel, ServiceCategory, ServiceStatus
-from domain.models import ProviderConfiguration, IncidentReport
+from application.interfaces.provider import StatusProvider, rate_limit
+from domain import StatusLevel, ServiceCategory, ServiceStatus, ProviderConfiguration, IncidentReport
 
 logger = logging.getLogger(__name__)
 
@@ -123,10 +122,10 @@ class StripeProvider(StatusProvider):
             logger.warning(f"Failed to fetch Stripe incidents: {str(e)}")
         
         return ServiceStatus(
-            provider_name=self.config.name,
+            provider=self.config.name,
             category=self.config.category,
-            status_level=status_level,
-            last_checked=datetime.now(timezone.utc),
+            status=status_level,
+            last_updated=datetime.now(timezone.utc),
             message=description
         )
     
@@ -174,18 +173,46 @@ class StripeProvider(StatusProvider):
             # Create the incident report
             incident_report = IncidentReport(
                 id=incident_id,
-                provider_name=self.config.name,
-                status_level=status_level,
-                started_at=started_at,
-                resolved_at=resolved_at,
+                provider=self.config.name,
                 title=title,
-                description=updates[0] if updates else None,
-                updates=updates
+                status=incident.get("status", "investigating"),
+                impact=impact,
+                created_at=started_at,
+                updated_at=datetime.now(timezone.utc),
+                region="global",
+                affected_components=self._get_affected_components(incident),
+                message=updates[0] if updates else "No details available"
             )
             
             incidents.append(incident_report)
         
         return incidents
+    
+    def _get_affected_components(self, incident: Dict[str, Any]) -> List[str]:
+        """
+        Extract affected components from an incident.
+        
+        Args:
+            incident: Incident data from Stripe API
+            
+        Returns:
+            List of affected component names
+        """
+        components = []
+        
+        # Check for affected components in the incident data
+        for component_id in incident.get("components", []):
+            # Fetch component details if needed
+            try:
+                components_data = self._make_api_request(self.COMPONENTS_ENDPOINT)
+                for component in components_data.get("components", []):
+                    if component.get("id") == component_id:
+                        components.append(component.get("name", "Unknown component"))
+            except (ConnectionError, ValueError):
+                # If we can't get component details, use the ID
+                components.append(f"Component {component_id}")
+        
+        return components
     
     def get_component_statuses(self) -> List[ServiceStatus]:
         """
@@ -209,10 +236,10 @@ class StripeProvider(StatusProvider):
             status_level = self.STATUS_MAPPING.get(status, StatusLevel.UNKNOWN)
             
             component_status = ServiceStatus(
-                provider_name=f"{self.config.name} - {name}",
+                provider=f"{self.config.name} - {name}",
                 category=self.config.category,
-                status_level=status_level,
-                last_checked=datetime.now(timezone.utc),
+                status=status_level,
+                last_updated=datetime.now(timezone.utc),
                 message=f"Component: {name}, Status: {status}"
             )
             

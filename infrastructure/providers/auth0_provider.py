@@ -75,7 +75,7 @@ class Auth0StatusProvider(StatusProvider):
             logger.error(f"Failed to parse Auth0 status page: {str(e)}")
             raise ValueError(f"Failed to parse Auth0 status data: {str(e)}")
     
-    def fetch_current_status(self) -> ServiceStatus:
+    def _fetch_current_status(self) -> ServiceStatus:
         """Fetch and parse the current Auth0 service status.
         
         Returns:
@@ -107,14 +107,10 @@ class Auth0StatusProvider(StatusProvider):
             )
             
         except (ConnectionError, ValueError) as e:
-            # If we have a last known status, return it on error
-            if self._last_status:
-                logger.warning(f"Returning last known status due to error: {str(e)}")
-                return self._last_status
-            # Otherwise, re-raise the exception
+            # Re-raise the exception - error handling is done by get_status()
             raise
     
-    def fetch_active_incidents(self) -> list[IncidentReport]:
+    def _fetch_active_incidents(self) -> list[IncidentReport]:
         """Fetch active incidents from Auth0 status page.
         
         Returns:
@@ -124,42 +120,35 @@ class Auth0StatusProvider(StatusProvider):
             ConnectionError: If the Auth0 incidents page cannot be reached
             ValueError: If the incident page structure is invalid
         """
-        try:
-            # Fetch status data (from cache if available)
-            status_data = self._fetch_status_data()
+        # Fetch status data (from cache if available)
+        status_data = self._fetch_status_data()
+        
+        # Extract active incidents
+        active_incidents = status_data.get('activeIncidents', [])
+        incidents = []
+        
+        for incident_data in active_incidents:
+            region = incident_data.get('region', 'Unknown')
+            incident_details = incident_data.get('response', {}).get('incidents', [])
             
-            # Extract active incidents
-            active_incidents = status_data.get('activeIncidents', [])
-            incidents = []
-            
-            for incident_data in active_incidents:
-                region = incident_data.get('region', 'Unknown')
-                incident_details = incident_data.get('response', {}).get('incidents', [])
-                
-                for detail in incident_details:
-                    if detail.get('status') != 'resolved':
-                        # Convert Auth0 incident to our IncidentReport model
-                        incident = IncidentReport(
-                            id=detail.get('id', ''),
-                            provider=self.config.name,
-                            title=detail.get('name', 'Unknown Incident'),
-                            status=detail.get('status', 'investigating'),
-                            impact=detail.get('impact', 'unknown'),
-                            created_at=self._parse_datetime(detail.get('created_at')),
-                            updated_at=self._parse_datetime(detail.get('updated_at')),
-                            region=region,
-                            affected_components=self._extract_affected_components(detail),
-                            message=self._extract_latest_update_message(detail)
-                        )
-                        incidents.append(incident)
-            
-            return incidents
-            
-        except (ConnectionError, ValueError) as e:
-            logger.error(f"Error fetching incidents: {str(e)}")
-            # For incidents, we return an empty list on error rather than rethrowing
-            # This approach prevents incident fetch errors from affecting overall status
-            return []
+            for detail in incident_details:
+                if detail.get('status') != 'resolved':
+                    # Convert Auth0 incident to our IncidentReport model
+                    incident = IncidentReport(
+                        id=detail.get('id', ''),
+                        provider=self.config.name,
+                        title=detail.get('name', 'Unknown Incident'),
+                        status=detail.get('status', 'investigating'),
+                        impact=detail.get('impact', 'unknown'),
+                        created_at=self._parse_datetime(detail.get('created_at')),
+                        updated_at=self._parse_datetime(detail.get('updated_at')),
+                        region=region,
+                        affected_components=self._extract_affected_components(detail),
+                        message=self._extract_latest_update_message(detail)
+                    )
+                    incidents.append(incident)
+        
+        return incidents
     
     def _extract_regions_status(self, status_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         """Extract status information for each region.
