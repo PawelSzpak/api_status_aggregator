@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from infrastructure.providers.stripe_provider import StripeProvider
-from domain.enums import StatusLevel, ServiceCategory
+from domain import StatusLevel, ServiceCategory, ServiceStatus, IncidentReport
 
 class TestStripeProvider(unittest.TestCase):
     """Test cases for the Stripe status provider."""
@@ -13,105 +13,232 @@ class TestStripeProvider(unittest.TestCase):
         """Set up the test environment."""
         self.provider = StripeProvider()
         
-        # Load sample response data
-        with open('tests/fixtures/stripe_status.json', 'r') as f:
-            self.status_response = json.load(f)
-            
-        with open('tests/fixtures/stripe_components.json', 'r') as f:
-            self.components_response = json.load(f)
-            
-        with open('tests/fixtures/stripe_incidents.json', 'r') as f:
-            self.incidents_response = json.load(f)
+        # Sample response data
+        self.status_response = {
+            "page": {
+                "id": "stripe_status",
+                "name": "Stripe Status",
+                "url": "https://status.stripe.com",
+                "updated_at": "2025-03-29T00:00:00Z"
+            },
+            "status": {
+                "indicator": "none",
+                "description": "All Systems Operational"
+            }
+        }
+        
+        self.components_response = {
+            "page": {
+                "id": "stripe_status"
+            },
+            "components": [
+                {
+                    "id": "api",
+                    "name": "API",
+                    "status": "operational"
+                },
+                {
+                    "id": "dashboard",
+                    "name": "Dashboard",
+                    "status": "operational"
+                },
+                {
+                    "id": "checkout",
+                    "name": "Checkout",
+                    "status": "operational"
+                }
+            ]
+        }
+        
+        self.incidents_response = {
+            "page": {
+                "id": "stripe_status"
+            },
+            "incidents": [
+                {
+                    "id": "incident-1",
+                    "name": "API Latency Issues",
+                    "status": "investigating",
+                    "impact": "minor",
+                    "started_at": "2025-03-29T01:00:00Z",
+                    "resolved_at": None,
+                    "components": ["api"],
+                    "incident_updates": [
+                        {
+                            "id": "update-1",
+                            "body": "We're investigating increased API latency.",
+                            "created_at": "2025-03-29T01:05:00Z"
+                        }
+                    ]
+                },
+                {
+                    "id": "incident-2",
+                    "name": "Previous Dashboard Issue",
+                    "status": "resolved",
+                    "impact": "major",
+                    "started_at": "2025-03-28T14:00:00Z",
+                    "resolved_at": "2025-03-28T16:00:00Z",
+                    "components": ["dashboard"],
+                    "incident_updates": [
+                        {
+                            "id": "update-2",
+                            "body": "The dashboard issue has been resolved.",
+                            "created_at": "2025-03-28T16:00:00Z"
+                        }
+                    ]
+                }
+            ]
+        }
     
     @patch('requests.get')
-    def test_fetch_current_status(self, mock_get):
-        """Test fetching the current status."""
+    def test_get_status_operational(self, mock_get):
+        """Test getting the current status when all systems are operational."""
         # Configure the mock to return sample responses
-        mock_response = MagicMock()
-        mock_response.json.side_effect = [
-            self.status_response,
-            self.incidents_response
-        ]
-        mock_response.raise_for_status.return_value = None
-        mock_get.return_value = mock_response
+        mock_responses = {
+            f"{StripeProvider.BASE_URL}{StripeProvider.STATUS_ENDPOINT}": MagicMock(
+                json=MagicMock(return_value=self.status_response)
+            ),
+            f"{StripeProvider.BASE_URL}{StripeProvider.INCIDENTS_ENDPOINT}": MagicMock(
+                json=MagicMock(return_value={"incidents": []})
+            )
+        }
+        
+        mock_get.side_effect = lambda url, **kwargs: mock_responses.get(url)
         
         # Call the method under test
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the status
         self.assertEqual(status.provider_name, "Stripe")
         self.assertEqual(status.category, ServiceCategory.PAYMENT)
-        
-        # Check if the status was correctly mapped
-        expected_status = StatusLevel.OPERATIONAL
-        if "critical" in [i.get("impact") for i in self.incidents_response.get("incidents", [])
-                          if i.get("status") != "resolved"]:
-            expected_status = StatusLevel.OUTAGE
-        elif "major" in [i.get("impact") for i in self.incidents_response.get("incidents", [])
-                         if i.get("status") != "resolved"]:
-            expected_status = StatusLevel.DEGRADED
-            
-        self.assertEqual(status.status_level, expected_status)
-        
+        self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
+        self.assertIn("operational", status.message.lower())
+    
     @patch('requests.get')
-    def test_fetch_active_incidents(self, mock_get):
-        """Test fetching active incidents."""
+    def test_get_status_with_incidents(self, mock_get):
+        """Test getting the current status with active incidents."""
+        # Configure the mock to return sample responses
+        mock_responses = {
+            f"{StripeProvider.BASE_URL}{StripeProvider.STATUS_ENDPOINT}": MagicMock(
+                json=MagicMock(return_value=self.status_response)
+            ),
+            f"{StripeProvider.BASE_URL}{StripeProvider.INCIDENTS_ENDPOINT}": MagicMock(
+                json=MagicMock(return_value=self.incidents_response)
+            )
+        }
+        
+        mock_get.side_effect = lambda url, **kwargs: mock_responses.get(url)
+        
+        # Call the method under test
+        status = self.provider.get_status()
+        
+        # Verify the status - should be DEGRADED due to "minor" incident
+        self.assertEqual(status.provider_name, "Stripe")
+        self.assertEqual(status.status_level, StatusLevel.DEGRADED)
+        self.assertIn("API Latency Issues", status.message)
+    
+    @patch('requests.get')
+    def test_get_incidents(self, mock_get):
+        """Test getting active incidents."""
         # Configure the mock to return sample response
         mock_response = MagicMock()
         mock_response.json.return_value = self.incidents_response
-        mock_response.raise_for_status.return_value = None
         mock_get.return_value = mock_response
         
         # Call the method under test
-        incidents = self.provider.fetch_active_incidents()
+        incidents = self.provider.get_incidents()
         
-        # Count active incidents in the sample data
-        active_count = len([i for i in self.incidents_response.get("incidents", [])
-                           if i.get("status") != "resolved"])
+        # Only unresolved incidents should be returned
+        self.assertEqual(len(incidents), 1)
         
-        # Verify the incidents
-        self.assertEqual(len(incidents), active_count)
-        
-        # Verify incident details if there are any active incidents
-        if incidents:
-            incident = incidents[0]
-            self.assertEqual(incident.provider_name, "Stripe")
-            self.assertIsInstance(incident.started_at, datetime)
+        # Verify incident details
+        incident = incidents[0]
+        self.assertEqual(incident.id, "incident-1")
+        self.assertEqual(incident.provider_name, "Stripe")
+        self.assertEqual(incident.title, "API Latency Issues")
+        self.assertEqual(incident.status, "investigating")
+        self.assertIsNotNone(incident.started_at)
+        self.assertIsNone(incident.resolved_at)
+        self.assertEqual(incident.message, "We're investigating increased API latency.")
     
     @patch('requests.get')
     def test_get_component_statuses(self, mock_get):
-        """Test fetching component statuses."""
+        """Test getting component statuses."""
         # Configure the mock to return sample response
         mock_response = MagicMock()
         mock_response.json.return_value = self.components_response
-        mock_response.raise_for_status.return_value = None
         mock_get.return_value = mock_response
         
         # Call the method under test
         statuses = self.provider.get_component_statuses()
         
         # Verify the component statuses
-        component_count = len(self.components_response.get("components", []))
-        self.assertEqual(len(statuses), component_count)
+        self.assertEqual(len(statuses), 3)  # Three components in our sample
         
-        # Check a few components
-        if statuses:
-            # All components should be in the same category
-            self.assertEqual(statuses[0].category, ServiceCategory.PAYMENT)
-            
-            # Component name should be included in the provider name
-            component_name = self.components_response["components"][0]["name"]
-            self.assertIn(component_name, statuses[0].provider_name)
+        # All components should be operational
+        for status in statuses:
+            self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
+            self.assertEqual(status.category, ServiceCategory.PAYMENT)
+            self.assertIn("Component", status.message)
     
     @patch('requests.get')
     def test_error_handling(self, mock_get):
-        """Test error handling when the API request fails."""
-        # Configure the mock to raise an exception
+        """Test error handling when API requests fail."""
+        # Configure the mock to raise an exception for status endpoint
         mock_get.side_effect = Exception("API error")
         
-        # Verify that the exception is caught and re-raised
-        with self.assertRaises(ConnectionError):
-            self.provider.fetch_current_status()
+        # Set a last known status to test fallback
+        self.provider._last_status = ServiceStatus(
+            provider_name="Stripe",
+            category=ServiceCategory.PAYMENT,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All systems operational"
+        )
+        
+        # Call the method under test
+        status = self.provider.get_status()
+        
+        # Verify we get the last known status
+        self.assertEqual(status, self.provider._last_status)
+    
+    @patch('infrastructure.providers.stripe_provider.StripeProvider._fetch_current_status')
+    def test_rate_limiting(self, mock_fetch):
+        """Test that rate limiting is applied."""
+        # Set up the mock to return a valid status
+        mock_fetch.return_value = ServiceStatus(
+            provider_name="Stripe",
+            category=ServiceCategory.PAYMENT,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All systems operational"
+        )
+        
+        # Call get_status more times than the rate limit allows
+        for _ in range(15):  # Rate limit is 12 per minute
+            self.provider.get_status()
+        
+        # Verify _fetch_current_status was called only up to rate limit
+        self.assertLessEqual(mock_fetch.call_count, 12)
+    
+    @patch('requests.get')
+    def test_get_affected_components(self, mock_get):
+        """Test extracting affected components from an incident."""
+        # Configure the mock for components endpoint
+        mock_response = MagicMock()
+        mock_response.json.return_value = self.components_response
+        mock_get.return_value = mock_response
+        
+        # Create a test incident with component references
+        incident = {"components": ["api", "dashboard"]}
+        
+        # Call the method
+        components = self.provider._get_affected_components(incident)
+        
+        # Verify the results
+        self.assertEqual(len(components), 2)
+        self.assertIn("API", components)
+        self.assertIn("Dashboard", components)
 
 if __name__ == '__main__':
     unittest.main()

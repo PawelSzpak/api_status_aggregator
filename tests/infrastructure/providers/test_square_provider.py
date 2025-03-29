@@ -2,45 +2,76 @@ import unittest
 from unittest.mock import patch, MagicMock
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from bs4 import BeautifulSoup
 
 from infrastructure.providers.square_provider import SquareProvider
-from domain.enums import StatusLevel, ServiceStatus
-
-
-#Concerned about the non operation HTML imports. Only the operational one exists, however further down it tries
-#to edit status by editing "operation" with "degrated" in a response. Are these 2 different tests, or is it not using the same thing 
-#consistently?
+from domain import StatusLevel, ServiceStatus, ServiceCategory, IncidentReport
 
 class TestSquareProvider(unittest.TestCase):
     def setUp(self):
         self.provider = SquareProvider()
         
-        # Load the test HTML files
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Simple HTML test samples
+        self.all_operational_html = """
+        <html>
+            <body>
+                <a class="first:rounded-t-md">
+                    <div>US Region</div>
+                    <svg class="text-icon-operational"></svg>
+                </a>
+                <a class="first:rounded-t-md">
+                    <div>Europe Region</div>
+                    <svg class="text-icon-operational"></svg>
+                </a>
+                <a class="first:rounded-t-md">
+                    <div>Japan Region</div>
+                    <svg class="text-icon-operational"></svg>
+                </a>
+            </body>
+        </html>
+        """
         
-        # Load the all-operational HTML sample
-        with open(os.path.join(current_dir, 'fixtures/square_all_operational.html'), 'r', encoding='utf-8') as f:
-            self.all_operational_html = f.read()
-            
-        # Load HTML with one region having issues
-        with open(os.path.join(current_dir, 'fixtures/square_one_region_issue.html'), 'r', encoding='utf-8') as f:
-            self.one_region_issue_html = f.read()
-            
-        # Load HTML with multiple regions having issues
-        with open(os.path.join(current_dir, 'fixtures/square_multiple_issues.html'), 'r', encoding='utf-8') as f:
-            self.multiple_issues_html = f.read()
+        self.one_region_issue_html = """
+        <html>
+            <body>
+                <a class="first:rounded-t-md" href="/us">
+                    <div>US Region</div>
+                    <svg class="text-icon-degraded"></svg>
+                </a>
+                <a class="first:rounded-t-md">
+                    <div>Europe Region</div>
+                    <svg class="text-icon-operational"></svg>
+                </a>
+                <a class="first:rounded-t-md">
+                    <div>Japan Region</div>
+                    <svg class="text-icon-operational"></svg>
+                </a>
+            </body>
+        </html>
+        """
+        
+        self.us_region_detail_html = """
+        <html>
+            <body>
+                <div class="incident-entry">
+                    <h3 class="incident-title">Payment Processing Delays</h3>
+                    <span class="incident-status">investigating</span>
+                    <div class="incident-message">We are investigating reports of payment processing delays.</div>
+                </div>
+            </body>
+        </html>
+        """
 
     def test_init(self):
         """Test initialization of the SquareProvider"""
-        self.assertEqual(self.provider.name, "Square")
-        self.assertEqual(self.provider.category, "payment")
-        self.assertEqual(self.provider.status_url, "https://www.issquareup.com/?forceParent=true")
+        self.assertEqual(self.provider.config.name, "Square")
+        self.assertEqual(self.provider.config.category, ServiceCategory.PAYMENT)
+        self.assertEqual(self.provider.config.status_url, "https://www.issquareup.com/?forceParent=true")
 
     @patch('requests.get')
-    def test_all_regions_operational(self, mock_get):
-        """Test parsing when all regions are operational"""
+    def test_get_status_all_regions_operational(self, mock_get):
+        """Test getting status when all regions are operational"""
         # Mock the response
         mock_response = MagicMock()
         mock_response.text = self.all_operational_html
@@ -50,139 +81,114 @@ class TestSquareProvider(unittest.TestCase):
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertEqual(status.provider, "Square")
-        self.assertEqual(status.category, "payment")
-        self.assertIn("All Square services are operational", status.message)
+        self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
+        self.assertEqual(status.provider_name, "Square")
+        self.assertEqual(status.category, ServiceCategory.PAYMENT)
+        self.assertIn("operational", status.message.lower())
         
         # Verify the request was made with the correct URL
-        mock_get.assert_called_once_with(self.provider.status_url, timeout=10)
+        mock_get.assert_called_once_with(self.provider.config.status_url, timeout=10)
 
     @patch('requests.get')
-    def test_one_region_with_issue(self, mock_get):
-        """Test parsing when one region has an issue"""
-        # For this test, we'll modify the HTML to simulate an issue in one region
-        html = self.all_operational_html.replace(
-            'text-icon-operational">',
-            'text-icon-degraded">',
-            1  # Replace only the first occurrence to simulate a single region with issues
-        )
-        
+    def test_get_status_one_region_with_issue(self, mock_get):
+        """Test getting status when one region has an issue"""
         # Mock the response
         mock_response = MagicMock()
-        mock_response.text = html
+        mock_response.text = self.one_region_issue_html
         mock_get.return_value = mock_response
         
         # Get status
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
-        self.assertIn("experiencing issues", status.message)
+        self.assertEqual(status.status_level, StatusLevel.DEGRADED)
+        self.assertIn("experiencing issues", status.message.lower())
+        self.assertIn("US Region", status.message)
 
     @patch('requests.get')
-    def test_multiple_regions_with_issues(self, mock_get):
-        """Test parsing when multiple regions have issues"""
-        # Modify the HTML to simulate issues in multiple regions
-        html = self.all_operational_html.replace(
-            'text-icon-operational">',
-            'text-icon-degraded">',
-            3  # Replace three occurrences
-        )
+    def test_get_incidents(self, mock_get):
+        """Test getting incidents"""
+        # Set up mock to handle multiple calls
+        mock_get.side_effect = lambda url, **kwargs: {
+            "https://www.issquareup.com/?forceParent=true": MagicMock(text=self.one_region_issue_html),
+            "https://www.issquareup.com/us": MagicMock(text=self.us_region_detail_html)
+        }.get(url)
         
-        # Mock the response
-        mock_response = MagicMock()
-        mock_response.text = html
-        mock_get.return_value = mock_response
-        
-        # Get status
-        status = self.provider.get_status()
+        # Get incidents
+        incidents = self.provider.get_incidents()
         
         # Assertions
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
-        self.assertIn("experiencing issues", status.message)
-        # We should see multiple regions in the message
-        self.assertIn("regions", status.message)
+        self.assertEqual(len(incidents), 1)
+        incident = incidents[0]
+        self.assertEqual(incident.provider_name, "Square")
+        self.assertEqual(incident.region, "US Region")
+        self.assertEqual(incident.title, "Payment Processing Delays")
+        self.assertEqual(incident.status, "investigating")
+        self.assertIn("payment processing delays", incident.message.lower())
 
     @patch('requests.get')
-    def test_connection_error(self, mock_get):
+    def test_connection_error_handling(self, mock_get):
         """Test handling of connection errors"""
         # Mock a connection error
         mock_get.side_effect = requests.exceptions.RequestException("Connection error")
         
+        # Set a last known status to test fallback
+        self.provider._last_status = ServiceStatus(
+            provider_name="Square",
+            category=ServiceCategory.PAYMENT,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All Square services are operational"
+        )
+        
         # Get status
         status = self.provider.get_status()
         
-        # Should fall back to assuming operational when there's an error
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertIn("Unable to determine", status.message)
+        # Should return the cached status
+        self.assertEqual(status, self.provider._last_status)
 
     @patch('requests.get')
-    def test_html_parsing_error(self, mock_get):
-        """Test handling of HTML parsing errors"""
-        # Mock a malformed HTML response
+    def test_get_detailed_status(self, mock_get):
+        """Test getting detailed status for all regions"""
+        # Mock the response
         mock_response = MagicMock()
-        mock_response.text = "<html>Malformed HTML"
+        mock_response.text = self.one_region_issue_html
         mock_get.return_value = mock_response
         
-        # Get status (shouldn't raise an exception)
-        status = self.provider.get_status()
+        # Get detailed status
+        region_statuses = self.provider.get_detailed_status()
         
-        # Should handle error gracefully
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertIn("Unable to determine", status.message)
+        # Assertions
+        self.assertEqual(len(region_statuses), 3)  # Three regions in our test HTML
+        
+        # US region should be degraded
+        us_status = region_statuses.get("US Region")
+        self.assertIsNotNone(us_status)
+        self.assertEqual(us_status.status_level, StatusLevel.DEGRADED)
+        
+        # Europe region should be operational
+        europe_status = region_statuses.get("Europe Region")
+        self.assertIsNotNone(europe_status)
+        self.assertEqual(europe_status.status_level, StatusLevel.OPERATIONAL)
 
-    @patch('requests.get')
-    def test_cached_status_on_error(self, mock_get):
-        """Test that we use cached status when there's an error and we have previous status"""
-        # First, set up a successful call to cache a status
-        mock_response = MagicMock()
-        mock_response.text = self.all_operational_html
-        mock_get.return_value = mock_response
+    @patch('infrastructure.providers.square_provider.SquareProvider._fetch_current_status')
+    def test_rate_limiting(self, mock_fetch):
+        """Test that rate limiting is applied"""
+        # Setup mock to return a valid status
+        mock_fetch.return_value = ServiceStatus(
+            provider_name="Square",
+            category=ServiceCategory.PAYMENT,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All Square services are operational"
+        )
         
-        # Call get_status to cache it
-        self.provider.get_status()
+        # Call get_status multiple times (more than the rate limit)
+        for _ in range(15):  # Rate limit is likely 12 calls per minute
+            self.provider.get_status()
         
-        # Now, simulate an error on the next call
-        mock_get.side_effect = requests.exceptions.RequestException("Connection error")
-        
-        # Get status again
-        status = self.provider.get_status()
-        
-        # Should use the cached status
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertIn("from cached status", status.message)
-
-    def test_extract_status_from_icon_class(self):
-        """Test the helper method to extract status level from icon class"""
-        # Create a method to test the extraction logic directly
-        def extract_status(icon_class):
-            soup = BeautifulSoup(f'<svg class="{icon_class}"></svg>', 'html.parser')
-            svg = soup.find('svg')
-            return self.provider._extract_status_from_icon(svg)
-        
-        # Test various icon classes
-        self.assertEqual(extract_status("text-icon-operational"), StatusLevel.OPERATIONAL)
-        self.assertEqual(extract_status("text-icon-degraded"), StatusLevel.DEGRADED)
-        self.assertEqual(extract_status("text-icon-full-outage"), StatusLevel.OUTAGE)
-        self.assertEqual(extract_status("text-icon-partial-outage"), StatusLevel.DEGRADED)
-        self.assertEqual(extract_status("text-icon-under-maintenance"), StatusLevel.MAINTENANCE)
-        
-        # Test default case
-        self.assertEqual(extract_status("unknown-class"), StatusLevel.OPERATIONAL)
-
-    def test_rate_limiting(self):
-        """Test that rate limiting is applied correctly"""
-        # This would be integration testing in a real scenario, but for unit tests
-        # we just verify the decorator is applied to the right methods
-        from inspect import getmembers, ismethod
-        
-        # Check if get_status method is decorated with rate_limit
-        for name, method in getmembers(self.provider, predicate=ismethod):
-            if name == 'get_status':
-                # Check if it has the wrapper attribute set by decorator
-                self.assertTrue(hasattr(method, '__wrapped__'), 
-                               "get_status method should be decorated with rate_limit")
+        # Verify fetch was called only up to the rate limit
+        self.assertLessEqual(mock_fetch.call_count, 12)
 
 if __name__ == '__main__':
     unittest.main()

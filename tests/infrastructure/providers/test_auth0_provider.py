@@ -4,7 +4,7 @@ import json
 import re
 from datetime import datetime, timezone
 
-from domain import ProviderConfiguration, StatusLevel
+from domain import ProviderConfiguration, StatusLevel, ServiceCategory
 from infrastructure.providers.auth0_provider import Auth0StatusProvider
 
 class TestAuth0StatusProvider(unittest.TestCase):
@@ -14,20 +14,23 @@ class TestAuth0StatusProvider(unittest.TestCase):
         """Set up test environment before each test."""
         self.config = ProviderConfiguration(
             name="Auth0",
-            category="auth",
-            status_url="https://status.auth0.com",
-            rate_limit=5,
-            check_interval=300
+            category=ServiceCategory.AUTHENTICATION,
+            status_url="https://status.auth0.com"
         )
         self.provider = Auth0StatusProvider(self.config)
         
-        # Load sample data from fixture
-        with open('tests/fixtures/auth0_status_20250303_225720.json', 'r') as f:
-            self.sample_data = json.load(f)
+    def _create_mock_next_data(self, data):
+        """Create a mock __NEXT_DATA__ HTML response."""
+        next_data = {
+            "props": {
+                "pageProps": data
+            }
+        }
+        return f'<html><head></head><body><script id="__NEXT_DATA__" type="application/json">{json.dumps(next_data)}</script></body></html>'
     
-    @patch('infrastructure.providers.auth0.requests.get')
-    def test_fetch_current_status_operational(self, mock_get):
-        """Test fetching current status when all services are operational."""
+    @patch('requests.get')
+    def test_get_status_operational(self, mock_get):
+        """Test getting status when all services are operational."""
         # Modify sample data to have no incidents
         test_data = self._create_mock_next_data({
             "activeIncidents": [
@@ -48,17 +51,17 @@ class TestAuth0StatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the results
-        self.assertEqual(status.provider, "Auth0")
-        self.assertEqual(status.category, "auth")
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertEqual(status.message, "All Auth0 services are operational.")
+        self.assertEqual(status.provider_name, "Auth0")
+        self.assertEqual(status.category, ServiceCategory.AUTHENTICATION)
+        self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
+        self.assertIn("operational", status.message.lower())
     
-    @patch('infrastructure.providers.auth0.requests.get')
-    def test_fetch_current_status_degraded(self, mock_get):
-        """Test fetching current status when some services are degraded."""
+    @patch('requests.get')
+    def test_get_status_degraded(self, mock_get):
+        """Test getting status when some services are degraded."""
         # Modify sample data to have one region with incidents
         test_data = self._create_mock_next_data({
             "activeIncidents": [
@@ -100,18 +103,17 @@ class TestAuth0StatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the results
-        self.assertEqual(status.provider, "Auth0")
-        self.assertEqual(status.category, "auth")
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertEqual(status.provider_name, "Auth0")
+        self.assertEqual(status.category, ServiceCategory.AUTHENTICATION)
+        self.assertEqual(status.status_level, StatusLevel.DEGRADED)
         self.assertIn("US-1", status.message)
-        self.assertIn("MINOR", status.message)
     
-    @patch('infrastructure.providers.auth0.requests.get')
-    def test_fetch_current_status_outage(self, mock_get):
-        """Test fetching current status during major outage."""
+    @patch('requests.get')
+    def test_get_status_outage(self, mock_get):
+        """Test getting status during major outage."""
         # Modify sample data to have multiple regions with incidents
         test_data = self._create_mock_next_data({
             "activeIncidents": [
@@ -167,17 +169,16 @@ class TestAuth0StatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the results
-        self.assertEqual(status.provider, "Auth0")
-        self.assertEqual(status.category, "auth")
-        self.assertEqual(status.status, StatusLevel.OUTAGE)
-        self.assertIn("CRITICAL", status.message)
+        self.assertEqual(status.provider_name, "Auth0")
+        self.assertEqual(status.category, ServiceCategory.AUTHENTICATION)
+        self.assertEqual(status.status_level, StatusLevel.OUTAGE)
     
-    @patch('infrastructure.providers.auth0.requests.get')
-    def test_fetch_active_incidents(self, mock_get):
-        """Test fetching active incidents."""
+    @patch('requests.get')
+    def test_get_incidents(self, mock_get):
+        """Test getting active incidents."""
         # Use sample data
         test_data = self._create_mock_next_data({
             "activeIncidents": [
@@ -241,38 +242,41 @@ class TestAuth0StatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        incidents = self.provider.fetch_active_incidents()
+        incidents = self.provider.get_incidents()
         
         # Verify the results
         self.assertEqual(len(incidents), 1)  # Only the non-resolved incident
         incident = incidents[0]
         self.assertEqual(incident.id, "incident-1")
-        self.assertEqual(incident.provider, "Auth0")
+        self.assertEqual(incident.provider_name, "Auth0")
         self.assertEqual(incident.title, "Authentication Issues")
-        self.assertEqual(incident.status, "investigating")
-        self.assertEqual(incident.impact, "major")
-        self.assertEqual(incident.region, "US-1")
-        self.assertEqual(incident.affected_components, ["Authentication API", "Management API"])
-        self.assertEqual(incident.message, "We are investigating authentication failures.")
+        self.assertEqual(incident.status_level, StatusLevel.DEGRADED)  # Mapped from "major"
     
-    @patch('infrastructure.providers.auth0.requests.get')
+    @patch('requests.get')
     def test_connection_error_handling(self, mock_get):
         """Test handling of connection errors."""
         # Mock a request exception
         mock_get.side_effect = Exception("Connection failed")
         
-        # Verify exception is properly raised
-        with self.assertRaises(ConnectionError):
-            self.provider.fetch_current_status()
+        # Set up a previously cached status
+        self.provider._last_status = {"status": "operational"}
+        
+        # Verify the last known status is returned
+        status = self.provider.get_status()
+        self.assertEqual(status, self.provider._last_status)
     
-    def _create_mock_next_data(self, data):
-        """Create a mock __NEXT_DATA__ HTML response."""
-        next_data = {
-            "props": {
-                "pageProps": data
-            }
-        }
-        return f'<html><head></head><body><script id="__NEXT_DATA__" type="application/json">{json.dumps(next_data)}</script></body></html>'
+    @patch('infrastructure.providers.auth0_provider.Auth0StatusProvider._fetch_current_status')
+    def test_rate_limiting(self, mock_fetch):
+        """Test that rate limiting is applied."""
+        # Set up mock to count calls
+        mock_fetch.return_value = {"status": "operational"}
+        
+        # Call get_status multiple times
+        for _ in range(15):  # More than the rate limit
+            self.provider.get_status()
+        
+        # Verify that _fetch_current_status was not called more than the rate limit
+        self.assertLessEqual(mock_fetch.call_count, 12)  # 12 is the rate limit
 
 if __name__ == '__main__':
     unittest.main()

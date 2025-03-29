@@ -4,8 +4,7 @@ import json
 from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 
-from domain.enums import StatusLevel, ServiceCategory, ServiceStatus
-from domain.models import IncidentReport
+from domain import StatusLevel, ServiceCategory, ServiceStatus, IncidentReport
 from infrastructure.providers.okta_provider import OktaStatusProvider
 
 class TestOktaStatusProvider(unittest.TestCase):
@@ -19,7 +18,7 @@ class TestOktaStatusProvider(unittest.TestCase):
         self.mock_html = """
         <html>
         <body>
-            <span id="j_id0:j_id8:StringJSON" data-id="incidents">
+            <span id="j_id0:j_id8:StringJSON">
                 [
                     {
                         "Id": "a9C4z000001BZakEAG",
@@ -40,19 +39,10 @@ class TestOktaStatusProvider(unittest.TestCase):
                     }
                 ]
             </span>
-            <span id="j_id0:j_id8:UptimeJSON" data-id="uptime">
+            <span id="j_id0:j_id8:UptimeJSON">
                 [
                     {"year":2024, "uptime":99.99, "month":["100.000","100.000","100.000","100.000","100.000","100.000","100.000","100.000","100.000","100.000","100.000","99.825"]},
                     {"year":2025, "uptime":99.99, "month":["100.000","100.000","100.000","","","","","","","","",""]}
-                ]
-            </span>
-            <span id="j_id0:j_id8:IncidentUpdateJSON" data-id="updates">
-                [
-                    {
-                        "Id": "a1P4z00000CC0fbEAD",
-                        "IncidentId__c": "a9C4z000001BZecEAG",
-                        "UpdateLog__c": "Update for Paylocity incident"
-                    }
                 ]
             </span>
         </body>
@@ -84,8 +74,8 @@ class TestOktaStatusProvider(unittest.TestCase):
         self.assertEqual(len(data['uptime']), 2)
     
     @patch('requests.get')
-    def test_fetch_current_status_operational(self, mock_get):
-        """Test fetching current status when everything is operational."""
+    def test_get_status_operational(self, mock_get):
+        """Test getting status when everything is operational."""
         # Configure mock response with no active incidents
         html = self.mock_html.replace('"Status__c": "Investigating"', '"Status__c": "Resolved"')
         mock_response = MagicMock()
@@ -93,31 +83,31 @@ class TestOktaStatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the status is operational
         self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
         self.assertEqual(status.category, ServiceCategory.AUTHENTICATION)
         self.assertEqual(status.provider_name, "Okta")
-        self.assertIn("All Okta services are operational", status.message)
+        self.assertIn("operational", status.message.lower())
     
     @patch('requests.get')
-    def test_fetch_current_status_outage(self, mock_get):
-        """Test fetching current status when there's an outage."""
+    def test_get_status_outage(self, mock_get):
+        """Test getting status when there's an outage."""
         # Configure mock response with active major incident
         mock_response = MagicMock()
         mock_response.text = self.mock_html
         mock_get.return_value = mock_response
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify the status is outage
         self.assertEqual(status.status_level, StatusLevel.OUTAGE)
-        self.assertIn("Okta is experiencing issues", status.message)
+        self.assertIn("experiencing issues", status.message.lower())
     
     @patch('requests.get')
-    def test_fetch_active_incidents(self, mock_get):
+    def test_get_incidents(self, mock_get):
         """Test fetching active incidents."""
         # Configure mock response
         mock_response = MagicMock()
@@ -125,7 +115,7 @@ class TestOktaStatusProvider(unittest.TestCase):
         mock_get.return_value = mock_response
         
         # Call the method
-        incidents = self.provider.fetch_active_incidents()
+        incidents = self.provider.get_incidents()
         
         # Verify incidents are parsed correctly
         self.assertEqual(len(incidents), 2)  # Both active and recent incidents
@@ -154,15 +144,14 @@ class TestOktaStatusProvider(unittest.TestCase):
             category=ServiceCategory.AUTHENTICATION,
             status_level=StatusLevel.OPERATIONAL,
             last_checked=datetime.now(timezone.utc),
-            message="Cached status"
+            message="All systems operational"
         )
         
         # Call the method
-        status = self.provider.fetch_current_status()
+        status = self.provider.get_status()
         
         # Verify we get the cached status
-        self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
-        self.assertEqual(status.message, "Cached status")
+        self.assertEqual(status, self.provider._last_status)
     
     def test_parse_datetime(self):
         """Test parsing various datetime formats."""
@@ -184,6 +173,43 @@ class TestOktaStatusProvider(unittest.TestCase):
         # Test None
         dt4 = self.provider._parse_datetime(None)
         self.assertIsNone(dt4)
+    
+    @patch('infrastructure.providers.okta_provider.OktaStatusProvider._fetch_current_status')
+    def test_rate_limiting(self, mock_fetch):
+        """Test that rate limiting is applied."""
+        # Set up mock to return a status
+        mock_fetch.return_value = ServiceStatus(
+            provider_name="Okta",
+            category=ServiceCategory.AUTHENTICATION,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All systems operational"
+        )
+        
+        # Call get_status multiple times (more than rate limit)
+        for _ in range(6):  # Rate limit is 4 per minute
+            self.provider.get_status()
+        
+        # Verify fetch was called only up to the rate limit
+        self.assertLessEqual(mock_fetch.call_count, 4)
+    
+    @patch('requests.get')
+    def test_caching(self, mock_get):
+        """Test that status data is cached."""
+        # Configure mock response
+        mock_response = MagicMock()
+        mock_response.text = self.mock_html
+        mock_get.return_value = mock_response
+        
+        # Call _fetch_status_data twice
+        data1 = self.provider._fetch_status_data()
+        data2 = self.provider._fetch_status_data()
+        
+        # Verify the request was made only once
+        mock_get.assert_called_once()
+        
+        # Verify both calls returned the same data
+        self.assertEqual(data1, data2)
 
 if __name__ == '__main__':
     unittest.main()

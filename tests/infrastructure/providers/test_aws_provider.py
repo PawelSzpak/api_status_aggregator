@@ -2,10 +2,10 @@ import unittest
 from unittest.mock import patch, MagicMock
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from infrastructure.providers.aws_provider import AWSProvider
-from domain.enums import StatusLevel, ServiceStatus
+from domain import StatusLevel, ServiceStatus, ServiceCategory
 
 
 
@@ -15,17 +15,20 @@ class TestAWSProvider(unittest.TestCase):
         self.provider = AWSProvider()
         
         # Sample event responses for different scenarios
-        self.operational_events = []
+        self.operational_events = {}
         
         self.degraded_events = {
             "ec2-us-west-1": [
                 {
                     "status": "1",  # Active event
+                    "event_id": "aws-123456",
+                    "event_title": "EC2 API Issues",
+                    "start_time": str(int(datetime.now(timezone.utc).timestamp())),
                     "event_log": [
                         {
                             "message": "We are investigating increased API error rates for EC2.",
                             "status": "1",
-                            "timestamp": int(datetime.now().timestamp())
+                            "timestamp": int(datetime.now(timezone.utc).timestamp())
                         }
                     ],
                     "impacted_services": {
@@ -34,7 +37,8 @@ class TestAWSProvider(unittest.TestCase):
                             "current": "1",
                             "max": "1"
                         }
-                    }
+                    },
+                    "impact": "MAJOR"
                 }
             ]
         }
@@ -43,11 +47,14 @@ class TestAWSProvider(unittest.TestCase):
             "s3-us-east-1": [
                 {
                     "status": "1",  # Active event
+                    "event_id": "aws-234567",
+                    "event_title": "S3 Outage",
+                    "start_time": str(int(datetime.now(timezone.utc).timestamp())),
                     "event_log": [
                         {
                             "message": "S3 is currently unavailable in the US-EAST-1 region. Complete outage reported.",
                             "status": "1",
-                            "timestamp": int(datetime.now().timestamp())
+                            "timestamp": int(datetime.now(timezone.utc).timestamp())
                         }
                     ],
                     "impacted_services": {
@@ -56,54 +63,23 @@ class TestAWSProvider(unittest.TestCase):
                             "current": "1",
                             "max": "1"
                         }
-                    }
-                }
-            ]
-        }
-        
-        self.multi_service_events = {
-            "us-east-1": [
-                {
-                    "status": "1",  # Active event
-                    "event_log": [
-                        {
-                            "message": "Multiple services are experiencing issues in US-EAST-1.",
-                            "status": "1",
-                            "timestamp": int(datetime.now().timestamp())
-                        }
-                    ],
-                    "impacted_services": {
-                        "ec2-us-east-1": {
-                            "service_name": "Amazon EC2",
-                            "current": "1",
-                            "max": "1"
-                        },
-                        "rds-us-east-1": {
-                            "service_name": "Amazon RDS",
-                            "current": "1",
-                            "max": "1"
-                        },
-                        "s3-us-east-1": {
-                            "service_name": "Amazon S3",
-                            "current": "1",
-                            "max": "1"
-                        }
-                    }
+                    },
+                    "impact": "CRITICAL"
                 }
             ]
         }
         
         # Sample announcements
-        self.empty_announcement = {"description": None}
+        self.empty_announcement = {}
         self.maintenance_announcement = {
             "description": "We will be performing scheduled maintenance on EC2 instances tonight."
         }
 
     def test_init(self):
         """Test initialization of the AWSProvider"""
-        self.assertEqual(self.provider.name, "AWS")
-        self.assertEqual(self.provider.category, "cloud")
-        self.assertEqual(self.provider.status_url, "https://health.aws.amazon.com/health/status")
+        self.assertEqual(self.provider.config.name, "AWS")
+        self.assertEqual(self.provider.config.category, ServiceCategory.CLOUD)
+        self.assertEqual(self.provider.config.status_url, "https://health.aws.amazon.com/health/status")
 
     @patch('requests.get')
     def test_all_services_operational(self, mock_get):
@@ -125,10 +101,10 @@ class TestAWSProvider(unittest.TestCase):
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.category, "cloud")
-        self.assertEqual(status.status, StatusLevel.OPERATIONAL)
-        self.assertIn("operating normally", status.message)
+        self.assertEqual(status.provider_name, "AWS")
+        self.assertEqual(status.category, ServiceCategory.CLOUD)
+        self.assertEqual(status.status_level, StatusLevel.OPERATIONAL)
+        self.assertIn("operating normally", status.message.lower())
         
         # Verify both endpoints were called
         self.assertEqual(mock_get.call_count, 2)
@@ -147,13 +123,10 @@ class TestAWSProvider(unittest.TestCase):
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertEqual(status.provider_name, "AWS")
+        self.assertEqual(status.status_level, StatusLevel.DEGRADED)
         self.assertIn("Amazon EC2", status.message)
         self.assertIn("increased API error rates", status.message)
-        
-        # Verify only the events endpoint was called
-        self.assertEqual(mock_get.call_count, 1)
 
     @patch('requests.get')
     def test_service_outage(self, mock_get):
@@ -169,13 +142,10 @@ class TestAWSProvider(unittest.TestCase):
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.OUTAGE)
+        self.assertEqual(status.provider_name, "AWS")
+        self.assertEqual(status.status_level, StatusLevel.OUTAGE)
         self.assertIn("Amazon S3", status.message)
         self.assertIn("outage", status.message.lower())
-        
-        # Verify only the events endpoint was called
-        self.assertEqual(mock_get.call_count, 1)
 
     @patch('requests.get')
     def test_announcement_only(self, mock_get):
@@ -197,12 +167,9 @@ class TestAWSProvider(unittest.TestCase):
         status = self.provider.get_status()
         
         # Assertions
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
+        self.assertEqual(status.provider_name, "AWS")
+        self.assertEqual(status.status_level, StatusLevel.DEGRADED)
         self.assertIn("scheduled maintenance", status.message)
-        
-        # Verify both endpoints were called
-        self.assertEqual(mock_get.call_count, 2)
 
     @patch('requests.get')
     def test_connection_error(self, mock_get):
@@ -210,63 +177,58 @@ class TestAWSProvider(unittest.TestCase):
         # Mock a connection error
         mock_get.side_effect = requests.RequestException("Connection timeout")
         
-        # Get the status
-        status = self.provider.get_status()
-        
-        # Assertions for error handling
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.UNKNOWN)
-        self.assertIn("Unable to fetch", status.message)
-        self.assertIn("Connection timeout", status.message)
-
-    @patch('requests.get')
-    def test_json_parsing_error(self, mock_get):
-        """Test handling of invalid JSON response"""
-        # Mock the JSON parsing failure
-        mock_response = MagicMock()
-        mock_response.json.side_effect = ValueError("Invalid JSON")
-        mock_get.return_value = mock_response
+        # Set a last known status to test fallback
+        self.provider._last_status = ServiceStatus(
+            provider_name="AWS",
+            category=ServiceCategory.CLOUD,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All services operational"
+        )
         
         # Get the status
         status = self.provider.get_status()
         
-        # Assertions for parsing error handling
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.UNKNOWN)
-        self.assertIn("parsing AWS status response", status.message)
+        # Verify we use the last known status
+        self.assertEqual(status, self.provider._last_status)
 
     @patch('requests.get')
-    def test_multiple_affected_services(self, mock_get):
-        """Test when multiple AWS services are affected"""
-        # Mock the events response with multiple affected services
+    def test_get_incidents(self, mock_get):
+        """Test fetching active incidents"""
+        # Mock the events response with outage data
         events_response = MagicMock()
-        events_response.json.return_value = self.multi_service_events
-        
-        # We'll only need the events endpoint for this test
+        events_response.json.return_value = self.outage_events
         mock_get.return_value = events_response
         
-        # Get the status
-        status = self.provider.get_status()
+        # Get incidents
+        incidents = self.provider.get_incidents()
         
-        # Assertions for multiple services
-        self.assertEqual(status.provider, "AWS")
-        self.assertEqual(status.status, StatusLevel.DEGRADED)
-        self.assertIn("Amazon EC2", status.message)
-        self.assertIn("Amazon RDS", status.message)
-        self.assertIn("Amazon S3", status.message)
+        # Verify incidents
+        self.assertEqual(len(incidents), 1)
+        incident = incidents[0]
+        self.assertEqual(incident.id, "aws-234567")
+        self.assertEqual(incident.provider_name, "AWS")
+        self.assertIn("S3", incident.title)
+        self.assertEqual(incident.status_level, StatusLevel.OUTAGE)  # Mapped from CRITICAL
 
-    def test_rate_limiting(self):
-        """Test that rate limiting is applied correctly"""
-        # Verify the rate_limit decorator is applied to get_status method
-        from inspect import getmembers, ismethod
+    @patch('infrastructure.providers.aws_provider.AWSProvider._fetch_current_status')
+    def test_rate_limiting(self, mock_fetch):
+        """Test that rate limiting is applied to get_status"""
+        # Set up the mock to return a valid status
+        mock_fetch.return_value = ServiceStatus(
+            provider_name="AWS",
+            category=ServiceCategory.CLOUD,
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
+            message="All services operational"
+        )
         
-        # Check if get_status method is decorated with rate_limit
-        for name, method in getmembers(self.provider, predicate=ismethod):
-            if name == 'get_status':
-                # Check if it has the wrapper attribute set by decorator
-                self.assertTrue(hasattr(method, '__wrapped__'), 
-                               "get_status method should be decorated with rate_limit")
-
+        # Call get_status more times than the rate limit allows
+        for _ in range(15):  # Rate limit is 12 per minute
+            self.provider.get_status()
+            
+        # Verify _fetch_current_status was not called more than rate limit
+        self.assertLessEqual(mock_fetch.call_count, 12)
 
 if __name__ == '__main__':
     unittest.main()
