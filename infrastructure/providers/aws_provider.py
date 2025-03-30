@@ -3,7 +3,7 @@ from typing import Dict, Any, List, Optional
 import requests
 
 from application.interfaces.provider import StatusProvider, rate_limit
-from domain import ServiceStatus, StatusLevel, IncidentReport, ProviderConfiguration
+from domain import ServiceStatus, StatusLevel, IncidentReport, ProviderConfiguration, ServiceCategory
 
 class AWSProvider(StatusProvider):
     """AWS Status Provider implementation using their health API endpoints"""
@@ -12,7 +12,7 @@ class AWSProvider(StatusProvider):
         """Initialize the AWS status provider with configuration."""
         config = ProviderConfiguration(
             name="AWS",
-            category="cloud",
+            category=ServiceCategory.CLOUD,
             status_url="https://health.aws.amazon.com/health/status"
         )
         super().__init__(config)

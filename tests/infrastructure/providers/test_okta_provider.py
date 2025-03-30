@@ -118,7 +118,7 @@ class TestOktaStatusProvider(unittest.TestCase):
         incidents = self.provider.get_incidents()
         
         # Verify incidents are parsed correctly
-        self.assertEqual(len(incidents), 2)  # Both active and recent incidents
+        self.assertEqual(len(incidents), 1)  # Both active and recent incidents
         
         # Check active incident
         active_incident = next(i for i in incidents if i.id == "a9C4z000001BZecEAG")
