@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta, timezone
 from functools import wraps
-from typing import Optional, TypeVar, Callable, Any
+from typing import Optional, TypeVar, Callable, Any, Dict
 import time
 import logging
+import threading
 
 from domain import ServiceStatus, ProviderConfiguration, IncidentReport
 
@@ -11,39 +12,66 @@ logger = logging.getLogger(__name__)
 
 T = TypeVar('T')
 
+# Global registry to track rate limit state per provider class
+# Using class name as key to avoid memory leaks from instance references
+_rate_limit_registry: Dict[str, Dict[str, Any]] = {}
+_registry_lock = threading.RLock()
+
 def rate_limit(calls: int, period: int) -> Callable[[Callable[..., T]], Callable[..., T]]:
     """Rate limiting decorator to prevent overwhelming status pages.
     
     Args:
         calls: Maximum number of calls allowed in the period
         period: Time period in seconds
+        
+    Returns:
+        Decorator function that applies rate limiting
     """
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
-        last_reset = datetime.now(timezone.utc)
-        calls_made = 0
-
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
-            nonlocal last_reset, calls_made
+            # Get the instance and its class
+            instance = args[0]
+            class_name = instance.__class__.__name__
             
-            now = datetime.now(timezone.utc)
-            if now - last_reset > timedelta(seconds=period):
-                calls_made = 0
-                last_reset = now
+            # Create a unique key for this method on this class
+            method_key = f"{class_name}.{func.__name__}"
+            
+            with _registry_lock:
+                # Initialize state if not exists
+                if method_key not in _rate_limit_registry:
+                    _rate_limit_registry[method_key] = {
+                        'last_reset': datetime.now(timezone.utc),
+                        'calls_made': 0
+                    }
                 
-            if calls_made >= calls:
-                sleep_time = period - (now - last_reset).total_seconds()
-                if sleep_time > 0:
-                    logger.warning(f"Rate limit reached, sleeping for {sleep_time:.2f}s")
-                    time.sleep(sleep_time)
-                calls_made = 0
-                last_reset = datetime.now(timezone.utc)
+                state = _rate_limit_registry[method_key]
+                now = datetime.now(timezone.utc)
                 
-            calls_made += 1
+                # Reset counter if period has elapsed
+                elapsed = (now - state['last_reset']).total_seconds()
+                if elapsed > period:
+                    state['calls_made'] = 0
+                    state['last_reset'] = now
+                
+                # Check if we've reached the limit
+                if state['calls_made'] >= calls:
+                    sleep_time = period - elapsed
+                    if sleep_time > 0:
+                        logger.warning(f"Rate limit reached for {method_key}, sleeping for {sleep_time:.2f}s")
+                        time.sleep(sleep_time)
+                    # Reset after sleeping
+                    state['calls_made'] = 0
+                    state['last_reset'] = datetime.now(timezone.utc)
+                
+                # Increment counter and call the wrapped function
+                state['calls_made'] += 1
+                
             return func(*args, **kwargs)
-            
+        
         return wrapper
     return decorator
+
 
 class StatusProvider(ABC):
     """Abstract base class defining the interface for status providers."""

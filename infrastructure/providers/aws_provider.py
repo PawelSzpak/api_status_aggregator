@@ -134,7 +134,17 @@ class AWSProvider(StatusProvider):
             for event in region_events:
                 # Check if event is active (status "1")
                 if event.get("status") == "1":
-                    status_level = StatusLevel.DEGRADED
+                    # Determine severity based on impact
+                    impact = event.get("impact", "").upper()
+                    current_status = StatusLevel.DEGRADED
+                    
+                    # Critical impact should be mapped to OUTAGE
+                    if impact == "CRITICAL":
+                        current_status = StatusLevel.OUTAGE
+                        
+                    # Use the most severe status found
+                    if current_status.value > status_level.value:
+                        status_level = current_status
                     
                     # Add affected services to our list
                     for service_key, service_info in event.get("impacted_services", {}).items():
@@ -145,9 +155,9 @@ class AWSProvider(StatusProvider):
                         latest_log = event["event_log"][0]  # Most recent log entry
                         latest_message = latest_log.get("message", "")
         
-        # If any services are affected, return degraded status
+        # If any services are affected, return the appropriate status
         if affected_services:
-            message = f"Degraded performance: {', '.join(affected_services)}. {latest_message}"
+            message = f"{'Outage' if status_level == StatusLevel.OUTAGE else 'Degraded performance'}: {', '.join(affected_services)}. {latest_message}"
             return ServiceStatus(
                 provider_name=self.config.name,
                 category=self.config.category,
