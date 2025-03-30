@@ -49,10 +49,10 @@ class AWSProvider(StatusProvider):
         
         # No events or announcements means all systems operational
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=StatusLevel.OPERATIONAL,
-            last_updated=datetime.now(timezone.utc),
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
             message="All AWS services operating normally"
         )
         
@@ -100,18 +100,20 @@ class AWSProvider(StatusProvider):
                         except (ValueError, TypeError):
                             pass
                     
+                    # Determine status level based on impact
+                    status_level = StatusLevel.DEGRADED
+                    if event.get("impact") == "CRITICAL":
+                        status_level = StatusLevel.OUTAGE
+
                     # Create incident report
                     incident = IncidentReport(
                         id=event.get("event_id", "unknown"),
-                        provider=self.config.name,
+                        provider_name=self.config.name,
                         title=event.get("event_title", "AWS Service Issue"),
-                        status="investigating",
-                        impact="critical" if event.get("impact") == "CRITICAL" else "major",
-                        created_at=start_time,
-                        updated_at=datetime.now(timezone.utc),
-                        region=event_region,
-                        affected_components=affected_services,
-                        message=latest_message
+                        status_level=status_level,
+                        started_at=start_time,
+                        resolved_at=None,
+                        description=latest_message
                     )
                     
                     incidents.append(incident)
@@ -147,19 +149,19 @@ class AWSProvider(StatusProvider):
         if affected_services:
             message = f"Degraded performance: {', '.join(affected_services)}. {latest_message}"
             return ServiceStatus(
-                provider=self.config.name,
+                provider_name=self.config.name,
                 category=self.config.category,
-                status=status_level,
-                last_updated=datetime.now(timezone.utc),
+                status_level=status_level,
+                last_checked=datetime.now(timezone.utc),
                 message=message
             )
         
         # Fallback if we can't determine status from events
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=StatusLevel.OPERATIONAL,
-            last_updated=datetime.now(timezone.utc),
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
             message="All services operational"
         )
     
@@ -171,18 +173,18 @@ class AWSProvider(StatusProvider):
         
         if description:
             return ServiceStatus(
-                provider=self.config.name,
+                provider_name=self.config.name,
                 category=self.config.category,
-                status=StatusLevel.DEGRADED,
-                last_updated=datetime.now(timezone.utc),
+                status_level=StatusLevel.DEGRADED,
+                last_checked=datetime.now(timezone.utc),
                 message=f"Service announcement: {description}"
             )
         
         # Fallback for empty announcement
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=StatusLevel.OPERATIONAL,
-            last_updated=datetime.now(timezone.utc),
+            status_level=StatusLevel.OPERATIONAL,
+            last_checked=datetime.now(timezone.utc),
             message="All services operational"
         )

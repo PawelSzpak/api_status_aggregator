@@ -99,10 +99,10 @@ class Auth0StatusProvider(StatusProvider):
             status_message = self._create_status_message(regions_status, status_data)
             
             return ServiceStatus(
-                provider=self.config.name,
+                provider_name=self.config.name,
                 category=self.config.category,
-                status=overall_status,
-                last_updated=datetime.now(timezone.utc),
+                status_level=overall_status,
+                last_checked=datetime.now(timezone.utc),
                 message=status_message
             )
             
@@ -136,15 +136,12 @@ class Auth0StatusProvider(StatusProvider):
                     # Convert Auth0 incident to our IncidentReport model
                     incident = IncidentReport(
                         id=detail.get('id', ''),
-                        provider=self.config.name,
+                        provider_name=self.config.name,
                         title=detail.get('name', 'Unknown Incident'),
-                        status=detail.get('status', 'investigating'),
-                        impact=detail.get('impact', 'unknown'),
-                        created_at=self._parse_datetime(detail.get('created_at')),
-                        updated_at=self._parse_datetime(detail.get('updated_at')),
-                        region=region,
-                        affected_components=self._extract_affected_components(detail),
-                        message=self._extract_latest_update_message(detail)
+                        status_level=self._map_auth0_status_to_level(detail.get('status', 'investigating')),
+                        started_at=self._parse_datetime(detail.get('created_at')),
+                        resolved_at=None,
+                        description=self._extract_latest_update_message(detail)
                     )
                     incidents.append(incident)
         
@@ -306,3 +303,14 @@ class Auth0StatusProvider(StatusProvider):
             return sorted_updates[0].get('body', 'No update message available')
         
         return "No updates available"
+    
+    def _map_auth0_status_to_level(self, status: str) -> StatusLevel:
+        """Map Auth0 status string to StatusLevel enum."""
+        status_map = {
+            'investigating': StatusLevel.DEGRADED,
+            'identified': StatusLevel.DEGRADED,
+            'monitoring': StatusLevel.DEGRADED,
+            'resolved': StatusLevel.OPERATIONAL,
+            'scheduled': StatusLevel.DEGRADED
+        }
+        return status_map.get(status.lower(), StatusLevel.UNKNOWN)

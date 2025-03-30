@@ -134,10 +134,10 @@ class OktaStatusProvider(StatusProvider):
             status_message = f"{status_message} Current uptime: {current_uptime}%"
         
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=status_level,
-            last_updated=datetime.now(timezone.utc),
+            status_level=status_level,
+            last_checked=datetime.now(timezone.utc),
             message=status_message
         )
     
@@ -182,6 +182,9 @@ class OktaStatusProvider(StatusProvider):
             started_at = self._parse_datetime(incident_data.get('Start_Time__c'))
             resolved_at = self._parse_datetime(incident_data.get('End_Time__c')) if incident_data.get('Status__c') == 'Resolved' else None
             
+            if started_at is None:
+                started_at = datetime.now(timezone.utc)
+
             # Extract updates if available
             updates = []
             incident_id = incident_data.get('Id')
@@ -193,15 +196,12 @@ class OktaStatusProvider(StatusProvider):
             # Create incident report
             incident = IncidentReport(
                 id=incident_data.get('Id', ''),
-                provider=self.config.name,
+                provider_name=self.config.name,
                 title=incident_data.get('Incident_Title__c', 'Unnamed Incident'),
-                status=incident_data.get('Status__c', '').lower(),
-                impact=incident_data.get('Category__c', '').lower(),
-                created_at=started_at if started_at else datetime.now(timezone.utc),
-                updated_at=datetime.now(timezone.utc),
-                region="global",
-                affected_components=[],
-                message=incident_data.get('Log__c', '')
+                status_level=status_level,
+                started_at=started_at,
+                resolved_at=resolved_at,
+                description=incident_data.get('Log__c', '')
             )
             
             incidents.append(incident)

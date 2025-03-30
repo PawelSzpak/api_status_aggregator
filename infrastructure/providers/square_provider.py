@@ -60,10 +60,10 @@ class SquareProvider(StatusProvider):
             message = f"Square is experiencing issues in the following regions: {', '.join(regions_with_issues)}"
         
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=status_level,
-            last_updated=datetime.now(timezone.utc),
+            status_level=status_level,
+            last_checked=datetime.now(timezone.utc),
             message=message
         )
     
@@ -115,18 +115,22 @@ class SquareProvider(StatusProvider):
                         message_element = incident_element.find("div", {"class": "incident-message"})
                         message = message_element.get_text(strip=True) if message_element else f"Service disruption in {region_name}"
                         
+                        # Map status to status level
+                        status_level = StatusLevel.DEGRADED
+                        if status.lower() == "resolved":
+                            status_level = StatusLevel.OPERATIONAL
+                        elif "outage" in status.lower():
+                            status_level = StatusLevel.OUTAGE
+
                         # Create incident report
                         incident = IncidentReport(
                             id=f"square-{region_name}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
-                            provider=self.config.name,
+                            provider_name=self.config.name,
                             title=title,
-                            status=status,
-                            impact="major",
-                            created_at=datetime.now(timezone.utc),  # Approximate if not available
-                            updated_at=datetime.now(timezone.utc),
-                            region=region_name,
-                            affected_components=[region_name],
-                            message=message
+                            status_level=status_level,
+                            started_at=datetime.now(timezone.utc),  # Approximate if not available
+                            resolved_at=None,
+                            description=message
                         )
                         
                         incidents.append(incident)
@@ -177,10 +181,10 @@ class SquareProvider(StatusProvider):
                         status_level = StatusLevel.OUTAGE
                 
                 region_statuses[region_name] = ServiceStatus(
-                    provider=f"Square {region_name}",
+                    provider_name=f"Square {region_name}",
                     category=self.config.category,
-                    status=status_level,
-                    last_updated=datetime.now(timezone.utc),
+                    status_level=status_level,
+                    last_checked=datetime.now(timezone.utc),
                     message=f"Square {region_name}: {status_level.value}"
                 )
             

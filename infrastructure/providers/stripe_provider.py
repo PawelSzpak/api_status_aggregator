@@ -122,13 +122,13 @@ class StripeProvider(StatusProvider):
             logger.warning(f"Failed to fetch Stripe incidents: {str(e)}")
         
         return ServiceStatus(
-            provider=self.config.name,
+            provider_name=self.config.name,
             category=self.config.category,
-            status=status_level,
-            last_updated=datetime.now(timezone.utc),
+            status_level=status_level,
+            last_checked=datetime.now(timezone.utc),
             message=description
         )
-    
+
     def _fetch_active_incidents(self) -> List[IncidentReport]:
         """
         Fetch active incidents from Stripe's status API.
@@ -173,15 +173,12 @@ class StripeProvider(StatusProvider):
             # Create the incident report
             incident_report = IncidentReport(
                 id=incident_id,
-                provider=self.config.name,
+                provider_name=self.config.name,
                 title=title,
-                status=incident.get("status", "investigating"),
-                impact=impact,
-                created_at=started_at,
-                updated_at=datetime.now(timezone.utc),
-                region="global",
-                affected_components=self._get_affected_components(incident),
-                message=updates[0] if updates else "No details available"
+                status_level=status_level,  # Changed from status to status_level
+                started_at=started_at,
+                resolved_at=resolved_at,
+                description=updates[0] if updates else "No details available"
             )
             
             incidents.append(incident_report)
@@ -236,10 +233,10 @@ class StripeProvider(StatusProvider):
             status_level = self.STATUS_MAPPING.get(status, StatusLevel.UNKNOWN)
             
             component_status = ServiceStatus(
-                provider=f"{self.config.name} - {name}",
+                provider_name=f"{self.config.name} - {name}",
                 category=self.config.category,
-                status=status_level,
-                last_updated=datetime.now(timezone.utc),
+                status_level=status_level,
+                last_checked=datetime.now(timezone.utc),
                 message=f"Component: {name}, Status: {status}"
             )
             
