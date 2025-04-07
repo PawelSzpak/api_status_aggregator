@@ -212,7 +212,8 @@ class TestAWSProvider(unittest.TestCase):
         self.assertEqual(incident.status_level, StatusLevel.OUTAGE)  # Mapped from CRITICAL
 
     @patch('infrastructure.providers.aws_provider.AWSProvider._fetch_current_status')
-    def test_rate_limiting(self, mock_fetch):
+    @patch('time.sleep')
+    def test_rate_limiting(self, mock_sleep, mock_fetch):
         """Test that rate limiting is applied to get_status"""
         # Set up the mock to return a valid status
         mock_fetch.return_value = ServiceStatus(
@@ -227,8 +228,17 @@ class TestAWSProvider(unittest.TestCase):
         for _ in range(15):  # Rate limit is 12 per minute
             self.provider.get_status()
             
+            # If sleep was called, break the loop since 
+            # in a real scenario this would pause execution
+            if mock_sleep.called:
+                break
+            
         # Verify _fetch_current_status was not called more than rate limit
         self.assertLessEqual(mock_fetch.call_count, 12)
+
+        # Verify that sleep was called when the limit was reached
+        if mock_fetch.call_count >= 12:
+            mock_sleep.assert_called()
 
 if __name__ == '__main__':
     unittest.main()

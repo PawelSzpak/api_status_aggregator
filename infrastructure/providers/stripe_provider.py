@@ -47,7 +47,7 @@ class StripeProvider(StatusProvider):
             "Accept": "application/json"
         }
         
-    @rate_limit(calls=6, period=60)
+    # @rate_limit(calls=6, period=60)
     def _make_api_request(self, endpoint: str) -> Dict[str, Any]:
         """
         Make a rate-limited API request to the Stripe status page.

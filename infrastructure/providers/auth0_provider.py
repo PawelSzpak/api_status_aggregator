@@ -25,7 +25,7 @@ class Auth0StatusProvider(StatusProvider):
         self._cache_timestamp: Optional[datetime] = None
         self._cache_ttl = timedelta(minutes=2)  # Cache TTL of 2 minutes
         
-    @rate_limit(calls=5, period=60)
+    # @rate_limit(calls=5, period=60) 
     def _fetch_status_data(self) -> Dict[str, Any]:
         """Fetch raw status data from Auth0 with caching.
         

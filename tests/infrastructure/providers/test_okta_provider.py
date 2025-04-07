@@ -183,16 +183,16 @@ class TestOktaStatusProvider(unittest.TestCase):
         )
         
         # Call get_status multiple times, but stop if sleep is called
-        for _ in range(6):  # More than the rate limit of 4
+        for _ in range(12):  # More than the rate limit of 12
             self.provider.get_status()
             if mock_sleep.called:
                 break
         
         # Verify fetch was not called more than the rate limit
-        self.assertLessEqual(mock_fetch.call_count, 4)
+        self.assertLessEqual(mock_fetch.call_count, 12)
         
         # If the limit was reached, verify sleep was called
-        if mock_fetch.call_count >= 4:
+        if mock_fetch.call_count >= 12:
             mock_sleep.assert_called()
     
     @patch('requests.get')

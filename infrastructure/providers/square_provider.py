@@ -140,15 +140,12 @@ class SquareProvider(StatusProvider):
                     logger.warning(f"Error fetching Square incident details for {region_name}: {e}")
                     incident = IncidentReport(
                         id=f"square-{region_name}-{datetime.now(timezone.utc).strftime('%Y%m%d')}",
-                        provider=self.config.name,
+                        provider_name=self.config.name,  # Fixed: provider_name instead of provider
                         title=f"Service disruption in {region_name}",
-                        status="investigating",
-                        impact="major",
-                        created_at=datetime.now(timezone.utc),
-                        updated_at=datetime.now(timezone.utc),
-                        region=region_name,
-                        affected_components=[region_name],
-                        message=f"Ongoing service disruption in {region_name}. Check Square status page for details."
+                        status_level=StatusLevel.DEGRADED,  # Fixed: status_level instead of status
+                        started_at=datetime.now(timezone.utc),  # Fixed: started_at instead of created_at
+                        resolved_at=None,  # Added missing field
+                        description=f"Ongoing service disruption in {region_name}. Check Square status page for details."  # Fixed: description instead of message
                     )
                     incidents.append(incident)
         
