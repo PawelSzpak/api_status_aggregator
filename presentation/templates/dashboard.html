@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Status Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>API Status Dashboard</h1>
+            <div class="last-updated">
+                <span>Last updated: </span>
+                <span id="last-updated-time">Loading...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="category-summary">
+            <h2>Service Categories</h2>
+            <div id="category-tiles" class="category-tiles">
+                <!-- Category tiles will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <section class="providers-section">
+            <h2>Service Providers</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="category-filter">Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.value }}">{{ category.value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="status-filter">Status:</label>
+                    <select id="status-filter">
+                        <option value="all">All Statuses</option>
+                        {% for status in status_levels %}
+                        <option value="{{ status.value }}">{{ status.value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div id="providers-grid" class="providers-grid">
+                <!-- Provider cards will be populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 API Status Aggregator</p>
+            <div class="premium-cta">
+                <a href="#" id="premium-link">Upgrade to Premium (No Ads)</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ad placeholder -->
+    <div id="ad-container" class="ad-container">
+        <div class="ad-banner">
+            <p>Advertisement</p>
+            <div class="ad-content">
+                <p>Your Ad Here</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial data from server
+        const initialData = {{ initial_data|safe }};
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

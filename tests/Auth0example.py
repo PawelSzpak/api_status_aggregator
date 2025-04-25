@@ -1,5 +1,5 @@
 from domain import ProviderConfiguration
-from infrastructure.providers.auth0 import Auth0StatusProvider
+from infrastructure.providers.auth0_provider import Auth0StatusProvider
 
 def configure_auth0_provider():
     """Configure and initialize the Auth0StatusProvider.

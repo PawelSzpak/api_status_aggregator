@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Status Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>API Status Dashboard</h1>
+            <div class="last-updated">
+                <span>Last updated: </span>
+                <span id="last-updated-time">Loading...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="category-summary">
+            <h2>Service Categories</h2>
+            <div id="category-tiles" class="category-tiles">
+                <!-- Category tiles will be populated by JavaScript -->
+                <div class="category-tile">
+                    <h3>Authentication</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
+                <div class="category-tile">
+                    <h3>Payment</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
+                <div class="category-tile">
+                    <h3>Cloud</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="providers-section">
+            <h2>Service Providers</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="category-filter">Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="AUTHENTICATION">Authentication</option>
+                        <option value="PAYMENT">Payment</option>
+                        <option value="CLOUD">Cloud</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="status-filter">Status:</label>
+                    <select id="status-filter">
+                        <option value="all">All Statuses</option>
+                        <option value="OPERATIONAL">Operational</option>
+                        <option value="DEGRADED">Degraded</option>
+                        <option value="OUTAGE">Outage</option>
+                    </select>
+                </div>
+            </div>
+            <div id="providers-grid" class="providers-grid">
+                <!-- Provider cards will be populated by JavaScript -->
+                <div class="provider-card" data-category="AUTHENTICATION" data-status="OPERATIONAL">
+                    <h3>
+                        Auth0
+                        <span class="category-badge">Authentication</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Auth0 services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="AUTHENTICATION" data-status="OPERATIONAL">
+                    <h3>
+                        Okta
+                        <span class="category-badge">Authentication</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Okta services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="PAYMENT" data-status="OPERATIONAL">
+                    <h3>
+                        Stripe
+                        <span class="category-badge">Payment</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Stripe services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="CLOUD" data-status="OPERATIONAL">
+                    <h3>
+                        AWS
+                        <span class="category-badge">Cloud</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All AWS services operating normally</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 API Status Aggregator</p>
+            <div class="premium-cta">
+                <a href="#" id="premium-link">Upgrade to Premium (No Ads)</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ad placeholder -->
+    <div id="ad-container" class="ad-container">
+        <div class="ad-banner">
+            <p>Advertisement</p>
+            <div class="ad-content">
+                <p>Your Ad Here</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
