@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 from typing import List, Dict, Any, Optional, Tuple
 import requests
 
-from domain import ServiceStatus, StatusLevel, ProviderConfiguration, IncidentReport
+from domain import ServiceStatus, StatusLevel, ProviderConfiguration, IncidentReport, ServiceCategory
 from application.interfaces.provider import StatusProvider, rate_limit
 
 logger = logging.getLogger(__name__)
@@ -13,14 +13,18 @@ logger = logging.getLogger(__name__)
 class Auth0StatusProvider(StatusProvider):
     """Provider implementation for Auth0 authentication service status."""
     
-    def __init__(self, config: ProviderConfiguration) -> None:
+    def __init__(self) -> None:
         """Initialize the Auth0 status provider.
         
         Args:
             config: Configuration for the Auth0 provider
         """
+        config = ProviderConfiguration(
+            name="Auth0",
+            category=ServiceCategory.AUTHENTICATION,
+            status_url="https://status.auth0.com"
+        )
         super().__init__(config)
-        self.status_url = config.status_url or "https://status.auth0.com"
         self._cached_data: Optional[Dict[str, Any]] = None
         self._cache_timestamp: Optional[datetime] = None
         self._cache_ttl = timedelta(minutes=2)  # Cache TTL of 2 minutes

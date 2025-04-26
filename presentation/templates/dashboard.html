@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Status Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -23,6 +23,28 @@
             <h2>Service Categories</h2>
             <div id="category-tiles" class="category-tiles">
                 <!-- Category tiles will be populated by JavaScript -->
+                <!-- Example tiles that will be replaced by JavaScript -->
+                <div class="category-tile">
+                    <h3>Authentication</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
+                <div class="category-tile">
+                    <h3>Payment</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
+                <div class="category-tile">
+                    <h3>Cloud</h3>
+                    <div>
+                        <span class="status-indicator status-operational"></span>
+                        <span>Operational</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -50,6 +72,43 @@
             </div>
             <div id="providers-grid" class="providers-grid">
                 <!-- Provider cards will be populated by JavaScript -->
+                <!-- Example cards that will be replaced by JavaScript -->
+                <div class="provider-card" data-category="AUTHENTICATION" data-status="OPERATIONAL">
+                    <h3>
+                        Auth0
+                        <span class="category-badge">Authentication</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Auth0 services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="AUTHENTICATION" data-status="OPERATIONAL">
+                    <h3>
+                        Okta
+                        <span class="category-badge">Authentication</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Okta services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="PAYMENT" data-status="OPERATIONAL">
+                    <h3>
+                        Stripe
+                        <span class="category-badge">Payment</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All Stripe services are operational.</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
+                <div class="provider-card" data-category="CLOUD" data-status="OPERATIONAL">
+                    <h3>
+                        AWS
+                        <span class="category-badge">Cloud</span>
+                    </h3>
+                    <div class="status-badge status-operational">Operational</div>
+                    <div class="message">All AWS services operating normally</div>
+                    <div class="timestamp">Last checked: Apr 22, 2025, 07:28:00 PM</div>
+                </div>
             </div>
         </section>
     </main>
