@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 
 from application.services.category_manager import CategoryManager
 from infrastructure.providers.provider_factory import create_all_providers
+from infrastructure.scheduler import scheduler
 from domain.enums import ServiceCategory, StatusLevel
 
 logger = logging.getLogger(__name__)
@@ -22,6 +23,25 @@ def create_app() -> Flask:
     for provider in create_all_providers():
         category_manager.register_provider(provider)
     
+    # Set up scheduler with the category manager
+    scheduler.set_category_manager(category_manager)
+    
+    # Register before_first_request handler to start the scheduler
+    @app.before_first_request
+    def start_scheduler():
+        """Start the background scheduler before the first request."""
+        try:
+            # Start with a 5-minute (300 second) check interval
+            scheduler.start(check_interval=300)
+        except Exception as e:
+            logger.error(f"Failed to start scheduler: {str(e)}")
+    
+    # Register teardown handler to shutdown the scheduler
+    @app.teardown_appcontext
+    def shutdown_scheduler(exception=None):
+        """Shutdown the scheduler when the application context tears down."""
+        scheduler.shutdown()
+    
     @app.route('/')
     def dashboard():
         """Render the main dashboard view."""
@@ -29,13 +49,18 @@ def create_app() -> Flask:
             'dashboard.html',
             categories=ServiceCategory,
             status_levels=StatusLevel,
-            initial_data=json.dumps(_get_dashboard_data())
+            initial_data=json.dumps(scheduler.get_latest_data())
         )
     
     @app.route('/api/status')
     def get_status():
         """API endpoint for status updates."""
-        return jsonify(_get_dashboard_data())
+        return jsonify(scheduler.get_latest_data())
+    
+    @app.route('/api/status/refresh', methods=['POST'])
+    def refresh_status():
+        """API endpoint to force a status refresh."""
+        return jsonify(scheduler.force_update())
     
     @app.route('/api/status/stream')
     def stream_status():
@@ -43,8 +68,8 @@ def create_app() -> Flask:
         def event_stream() -> Iterator[str]:
             """Generator for SSE events."""
             while True:
-                # Get the current status data
-                data = _get_dashboard_data()
+                # Get the latest data from the scheduler
+                data = scheduler.get_latest_data()
                 
                 # Format as SSE event
                 yield f"data: {json.dumps(data)}\n\n"
@@ -65,47 +90,6 @@ def create_app() -> Flask:
     def health_check():
         """Health check endpoint."""
         return {'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()}
-    
-    def _get_dashboard_data() -> Dict[str, Any]:
-        """
-        Get the current dashboard data.
-        
-        Returns:
-            Dict[str, Any]: Dashboard data including provider statuses and category summaries
-        """
-        try:
-            # Get all current statuses
-            all_statuses = category_manager.get_all_statuses()
-            
-            # Get category summaries
-            category_summaries = category_manager.get_overall_summary()
-            
-            # Format the response
-            data = {
-                'providers': [
-                    {
-                        'name': status.provider_name,
-                        'category': status.category.value,
-                        'status': status.status_level.value,
-                        'message': status.message,
-                        'last_checked': status.last_checked.isoformat()
-                    }
-                    for status in all_statuses
-                ],
-                'categories': {
-                    category.value: status_level.value
-                    for category, status_level in category_summaries.items()
-                },
-                'last_updated': category_manager.last_update_time.isoformat()
-            }
-            
-            return data
-        except Exception as e:
-            logger.error(f"Error generating dashboard data: {str(e)}")
-            return {
-                'error': 'Failed to retrieve status data',
-                'timestamp': datetime.now(timezone.utc).isoformat()
-            }
     
     return app
 
