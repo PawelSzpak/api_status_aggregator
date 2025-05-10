@@ -5,6 +5,7 @@ Database connection and session management for the API Status Aggregator.
 import logging
 import os
 from typing import Optional
+from datetime import timezone
 
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -50,7 +51,7 @@ def init_db():
         def delete_old_records(session, context, instances):
             """Delete records older than 90 days during each flush operation."""
             from infrastructure.persistence.models import StatusRecord
-            retention_period = datetime.utcnow() - timedelta(days=90)
+            retention_period = datetime.now(timezone.utc) - timedelta(days=90)
             
             # Use the session's query method directly
             old_records = session.query(StatusRecord).filter(

@@ -1,7 +1,7 @@
 from .db import Base
 from sqlalchemy import Column, Integer, String, Text, DateTime, Enum, ForeignKey, Index, event
 from sqlalchemy.orm import relationship
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from domain.enums import StatusLevel, ServiceCategory
 from .db import Session
 
@@ -15,7 +15,7 @@ class StatusRecord(Base):
     status = Column(Enum(StatusLevel), nullable=False)
     message = Column(Text, nullable=True)
     incident_id = Column(String(100), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
     
     # Indexes for efficient queries
     __table_args__ = (
@@ -51,7 +51,7 @@ class IncidentUpdate(Base):
     id = Column(Integer, primary_key=True)
     incident_id = Column(String(100), ForeignKey('incident_records.id'), nullable=False)
     content = Column(Text, nullable=False)
-    posted_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    posted_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
     
     # Relationship to parent incident
     incident = relationship("IncidentRecord", back_populates="updates")
