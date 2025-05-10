@@ -43,6 +43,24 @@ def init_db():
         # Create all tables if they don't exist
         Base.metadata.create_all(_engine)
         
+        from sqlalchemy import event
+        from datetime import datetime, timedelta
+        
+        @event.listens_for(Session, 'before_flush')
+        def delete_old_records(session, context, instances):
+            """Delete records older than 90 days during each flush operation."""
+            from infrastructure.persistence.models import StatusRecord
+            retention_period = datetime.utcnow() - timedelta(days=90)
+            
+            # Use the session's query method directly
+            old_records = session.query(StatusRecord).filter(
+                StatusRecord.created_at < retention_period
+            ).all()
+            
+            # Mark old records for deletion
+            for record in old_records:
+                session.delete(record)
+
         logger.info(f"Database initialized at {database_url}")
         
     except Exception as e:

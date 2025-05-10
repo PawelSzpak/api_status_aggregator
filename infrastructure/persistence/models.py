@@ -1,11 +1,18 @@
+from .db import Base
+from sqlalchemy import Column, Integer, String, Text, DateTime, Enum, ForeignKey, Index, event
+from sqlalchemy.orm import relationship
+from datetime import datetime, timedelta
+from domain.enums import StatusLevel, ServiceCategory
+from .db import Session
+
 class StatusRecord(Base):
     """Status history for each provider."""
     __tablename__ = 'status_records'
     
     id = Column(Integer, primary_key=True)
     provider_name = Column(String(100), nullable=False)
-    category = Column(Enum(ServiceCategoryEnum), nullable=False)
-    status = Column(Enum(StatusLevelEnum), nullable=False)
+    category = Column(Enum(ServiceCategory), nullable=False)
+    status = Column(Enum(StatusLevel), nullable=False)
     message = Column(Text, nullable=True)
     incident_id = Column(String(100), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -25,7 +32,7 @@ class IncidentRecord(Base):
     
     id = Column(String(100), primary_key=True)
     provider_name = Column(String(100), nullable=False)
-    status = Column(Enum(StatusLevelEnum), nullable=False)
+    status = Column(Enum(StatusLevel), nullable=False)
     started_at = Column(DateTime, nullable=False)
     resolved_at = Column(DateTime, nullable=True)
     title = Column(String(255), nullable=False)
@@ -53,17 +60,3 @@ class IncidentUpdate(Base):
         return f"<IncidentUpdate(incident='{self.incident_id}', posted='{self.posted_at}')>"
 
 
-# Event listener to delete records older than 90 days
-@event.listens_for(Session, 'before_flush')
-def delete_old_records(session, context, instances):
-    """Delete records older than 90 days during each flush operation."""
-    retention_period = datetime.utcnow() - timedelta(days=90)
-    
-    # Use the session's query method directly
-    old_records = session.query(StatusRecord).filter(
-        StatusRecord.created_at < retention_period
-    ).all()
-    
-    # Mark old records for deletion
-    for record in old_records:
-        session.delete(record)

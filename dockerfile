@@ -23,5 +23,5 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 5000
 
 # Use our custom entrypoint to initialize components before starting Flask
-ENTRYPOINT ["./docker-entrypoint.py"]
+ENTRYPOINT ["python", "./docker-entrypoint.py"]
 CMD ["flask", "run", "--host=0.0.0.0"]
