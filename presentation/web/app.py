@@ -27,14 +27,17 @@ def create_app() -> Flask:
     scheduler.set_category_manager(category_manager)
     
     # Register before_first_request handler to start the scheduler
-    @app.before_first_request
-    def start_scheduler():
-        """Start the background scheduler before the first request."""
-        try:
-            # Start with a 5-minute (300 second) check interval
-            scheduler.start(check_interval=300)
-        except Exception as e:
-            logger.error(f"Failed to start scheduler: {str(e)}")
+    @app.before_request
+    def ensure_scheduler_running():
+        """Ensure the scheduler is running before handling requests."""
+        if not hasattr(app, 'scheduler_started'):
+            try:
+                # Start with a 5-minute (300 second) check interval
+                scheduler.start(check_interval=300)
+                app.scheduler_started = True
+                logger.info("Scheduler started successfully")
+            except Exception as e:
+                logger.error(f"Failed to start scheduler: {str(e)}")
     
     # Register teardown handler to shutdown the scheduler
     @app.teardown_appcontext

@@ -26,7 +26,11 @@ def init_db():
     
     # Get database URL from environment or use default
     database_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:postgres@db:5432/status_dashboard')
-    
+        
+    # Add dialect specification for psycopg v3 if not present
+    if database_url.startswith('postgresql://') and not '+psycopg' in database_url:
+        database_url = database_url.replace('postgresql://', 'postgresql+psycopg://')
+
     try:
         # Create engine with connection pooling
         _engine = create_engine(

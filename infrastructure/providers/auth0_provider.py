@@ -29,7 +29,7 @@ class Auth0StatusProvider(StatusProvider):
         self._cache_timestamp: Optional[datetime] = None
         self._cache_ttl = timedelta(minutes=2)  # Cache TTL of 2 minutes
         
-    # @rate_limit(calls=5, period=60) 
+    
     def _fetch_status_data(self) -> Dict[str, Any]:
         """Fetch raw status data from Auth0 with caching.
         
@@ -49,7 +49,7 @@ class Auth0StatusProvider(StatusProvider):
             
         try:
             logger.debug("Fetching fresh Auth0 status data")
-            response = requests.get(self.status_url, timeout=10.0)
+            response = requests.get(self.config.status_url, timeout=10.0)
             response.raise_for_status()
             html = response.text
             
