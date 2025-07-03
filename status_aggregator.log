@@ -1,77 +1,11 @@
-2025-05-10 00:22:32,043 - infrastructure.persistence.db - ERROR - Database initialization failed: No module named 'psycopg2'
-2025-05-10 00:22:32,045 - __main__ - ERROR - Application failed to start: No module named 'psycopg2'
-Traceback (most recent call last):
-  File "/api_status_aggregator/./docker-entrypoint.py", line 31, in main
-    init_db()
-    ~~~~~~~^^
-  File "/api_status_aggregator/infrastructure/persistence/db.py", line 32, in init_db
-    _engine = create_engine(
-        database_url,
-    ...<3 lines>...
-        pool_recycle=1800  # Recycle connections after 30 minutes
-    )
-  File "<string>", line 2, in create_engine
-  File "/usr/local/lib/python3.13/site-packages/sqlalchemy/util/deprecations.py", line 281, in warned
-    return fn(*args, **kwargs)  # type: ignore[no-any-return]
-  File "/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py", line 602, in create_engine
-    dbapi = dbapi_meth(**dbapi_args)
-  File "/usr/local/lib/python3.13/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 696, in import_dbapi
-    import psycopg2
-ModuleNotFoundError: No module named 'psycopg2'
-2025-05-10 00:29:31,166 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-10 00:29:31,225 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-06-12 22:31:44,286 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
+2025-06-12 22:31:44,395 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.18.0.3:5000
-2025-05-10 00:29:31,226 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-05-10 00:29:31,227 - werkzeug - INFO -  * Restarting with stat
-2025-05-10 00:29:33,959 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-10 00:29:33,974 - werkzeug - WARNING -  * Debugger is active!
-2025-05-10 00:29:33,981 - werkzeug - INFO -  * Debugger PIN: 297-724-965
-2025-05-10 00:29:52,473 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2025-05-10 00:29:52,476 - apscheduler.scheduler - INFO - Added job "StatusScheduler._update_all_statuses" to job store "default"
-2025-05-10 00:29:52,477 - apscheduler.scheduler - INFO - Scheduler started
-2025-05-10 00:29:52,479 - infrastructure.scheduler - INFO - Status scheduler started with check interval of 300 seconds
-2025-05-10 00:29:52,479 - infrastructure.scheduler - INFO - Starting status update for all providers
-2025-05-10 00:29:53,135 - application.interfaces.provider - ERROR - Error fetching status for Auth0: 'Auth0StatusProvider' object has no attribute 'status_url'
-2025-05-10 00:29:53,136 - application.services.category_manager - ERROR - Failed to get status for Auth0: 'Auth0StatusProvider' object has no attribute 'status_url'
-2025-05-10 00:29:54,524 - application.interfaces.provider - ERROR - Error fetching status for Auth0: 'Auth0StatusProvider' object has no attribute 'status_url'
-2025-05-10 00:29:54,525 - application.services.category_manager - ERROR - Failed to get status for Auth0: 'Auth0StatusProvider' object has no attribute 'status_url'
-2025-05-10 00:29:54,722 - infrastructure.scheduler - ERROR - Failed to store status records: (psycopg.errors.InvalidTextRepresentation) invalid input value for enum servicecategory: "payment"
-[SQL: INSERT INTO status_records (provider_name, category, status, message, incident_id, created_at) SELECT p0::VARCHAR, p1::servicecategory, p2::statuslevel, p3::VARCHAR, p4::VARCHAR, p5::TIMESTAMP WITHOUT TIME ZONE FROM (VALUES (%(provider_name__0)s::VAR ... 508 characters truncated ... 3, p4, p5, sen_counter) ORDER BY sen_counter RETURNING status_records.id, status_records.id AS id__1]
-[parameters: {'category__0': 'payment', 'message__0': 'All Systems Operational', 'provider_name__0': 'Stripe', 'created_at__0': datetime.datetime(2025, 5, 10, 0, 29, 53, 135735, tzinfo=datetime.timezone.utc), 'incident_id__0': None, 'status__0': 'operational', 'category__1': 'authentication', 'message__1': 'All Okta services are operational. Current uptime: 99.99%', 'provider_name__1': 'Okta', 'created_at__1': datetime.datetime(2025, 5, 10, 0, 29, 54, 142758, tzinfo=datetime.timezone.utc), 'incident_id__1': None, 'status__1': 'operational', 'category__2': 'cloud', 'message__2': 'All AWS services operating normally', 'provider_name__2': 'AWS', 'created_at__2': datetime.datetime(2025, 5, 10, 0, 29, 54, 437420, tzinfo=datetime.timezone.utc), 'incident_id__2': None, 'status__2': 'operational'}]
-(Background on this error at: https://sqlalche.me/e/20/9h9h)
-2025-05-10 00:29:54,722 - infrastructure.scheduler - INFO - Status update completed for 3 providers
-2025-05-10 00:29:54,722 - presentation.web.app - INFO - Scheduler started successfully
-2025-05-10 00:29:54,740 - apscheduler.scheduler - INFO - Scheduler has been shut down
-2025-05-10 00:29:54,741 - infrastructure.scheduler - INFO - Status scheduler shutdown
-2025-05-10 00:29:54,747 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:29:54] "GET / HTTP/1.1" 200 -
-2025-05-10 00:29:54,790 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:29:54] "[33mGET /static/js/dashboard.js HTTP/1.1[0m" 404 -
-2025-05-10 00:29:54,793 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:29:54] "GET /static/styles.css HTTP/1.1" 200 -
-2025-05-10 00:29:54,920 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:29:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
-2025-05-10 00:30:09,742 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:30:09] "GET / HTTP/1.1" 200 -
-2025-05-10 00:30:09,764 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:30:09] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
-2025-05-10 00:30:09,769 - werkzeug - INFO - 172.18.0.1 - - [10/May/2025 00:30:09] "[33mGET /static/js/dashboard.js HTTP/1.1[0m" 404 -
-2025-05-10 00:30:53,183 - infrastructure.persistence.db - INFO - Database engine disposed
-2025-05-11 22:41:01,386 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-11 22:41:01,425 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.0.3:5000
-2025-05-11 22:41:01,427 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-05-11 22:41:01,428 - werkzeug - INFO -  * Restarting with stat
-2025-05-11 22:41:03,497 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-11 22:41:03,522 - werkzeug - WARNING -  * Debugger is active!
-2025-05-11 22:41:03,527 - werkzeug - INFO -  * Debugger PIN: 482-064-853
-2025-05-11 22:51:18,841 - infrastructure.persistence.db - INFO - Database engine disposed
-2025-05-12 22:17:25,072 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-12 22:17:25,122 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.18.0.3:5000
-2025-05-12 22:17:25,122 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-05-12 22:17:25,133 - werkzeug - INFO -  * Restarting with stat
-2025-05-12 22:17:26,234 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
-2025-05-12 22:17:26,242 - werkzeug - WARNING -  * Debugger is active!
-2025-05-12 22:17:26,253 - werkzeug - INFO -  * Debugger PIN: 940-889-052
-2025-05-12 22:21:08,482 - infrastructure.persistence.db - INFO - Database engine disposed
+2025-06-12 22:31:44,395 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 22:31:44,402 - werkzeug - INFO -  * Restarting with stat
+2025-06-12 22:31:45,898 - infrastructure.persistence.db - INFO - Database initialized at postgresql+psycopg://postgres:postgres@db:5432/status_dashboard
+2025-06-12 22:31:45,904 - werkzeug - WARNING -  * Debugger is active!
+2025-06-12 22:31:45,916 - werkzeug - INFO -  * Debugger PIN: 570-227-819
+2025-06-12 22:58:28,112 - infrastructure.persistence.db - INFO - Database engine disposed
