@@ -5,14 +5,30 @@ from datetime import datetime, timedelta, timezone
 from domain.enums import StatusLevel, ServiceCategory
 from .db import Session
 
+# Create PostgreSQL ENUM types explicitly with the correct values
+import sqlalchemy as sa
+from sqlalchemy.dialects.postgresql import ENUM
+
+# Define the PostgreSQL enums with explicit values
+servicecategory_enum = ENUM(
+    'payment', 'authentication', 'cloud',
+    name='servicecategory'
+)
+
+statuslevel_enum = ENUM(
+    'operational', 'degraded', 'outage', 'unknown',
+    name='statuslevel'
+)
+
 class StatusRecord(Base):
     """Status history for each provider."""
     __tablename__ = 'status_records'
     
     id = Column(Integer, primary_key=True)
     provider_name = Column(String(100), nullable=False)
-    category = Column(Enum(ServiceCategory), nullable=False)
-    status = Column(Enum(StatusLevel), nullable=False)
+    # Use the explicit PostgreSQL enum
+    category = Column(servicecategory_enum, nullable=False)
+    status = Column(statuslevel_enum, nullable=False)
     message = Column(Text, nullable=True)
     incident_id = Column(String(100), nullable=True)
     created_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
@@ -32,7 +48,7 @@ class IncidentRecord(Base):
     
     id = Column(String(100), primary_key=True)
     provider_name = Column(String(100), nullable=False)
-    status = Column(Enum(StatusLevel), nullable=False)
+    status = Column(statuslevel_enum, nullable=False)
     started_at = Column(DateTime, nullable=False)
     resolved_at = Column(DateTime, nullable=True)
     title = Column(String(255), nullable=False)
@@ -58,5 +74,3 @@ class IncidentUpdate(Base):
     
     def __repr__(self) -> str:
         return f"<IncidentUpdate(incident='{self.incident_id}', posted='{self.posted_at}')>"
-
-
