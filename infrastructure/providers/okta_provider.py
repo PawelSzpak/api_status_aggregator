@@ -34,7 +34,7 @@ class OktaStatusProvider(StatusProvider):
         self._cache_time = None
         self._cache_ttl = timedelta(minutes=2)  # Cache TTL of 2 minutes
     
-    # @rate_limit(calls=4, period=60)  # Max 4 requests per minute
+    
     def _fetch_status_data(self) -> Dict[str, Any]:
         """
         Fetch raw status data from Okta with caching.
