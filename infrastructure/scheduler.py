@@ -89,6 +89,15 @@ class StatusScheduler:
         if not self._category_manager:
             raise RuntimeError("Category manager must be set before starting scheduler")
         
+        # Ensure _is_running exists (for existing instances)
+        if not hasattr(self, '_is_running'):
+            self._is_running = False
+            
+       # Check if scheduler is already running using our flag
+        if self._is_running:
+            logger.info("Scheduler is already running, skipping start")
+            return
+        
         # Register the update job to run at the specified interval
         self._scheduler.add_job(
             self._update_all_statuses,
@@ -98,12 +107,16 @@ class StatusScheduler:
         )
         
         # Start the scheduler
-        if not self._scheduler.running:
+        try:
             self._scheduler.start()
+            self._is_running = True
             logger.info(f"Status scheduler started with check interval of {check_interval} seconds")
             
             # Run initial status update
             self._update_all_statuses()
+        except Exception as e:
+            logger.error(f"Failed to start scheduler: {str(e)}")
+            raise
     
     def shutdown(self) -> None:
         """Shutdown the scheduler gracefully."""

@@ -10,6 +10,11 @@ from infrastructure.providers.provider_factory import create_all_providers
 from infrastructure.scheduler import scheduler
 from domain.enums import ServiceCategory, StatusLevel
 
+# Don't shutdown scheduler on every request teardown
+# Instead, register a shutdown handler for when the app itself shuts down
+import atexit
+atexit.register(lambda: scheduler.shutdown())
+
 logger = logging.getLogger(__name__)
 
 def create_app() -> Flask:

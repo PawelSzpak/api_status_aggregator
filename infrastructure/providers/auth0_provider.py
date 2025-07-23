@@ -136,7 +136,7 @@ class Auth0StatusProvider(StatusProvider):
             incident_details = incident_data.get('response', {}).get('incidents', [])
             
             for detail in incident_details:
-                if detail.get('status') != 'resolved':
+                if detail.get('status') not in ('resolved', 'operational'):
                     # Convert Auth0 incident to our IncidentReport model
                     incident = IncidentReport(
                         id=detail.get('id', ''),
