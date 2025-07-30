@@ -65,6 +65,7 @@ class StatusScheduler:
             'error': None
         }
         self._data_lock = threading.RLock()
+        self._is_running = False  # Track scheduler running state
         self._initialized = True
         
         logger.info("Status scheduler initialized")

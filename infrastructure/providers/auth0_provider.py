@@ -166,11 +166,19 @@ class Auth0StatusProvider(StatusProvider):
         for incident in status_data.get('activeIncidents', []):
             region = incident.get('region', 'Unknown')
             uptime = incident.get('response', {}).get('uptime', 'Unknown')
-            has_incidents = bool(incident.get('response', {}).get('incidents', []))
+            incidents = incident.get('response', {}).get('incidents', [])
+            
+            # Filter out operational placeholder incidents
+            real_incidents = [
+                inc for inc in incidents 
+                if not (inc.get('status') == 'operational' and 
+                       inc.get('name') == 'All Systems Operational' and
+                       inc.get('impact') == 'none')
+            ]
             
             regions_status[region] = {
                 "uptime": uptime,
-                "status": "incident" if has_incidents else "operational"
+                "status": "incident" if real_incidents else "operational"
             }
         
         return regions_status

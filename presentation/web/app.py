@@ -44,11 +44,6 @@ def create_app() -> Flask:
             except Exception as e:
                 logger.error(f"Failed to start scheduler: {str(e)}")
     
-    # Register teardown handler to shutdown the scheduler
-    @app.teardown_appcontext
-    def shutdown_scheduler(exception=None):
-        """Shutdown the scheduler when the application context tears down."""
-        scheduler.shutdown()
     
     @app.route('/')
     def dashboard():
