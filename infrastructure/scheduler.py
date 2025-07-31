@@ -157,7 +157,9 @@ class StatusScheduler:
             # Get category summaries
             category_summaries = self._category_manager.get_overall_summary()
             
-            
+            # Get all providers to access their configuration URLs
+            all_providers = self._category_manager.get_all_providers()
+            provider_urls = {provider.config.name: provider.config.status_url for provider in all_providers}
             
             # Format and update the cached data
             with self._data_lock:
@@ -168,7 +170,8 @@ class StatusScheduler:
                             'category': status.category.value,
                             'status': status.status_level.value,
                             'message': status.message,
-                            'last_checked': status.last_checked.isoformat()
+                            'last_checked': status.last_checked.isoformat(),
+                            'status_url': provider_urls.get(status.provider_name, '#')
                         }
                         for status in all_statuses
                     ],
