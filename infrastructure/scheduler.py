@@ -16,8 +16,7 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor
 
 from application.services.category_manager import CategoryManager
-from infrastructure.persistence.models import StatusRecord
-from infrastructure.persistence.db import get_session
+
 
 logger = logging.getLogger(__name__)
 
@@ -158,11 +157,7 @@ class StatusScheduler:
             # Get category summaries
             category_summaries = self._category_manager.get_overall_summary()
             
-            # Store in database (if implemented)
-            try:
-                self._store_status_records(all_statuses)
-            except Exception as db_error:
-                logger.error(f"Failed to store status records: {str(db_error)}")
+            
             
             # Format and update the cached data
             with self._data_lock:
@@ -195,31 +190,7 @@ class StatusScheduler:
                 self._latest_data['error'] = f"Failed to update: {str(e)}"
                 self._latest_data['last_updated'] = datetime.now(timezone.utc).isoformat()
     
-    def _store_status_records(self, statuses) -> None:
-        """Store status records in the database.
-        
-        Args:
-            statuses: List of ServiceStatus objects to store
-        """
-        # This method would normally store the status records in the database
-        # For now, we'll leave it as a placeholder since we don't have full DB implementation
-        session = get_session()
-        try:
-            for status in statuses:
-                record = StatusRecord(
-                    provider_name=status.provider_name,
-                    category=status.category.value,
-                    status=status.status_level.value,
-                    message=status.message,
-                    created_at=status.last_checked
-                )
-                session.add(record)
-            session.commit()
-        except Exception as e:
-            session.rollback()
-            raise e
-        finally:
-            session.close()
+    
 
 
 # Create a global scheduler instance

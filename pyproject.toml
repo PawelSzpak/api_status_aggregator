@@ -11,8 +11,6 @@ dependencies = [
     "flask==3.1.0",
     "beautifulsoup4==4.13.3",
     "requests==2.32.3",
-    "SQLAlchemy==2.0.38",
-    "psycopg[binary]==3.2.4",
     "apscheduler==3.11.0",
     "python-dotenv==1.0.1"
 ]

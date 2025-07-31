@@ -84,9 +84,10 @@ function updateProviderCards(providers) {
     
     providers.forEach(provider => {
         const card = document.createElement('div');
-        card.className = 'provider-card';
+        card.className = 'provider-card clickable-card';
         card.dataset.category = provider.category;
         card.dataset.status = provider.status;
+        card.dataset.statusUrl = provider.status_url;
         
         const statusClass = getStatusClass(provider.status);
         
@@ -94,11 +95,37 @@ function updateProviderCards(providers) {
             <h3>
                 ${provider.name}
                 <span class="category-badge">${provider.category}</span>
+                <span class="external-link-icon">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
             </h3>
             <div class="status-badge ${statusClass}">${provider.status}</div>
             <div class="message">${provider.message || 'No additional information available'}</div>
             <div class="timestamp">Last checked: ${formatDateTime(new Date(provider.last_checked))}</div>
         `;
+        
+        // Add click handler to open status page
+        card.addEventListener('click', function() {
+            const statusUrl = card.dataset.statusUrl;
+            if (statusUrl) {
+                window.open(statusUrl, '_blank', 'noopener,noreferrer');
+            }
+        });
+        
+        // Add keyboard accessibility
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `View ${provider.name} status page`);
+        
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const statusUrl = card.dataset.statusUrl;
+                if (statusUrl) {
+                    window.open(statusUrl, '_blank', 'noopener,noreferrer');
+                }
+            }
+        });
         
         providersGrid.appendChild(card);
     });

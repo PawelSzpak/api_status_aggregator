@@ -43,29 +43,3 @@ class IncidentReport:
         if not self.resolved_at:
             return None
         return self.resolved_at - self.started_at
-
-@dataclass
-class StatusHistory:
-    """Aggregates historical status information for a provider."""
-    provider_name: str
-    category: ServiceCategory
-    statuses: List[tuple[datetime, StatusLevel]]
-    current_incident: Optional[IncidentReport] = None
-
-    def uptime_percentage(self, since: datetime) -> float:
-        """Calculate the provider's uptime percentage since the given time."""
-        if not self.statuses:
-            return 0.0
-            
-        total_time = datetime.now(timezone.utc) - since
-        problematic_duration = timedelta()
-        
-        for i in range(len(self.statuses) - 1):
-            timestamp, status = self.statuses[i]
-            next_timestamp = self.statuses[i + 1][0]
-            
-            if status.is_problematic and timestamp >= since:
-                duration = next_timestamp - timestamp
-                problematic_duration += duration
-                
-        return (1 - (problematic_duration / total_time)) * 100

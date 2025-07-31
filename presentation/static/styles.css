@@ -162,14 +162,30 @@ select {
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: var(--shadow);
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
 }
 
-.provider-card:hover {
+/* Clickable card styles */
+.clickable-card {
+    cursor: pointer;
+    user-select: none;
+}
+
+.clickable-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    background-color: #fafafa;
+}
+
+.clickable-card:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.clickable-card:active {
+    transform: translateY(-1px);
 }
 
 .provider-card h3 {
@@ -177,6 +193,7 @@ select {
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .provider-card .category-badge {
@@ -186,6 +203,18 @@ select {
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     margin-left: auto;
+    margin-right: 0.5rem;
+}
+
+.external-link-icon {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.clickable-card:hover .external-link-icon {
+    opacity: 1;
 }
 
 .provider-card .status-badge {
@@ -227,6 +256,24 @@ select {
     color: #777;
 }
 
+/* Add a subtle click indicator */
+.clickable-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(52, 152, 219, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.clickable-card:hover::after {
+    opacity: 1;
+}
+
 /* Footer styles */
 footer {
     background-color: var(--secondary-color);
@@ -240,7 +287,9 @@ footer .container {
     justify-content: space-between;
     align-items: center;
 }
-
+.premium-cta {
+    display: none;
+}
 .premium-cta a {
     color: var(--text-light);
     text-decoration: none;
@@ -257,6 +306,7 @@ footer .container {
 
 /* Ad container */
 .ad-container {
+    display: none;
     position: fixed;
     bottom: 0;
     left: 0;
