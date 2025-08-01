@@ -101,6 +101,16 @@ h2 {
     font-size: 1.1rem;
 }
 
+/* Capitalize category names in category tiles */
+.category-tile h3 {
+    text-transform: capitalize;
+}
+
+/* Capitalize status text in category tiles */
+.category-tile div span:not(.status-indicator) {
+    text-transform: capitalize;
+}
+
 .status-indicator {
     display: inline-block;
     width: 15px;
@@ -165,6 +175,27 @@ select {
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+}
+
+/* Capitalize status badges in provider cards */
+.provider-card .status-badge {
+    text-transform: capitalize;
+}
+
+/* Capitalize category badges in provider cards */
+.provider-card .category-badge {
+    text-transform: capitalize;
+}
+
+/* Capitalize filter dropdown options */
+select option {
+    text-transform: capitalize;
+}
+
+
+/* Reset text-transform for status indicators (circles) */
+.status-indicator {
+    text-transform: none;
 }
 
 /* Clickable card styles */
