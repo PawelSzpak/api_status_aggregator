@@ -6,7 +6,7 @@ RUN pip install --no-cache-dir hatchling
 
 # Copy requirements first for better layer caching
 COPY pyproject.toml setup.py ./
-RUN pip install -e
+RUN pip install -e .
 
 # Copy the rest of the application
 COPY . .
