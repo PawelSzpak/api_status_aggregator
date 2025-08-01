@@ -12,7 +12,8 @@ dependencies = [
     "beautifulsoup4==4.13.3",
     "requests==2.32.3",
     "apscheduler==3.11.0",
-    "python-dotenv==1.0.1"
+    "python-dotenv==1.0.1",
+    "gunicorn==23.0.0"
 ]
 
 [project.optional-dependencies]
