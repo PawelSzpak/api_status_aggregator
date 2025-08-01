@@ -120,19 +120,6 @@ class OktaStatusProvider(StatusProvider):
         # Create a meaningful status message
         status_message = self._create_status_message(active_incidents)
         
-        # Most recent uptime data
-        current_uptime = None
-        uptime_data = status_data.get('uptime', [])
-        if uptime_data:
-            # Sort by year to get the most recent
-            sorted_uptime = sorted(uptime_data, key=lambda x: x.get('year', 0), reverse=True)
-            if sorted_uptime:
-                current_uptime = sorted_uptime[0].get('uptime')
-        
-        # Add uptime information to the message if available
-        if current_uptime is not None:
-            status_message = f"{status_message} Current uptime: {current_uptime}%"
-        
         return ServiceStatus(
             provider_name=self.config.name,
             category=self.config.category,
