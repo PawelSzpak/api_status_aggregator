@@ -6,7 +6,7 @@ RUN pip install --no-cache-dir hatchling
 
 # Copy requirements first for better layer caching
 COPY pyproject.toml setup.py ./
-RUN pip install -e ".[dev]"
+RUN pip install -e
 
 # Copy the rest of the application
 COPY . .
@@ -19,6 +19,10 @@ ENV FLASK_ENV=production
 ENV FLASK_DEBUG=0
 ENV PYTHONUNBUFFERED=1
 
+# Health check for Railway
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:5000/health || exit 1
+    
 EXPOSE 5000
 
 # Use our custom entrypoint
